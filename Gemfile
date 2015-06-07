@@ -43,4 +43,6 @@ end
 
 gem "mongoid", "~> 4.0.0"
 gem 'tubesock'
+gem 'puma'
+gem 'geocoder'
 
