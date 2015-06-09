@@ -45,4 +45,7 @@ gem "mongoid", "~> 4.0.0"
 gem 'tubesock'
 gem 'puma'
 gem 'geocoder'
+gem 'mina'
+gem 'mina-rsync', :require => false
+gem 'mina-puma'
 

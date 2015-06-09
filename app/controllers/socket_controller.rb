@@ -22,7 +22,7 @@ class SocketController < ApplicationController
     if json && json['type']
       case json['type']
         when 'location'
-          Point.create!(coordinates: [json['lat'], json['long']], accuracy: json['acc'], time: Time.at(json['time']))
+          Point.create!(coordinates: [json['lat'], json['long']], accuracy: json['accy'], time: Time.at(json['time']))
 
       end
 
