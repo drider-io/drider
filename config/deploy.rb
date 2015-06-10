@@ -18,7 +18,7 @@ set :deploy_to, '/var/www/cardriver'
 set :branch, 'master'
 
 
-set :pumactl_socket, "#{deploy_to}/#{shared_path}/shared/tmp/puma/pumactl.sock"
+set :puma_state, "#{deploy_to}/#{shared_path}/shared/tmp/puma/state"
 
 
 # For system-wide RVM install.
