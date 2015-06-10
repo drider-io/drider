@@ -20,7 +20,7 @@ bind "unix://#{app_dir}/tmp/puma/sock"
 # Set master PID and state locations
 pidfile "#{app_dir}/tmp/puma/pid"
 state_path "#{app_dir}/tmp/puma/state"
-activate_control_app
+activate_control_app "unix://#{app_dir}/tmp/puma/ctl.sock"
 
 on_worker_boot do
   require "active_record"
