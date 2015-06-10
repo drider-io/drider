@@ -18,7 +18,7 @@ set :deploy_to, '/var/www/cardriver'
 set :branch, 'master'
 
 
-set :puma_state, "#{deploy_to}/#{shared_path}/shared/tmp/puma/state"
+set :puma_state, "#{deploy_to}/#{shared_path}/tmp/puma/state"
 
 
 # For system-wide RVM install.
