@@ -19,6 +19,8 @@ set :branch, 'master'
 
 
 set :puma_state, "#{deploy_to}/#{shared_path}/tmp/puma/state"
+set :pumactl_socket, "#{deploy_to}/#{shared_path}/tmp/puma/pumactl.sock"
+
 
 
 # For system-wide RVM install.
