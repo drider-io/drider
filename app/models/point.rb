@@ -8,5 +8,4 @@ class Point < ActiveRecord::Base
   # field :time, type: DateTime
   #
   # geocoded_by :coordinates
-
 end

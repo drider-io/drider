@@ -49,4 +49,5 @@ end
 gem 'tubesock'
 gem 'puma'
 gem 'geocoder'
+gem 'activerecord-postgis-adapter'
 

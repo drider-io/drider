@@ -22,8 +22,12 @@ class SocketController < ApplicationController
     if json && json['type']
       case json['type']
         when 'location'
-          Point.create!(coordinates: [json['lat'], json['long']], accuracy: json['accy'], time: Time.at(json['time']))
-
+          # Point.create!(coordinates: [json['lat'], json['long']], accuracy: json['accy'], time: Time.at(json['time']))
+          Point.create!(
+              lonlat: RGeo::Geographic.spherical_factory(srid: 4326).point(json['lat'], json['long']),
+              accuracy: json['accy'],
+              time: Time.at(json['time'])
+          )
       end
 
     end
