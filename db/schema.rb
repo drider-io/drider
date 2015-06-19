@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150619202839) do
+ActiveRecord::Schema.define(version: 20150619210432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,34 @@ ActiveRecord::Schema.define(version: 20150619202839) do
   end
 
   add_index "car_locations", ["session_id"], name: "index_car_locations_on_session_id", using: :btree
+
+  create_table "car_route_stats", force: :cascade do |t|
+    t.integer  "car_route_id", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "car_routes", force: :cascade do |t|
+    t.geometry "route",      limit: {:srid=>3857, :type=>"line_string"}
+    t.integer  "user_id",                                                               null: false
+    t.boolean  "is_actual",                                              default: true, null: false
+    t.datetime "created_at",                                                            null: false
+    t.datetime "updated_at",                                                            null: false
+  end
+
+  add_index "car_routes", ["is_actual"], name: "index_car_routes_on_is_actual", using: :btree
+
+  create_table "car_sessions", force: :cascade do |t|
+    t.integer  "number",            null: false
+    t.string   "device_identifier", null: false
+    t.string   "client_version",    null: false
+    t.string   "client_os_version", null: false
+    t.integer  "user_id",           null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "car_sessions", ["number"], name: "index_car_sessions_on_number", using: :btree
 
   create_table "points", force: :cascade do |t|
     t.geography "lonlat",     limit: {:srid=>4326, :type=>"point", :geographic=>true}
