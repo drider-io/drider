@@ -11,25 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150619214630) do
+ActiveRecord::Schema.define(version: 20150620200828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
 
   create_table "car_locations", force: :cascade do |t|
-    t.geography "r",          limit: {:srid=>4326, :type=>"point", :geographic=>true}
-    t.geometry  "m",          limit: {:srid=>3857, :type=>"point"}
-    t.integer   "session_id",                                                          null: false
+    t.geography "r",              limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.geometry  "m",              limit: {:srid=>3785, :type=>"point"}
+    t.integer   "car_session_id",                                                          null: false
     t.float     "accuracy"
-    t.datetime  "time",                                                                null: false
+    t.datetime  "time",                                                                    null: false
     t.string    "provider"
     t.integer   "user_id"
-    t.datetime  "created_at",                                                          null: false
-    t.datetime  "updated_at",                                                          null: false
+    t.datetime  "created_at",                                                              null: false
+    t.datetime  "updated_at",                                                              null: false
   end
 
-  add_index "car_locations", ["session_id"], name: "index_car_locations_on_session_id", using: :btree
+  add_index "car_locations", ["car_session_id"], name: "index_car_locations_on_car_session_id", using: :btree
 
   create_table "car_route_stats", force: :cascade do |t|
     t.integer  "car_route_id", null: false
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20150619214630) do
     t.datetime "updated_at",        null: false
   end
 
+  add_index "car_sessions", ["number", "user_id"], name: "car_session_user_index", unique: true, using: :btree
   add_index "car_sessions", ["number"], name: "index_car_sessions_on_number", using: :btree
 
   create_table "points", force: :cascade do |t|
