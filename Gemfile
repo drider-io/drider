@@ -53,4 +53,6 @@ gem 'geocoder'
 gem 'activerecord-postgis-adapter'
 gem 'devise'
 gem 'slim'
+gem 'devise-bootstrap-views'
+gem "twitter-bootstrap-rails"
 
