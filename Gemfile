@@ -52,4 +52,5 @@ gem 'puma'
 gem 'geocoder'
 gem 'activerecord-postgis-adapter'
 gem 'devise'
+gem 'slim'
 
