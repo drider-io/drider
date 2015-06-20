@@ -4,20 +4,20 @@ class SocketController < ApplicationController
   def chat
       hijack do |tubesock|
         tubesock.onopen do
-          tubesock.send_data "Hello, friend"
+          tubesock.close unless check_auth(tubesock)
         end
 
         tubesock.onmessage do |data|
-          tubesock.send_data "You said: #{data}"
+          # tubesock.send_data "You said: #{data}"
           p "message received"
-          parse_request(data)
+          parse_request(data, tubesock)
           p data
         end
       end
   end
 
 
-  def parse_request(str)
+  def parse_request(str, sock)
     json = JSON.parse str
     if json && json['type']
       case json['type']
@@ -28,6 +28,8 @@ class SocketController < ApplicationController
               accuracy: json['accy'],
               time: Time.at(json['time'])
           )
+        when 'handshake'
+          handshake(json, sock)
       end
 
     end
@@ -35,5 +37,16 @@ class SocketController < ApplicationController
 
   end
 
+  def handshake(json, sock)
+    # reply = {
+    #     type: 'webview',
+    #     url: new_user_session_url
+    # }
+    # sock.send_data reply.to_json
+  end
 
+  def check_auth(sock)
+    ReplyWebView.new(url: new_user_session).send(sock) and return false unless current_user
+    true
+  end
 end

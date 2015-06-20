@@ -55,4 +55,4 @@ gem 'devise'
 gem 'slim'
 gem 'devise-bootstrap-views'
 gem "twitter-bootstrap-rails"
-
+gem 'active_model_serializers', github: 'rails-api/active_model_serializers'

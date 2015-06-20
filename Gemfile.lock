@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/rails-api/active_model_serializers.git
+  revision: f67fd976ecbe41305c484e4689003758e8631998
+  specs:
+    active_model_serializers (0.10.0.rc1)
+      activemodel (>= 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -204,6 +211,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers!
   activerecord-postgis-adapter
   byebug
   coffee-rails (~> 4.1.0)
