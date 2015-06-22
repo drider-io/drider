@@ -61,7 +61,7 @@ class SocketController < ApplicationController
     ReplyGeneric.new(sock)
         .start_webview(url: new_user_session_url)
         .stop_client
-        .send #and return false unless current_user
+        .send and return false unless current_user
     true
   end
 end
