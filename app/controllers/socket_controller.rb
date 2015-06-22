@@ -58,7 +58,10 @@ class SocketController < ApplicationController
   end
 
   def check_auth(sock)
-    ReplyWebView.new(url: new_user_session_url).send(sock) and return false unless current_user
+    ReplyGeneric.new(sock)
+        .start_webview(url: new_user_session_url)
+        .stop_client
+        .send #and return false unless current_user
     true
   end
 end
