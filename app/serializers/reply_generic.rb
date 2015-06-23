@@ -23,4 +23,9 @@ class ReplyGeneric
     self
   end
 
+  def set_text(str)
+    @reply[:text] = str
+    self
+  end
+
 end
