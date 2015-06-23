@@ -18,8 +18,9 @@ class ReplyGeneric
     self
   end
 
-  def hadshake_reply
+  def handshake_reply
     @reply[:handshake_reply] = true
+    self
   end
 
 end

@@ -4,6 +4,7 @@ class SocketController < ApplicationController
   def chat
       hijack do |tubesock|
         car_session = nil
+        handshake_reply_sent = false
         tubesock.onopen do
           # car_session = Time.now.to_s
           tubesock.send_data tubesock.object_id
@@ -21,6 +22,10 @@ class SocketController < ApplicationController
             case json['type']
               when 'location'
                 save_location(json, car_session)
+                unless handshake_reply_sent
+                  ReplyGeneric.new(tubesock).handshake_reply.send
+                  handshake_reply_sent = true
+                end
               when 'handshake'
                 car_session = handshake(json, tubesock)
             end
