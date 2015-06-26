@@ -28,4 +28,16 @@ class ReplyGeneric
     self
   end
 
+  def play_sound(sound_type: )
+    if %w(ringtone notification alarm).include?(sound_type)
+      @reply[:play_sound] = sound_type
+    end
+    self
+  end
+
+  def stop_sound
+    @reply[:stop_sound] = true
+    self
+  end
+
 end
