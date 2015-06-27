@@ -8,8 +8,9 @@ class ReplyGeneric
     @sock.send_data @reply.to_json
   end
 
-  def start_webview(url:)
+  def start_webview(url:, show_on_locked_screen: false)
     @reply[:webview] = url
+    @reply[:show_on_locked_screen] = show_on_locked_screen
     self
   end
 
