@@ -28,6 +28,12 @@ class SocketController < ApplicationController
                 end
               when 'handshake'
                 car_session = handshake(json, tubesock)
+                reply = ReplyGeneric.new(tubesock)
+                  .set_text(
+                      render_to_string partial: 'driver/text_area',layout: false, locals:{ car_session: car_session}
+                  )
+                reply.stop_client unless car_session.is_location_available
+                reply.send
             end
 
           p data

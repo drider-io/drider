@@ -1,0 +1,8 @@
+-if car_session.is_gps_available
+  -if car_session.is_location_enabled
+    -unless car_session.is_google_play_available
+      h2 google play не встановленно, GPS буде працювати менш ефективно
+  -else
+    h1 Включіть розташування в налаштуваннях телефона
+-else
+  h1 GPS недоступний, неможливо продовжити
