@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150620200828) do
+ActiveRecord::Schema.define(version: 20150628065422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,13 +48,21 @@ ActiveRecord::Schema.define(version: 20150620200828) do
   add_index "car_routes", ["is_actual"], name: "index_car_routes_on_is_actual", using: :btree
 
   create_table "car_sessions", force: :cascade do |t|
-    t.integer  "number",            null: false
-    t.string   "device_identifier", null: false
-    t.string   "client_version",    null: false
-    t.string   "client_os_version", null: false
-    t.integer  "user_id",           null: false
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.integer  "number",                   null: false
+    t.string   "device_identifier",        null: false
+    t.string   "client_version",           null: false
+    t.string   "client_os_version",        null: false
+    t.integer  "user_id",                  null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "android_model"
+    t.boolean  "is_gps_available"
+    t.boolean  "is_location_enabled"
+    t.boolean  "is_location_available"
+    t.boolean  "is_google_play_available"
+    t.integer  "android_sdk"
+    t.string   "android_manufacturer"
+    t.integer  "client_version_code"
   end
 
   add_index "car_sessions", ["number", "user_id"], name: "car_session_user_index", unique: true, using: :btree

@@ -58,7 +58,15 @@ class SocketController < ApplicationController
         number: json['time'],
         device_identifier: json['device_identifier'],
         client_version: json['client_version'],
-        client_os_version: json['client_os_version']
+        client_os_version: json['client_os_version'],
+        android_model: json['android_model'],
+        is_gps_available: json['is_gps_available'],
+        is_location_enabled: json['is_location_enabled'],
+        is_location_available: json['is_location_available'],
+        is_google_play_available: json['is_google_play_available'],
+        android_sdk: json['android_sdk'],
+        android_manufacturer: json['android_manufacturer'],
+        client_version_code: json['client_version_code']
     ).first_or_create
   end
 
