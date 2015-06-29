@@ -1,7 +1,14 @@
 -if car_session.is_gps_available
   -if car_session.is_location_enabled
-    -unless car_session.is_google_play_available
-      h2 google play не встановленно, GPS буде працювати менш ефективно
+    -case car_session.is_google_play_available
+      -when 0
+
+      -when 1
+        h2 google play не встановленно, GPS буде працювати менш ефективно
+      -when 2
+        h2 google play потребує оновлення, GPS буде працювати менш ефективно
+      -else
+        h2 google play помилка #{car_session.is_google_play_available}, GPS буде працювати менш ефективно
   -else
     h1 Включіть розташування в налаштуваннях телефона
 -else
