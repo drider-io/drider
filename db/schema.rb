@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150628065422) do
+ActiveRecord::Schema.define(version: 20150629195100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20150628065422) do
     t.boolean  "is_gps_available"
     t.boolean  "is_location_enabled"
     t.boolean  "is_location_available"
-    t.boolean  "is_google_play_available"
+    t.integer  "is_google_play_available"
     t.integer  "android_sdk"
     t.string   "android_manufacturer"
     t.integer  "client_version_code"
