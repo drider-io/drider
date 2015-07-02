@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :car_requests
   devise_for :users
   get "/chat" => "socket#chat", as: "chat"
 
@@ -11,6 +10,10 @@ Rails.application.routes.draw do
 
   namespace :api do
       resources :log, only: [:create]
+  end
+
+  scope "/lviv" do
+    resources :car_requests
   end
 
   # Example of regular route:
