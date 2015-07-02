@@ -1,0 +1,4 @@
+module LayoutsHelper
+  :q
+
+end

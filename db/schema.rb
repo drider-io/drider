@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150701205507) do
+ActiveRecord::Schema.define(version: 20150702194921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,22 @@ ActiveRecord::Schema.define(version: 20150701205507) do
   end
 
   add_index "car_locations", ["car_session_id"], name: "index_car_locations_on_car_session_id", using: :btree
+
+  create_table "car_requests", force: :cascade do |t|
+    t.integer  "status"
+    t.datetime "scheduled_to"
+    t.integer  "driver_id"
+    t.integer  "passenger_id"
+    t.geometry "from_m",       limit: {:srid=>3785, :type=>"point"}
+    t.geometry "to_m",         limit: {:srid=>3785, :type=>"point"}
+    t.string   "from_title"
+    t.string   "to_title"
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  add_index "car_requests", ["driver_id"], name: "index_car_requests_on_driver_id", using: :btree
+  add_index "car_requests", ["passenger_id"], name: "index_car_requests_on_passenger_id", using: :btree
 
   create_table "car_route_stats", force: :cascade do |t|
     t.integer  "car_route_id", null: false
@@ -100,4 +116,6 @@ ActiveRecord::Schema.define(version: 20150701205507) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "car_requests", "users", column: "driver_id"
+  add_foreign_key "car_requests", "users", column: "passenger_id"
 end

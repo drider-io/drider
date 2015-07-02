@@ -21,3 +21,8 @@
 
 uk:
   hello: "Hello world"
+  date:
+      order:
+        - :day
+        - :month
+        - :year

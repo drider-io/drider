@@ -1,0 +1,49 @@
+<%= form_for(@car_request) do |f| %>
+  <% if @car_request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@car_request.errors.count, "error") %> prohibited this car_request from being saved:</h2>
+
+      <ul>
+      <% @car_request.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :status %><br>
+    <%= f.number_field :status %>
+  </div>
+  <div class="field">
+    <%= f.label :scheduled_to %><br>
+    <%= f.datetime_select :scheduled_to %>
+  </div>
+  <div class="field">
+    <%= f.label :driver_id %><br>
+    <%= f.text_field :driver_id %>
+  </div>
+  <div class="field">
+    <%= f.label :passenger_id %><br>
+    <%= f.text_field :passenger_id %>
+  </div>
+  <div class="field">
+    <%= f.label :from_m %><br>
+    <%= f.number_field :from_m %>
+  </div>
+  <div class="field">
+    <%= f.label :to_m %><br>
+    <%= f.number_field :to_m %>
+  </div>
+  <div class="field">
+    <%= f.label :from_title %><br>
+    <%= f.text_field :from_title %>
+  </div>
+  <div class="field">
+    <%= f.label :to_title %><br>
+    <%= f.text_field :to_title %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
