@@ -45,6 +45,8 @@ group :development, :test do
   gem 'mina-rsync', :require => false
   gem 'mina-puma', :require => false
   gem 'rspec-rails', '~> 3.0'
+  gem 'factory_girl_rails'
+  gem 'airborne'
 end
 
 gem 'tubesock'
