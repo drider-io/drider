@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :car_requests
   devise_for :users
   get "/chat" => "socket#chat", as: "chat"
 
