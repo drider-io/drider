@@ -3,4 +3,5 @@ class CarRequest < ActiveRecord::Base
 
   belongs_to :driver, class: 'User'
   belongs_to :passenger, class: 'User'
+  has_many :messages
 end

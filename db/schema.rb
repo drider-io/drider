@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150702194921) do
+ActiveRecord::Schema.define(version: 20150703201300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,20 @@ ActiveRecord::Schema.define(version: 20150702194921) do
 
   add_index "car_routes", ["is_actual"], name: "index_car_routes_on_is_actual", using: :btree
 
+  create_table "car_searches", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "scheduled_to"
+    t.string   "from_title"
+    t.string   "to_title"
+    t.boolean  "pinned"
+    t.geometry "from_m",       limit: {:srid=>0, :type=>"point"}
+    t.geometry "to_m",         limit: {:srid=>0, :type=>"point"}
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
+
+  add_index "car_searches", ["user_id"], name: "index_car_searches_on_user_id", using: :btree
+
   create_table "car_sessions", force: :cascade do |t|
     t.integer  "number",                                   null: false
     t.string   "device_identifier",                        null: false
@@ -80,10 +94,26 @@ ActiveRecord::Schema.define(version: 20150702194921) do
     t.string   "android_manufacturer"
     t.integer  "client_version_code"
     t.boolean  "processed",                default: false
+    t.integer  "car_route_id"
   end
 
   add_index "car_sessions", ["number", "user_id"], name: "car_session_user_index", unique: true, using: :btree
   add_index "car_sessions", ["number"], name: "index_car_sessions_on_number", using: :btree
+  add_index "car_sessions", ["processed"], name: "index_car_sessions_on_processed", using: :btree
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "from_id"
+    t.integer  "to_id"
+    t.integer  "car_request"
+    t.string   "body"
+    t.datetime "seen_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "messages", ["car_request"], name: "index_messages_on_car_request", using: :btree
+  add_index "messages", ["from_id"], name: "index_messages_on_from_id", using: :btree
+  add_index "messages", ["to_id"], name: "index_messages_on_to_id", using: :btree
 
   create_table "points", force: :cascade do |t|
     t.geography "lonlat",     limit: {:srid=>4326, :type=>"point", :geographic=>true}
@@ -118,4 +148,8 @@ ActiveRecord::Schema.define(version: 20150702194921) do
 
   add_foreign_key "car_requests", "users", column: "driver_id"
   add_foreign_key "car_requests", "users", column: "passenger_id"
+  add_foreign_key "car_searches", "users"
+  add_foreign_key "car_sessions", "car_routes"
+  add_foreign_key "messages", "users", column: "from_id"
+  add_foreign_key "messages", "users", column: "to_id"
 end

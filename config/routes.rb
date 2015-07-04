@@ -13,7 +13,9 @@ Rails.application.routes.draw do
   end
 
   scope "/lviv" do
+    resources :car_searches
     resources :car_requests
+    resources :messages
   end
 
   # Example of regular route:
