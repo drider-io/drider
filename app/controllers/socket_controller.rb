@@ -49,7 +49,7 @@ class SocketController < ApplicationController
   def save_location(json, car_session)
     CarLocation.create!(
         r: RGeo::Geographic.spherical_factory(srid: 4326).point(json['long'], json['lat']),
-        m: RGeo::Geographic.simple_mercator_factory(srid: 3857).point(json['long'], json['lat']).projection,
+        m: RGeo::Geographic.simple_mercator_factory(srid: 3785).point(json['long'], json['lat']).projection,
         car_session: car_session,
         accuracy: json['accy'],
         time: Time.at(json['time']),
