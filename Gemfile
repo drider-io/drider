@@ -47,6 +47,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'factory_girl_rails'
   gem 'airborne'
+  gem 'webmock'
+  gem 'vcr'
 end
 
 gem 'tubesock'
