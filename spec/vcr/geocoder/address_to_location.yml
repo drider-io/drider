@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://geocode-maps.yandex.ru/1.x/?format=json&geocode=%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B0,%20%D0%9B%D1%8C%D0%B2%D1%96%D0%B2,%20%D0%A1%D1%82%D0%BE%D1%80%D0%BE%D0%B6%D0%B5%D0%BD%D0%BA%D0%B0%2012&plng=uk
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Sun, 05 Jul 2015 12:37:25 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      Access-Control-Allow-Origin:
+      - "*"
+      Expires:
+      - Sun, 05 Jul 2015 12:42:25 GMT
+      X-Content-Type-Options:
+      - nosniff
+      Set-Cookie:
+      - yandexuid=1773472851436099845; domain=.yandex.ru; path=/; expires=Tue, 19
+        Jan 2038 03:14:07 GMT
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJyZXNwb25zZSI6eyJHZW9PYmplY3RDb2xsZWN0aW9uIjp7Im1ldGFEYXRh
+        UHJvcGVydHkiOnsiR2VvY29kZXJSZXNwb25zZU1ldGFEYXRhIjp7InJlcXVl
+        c3QiOiLQo9C60YDQsNGX0L3QsCwg0JvRjNCy0ZbQsiwg0KHRgtC+0YDQvtC2
+        0LXQvdC60LAgMTIiLCJmb3VuZCI6IjEiLCJyZXN1bHRzIjoiMTAifX0sImZl
+        YXR1cmVNZW1iZXIiOlt7Ikdlb09iamVjdCI6eyJtZXRhRGF0YVByb3BlcnR5
+        Ijp7Ikdlb2NvZGVyTWV0YURhdGEiOnsia2luZCI6ImhvdXNlIiwidGV4dCI6
+        ItCj0LrRgNCw0ZfQvdCwLCDQm9GM0LLRltCyLCDQstGD0LvQuNGG0Y8g0KHR
+        gtC+0YDQvtC20LXQvdC60LAsIDEyIiwicHJlY2lzaW9uIjoiZXhhY3QiLCJB
+        ZGRyZXNzRGV0YWlscyI6eyJDb3VudHJ5Ijp7IkFkZHJlc3NMaW5lIjoi0JvR
+        jNCy0ZbQsiwg0LLRg9C70LjRhtGPINCh0YLQvtGA0L7QttC10L3QutCwLCAx
+        MiIsIkNvdW50cnlOYW1lQ29kZSI6IlVBIiwiQ291bnRyeU5hbWUiOiLQo9C6
+        0YDQsNGX0L3QsCIsIkFkbWluaXN0cmF0aXZlQXJlYSI6eyJBZG1pbmlzdHJh
+        dGl2ZUFyZWFOYW1lIjoi0JvRjNCy0ZbQstGB0YzQutCwINC+0LHQu9Cw0YHR
+        gtGMIiwiU3ViQWRtaW5pc3RyYXRpdmVBcmVhIjp7IlN1YkFkbWluaXN0cmF0
+        aXZlQXJlYU5hbWUiOiLQm9GM0LLRltCy0YHRjNC60LAg0LzRltGB0YzQutCw
+        INGA0LDQtNCwIiwiTG9jYWxpdHkiOnsiTG9jYWxpdHlOYW1lIjoi0JvRjNCy
+        0ZbQsiIsIlRob3JvdWdoZmFyZSI6eyJUaG9yb3VnaGZhcmVOYW1lIjoi0LLR
+        g9C70LjRhtGPINCh0YLQvtGA0L7QttC10L3QutCwIiwiUHJlbWlzZSI6eyJQ
+        cmVtaXNlTnVtYmVyIjoiMTIifX19fX19fX19LCJkZXNjcmlwdGlvbiI6ItCb
+        0YzQstGW0LIsINCj0LrRgNCw0ZfQvdCwIiwibmFtZSI6ItCy0YPQu9C40YbR
+        jyDQodGC0L7RgNC+0LbQtdC90LrQsCwgMTIiLCJib3VuZGVkQnkiOnsiRW52
+        ZWxvcGUiOnsibG93ZXJDb3JuZXIiOiIyMy45OTM1NDMgNDkuODM2NjY4Iiwi
+        dXBwZXJDb3JuZXIiOiIyNC4wMSA0OS44NDczMTEifX0sIlBvaW50Ijp7InBv
+        cyI6IjI0LjAwMTc3MiA0OS44NDE5OSJ9fX1dfX19
+    http_version: 
+  recorded_at: Sun, 05 Jul 2015 12:38:25 GMT
+recorded_with: VCR 2.9.3
