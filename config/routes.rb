@@ -13,9 +13,9 @@ Rails.application.routes.draw do
   end
 
   scope "/lviv" do
-    resources :car_searches
-    resources :car_requests
-    resources :messages
+    resources :car_searches, only: [ :index, :new, :create, :show, :update ]
+    resources :car_requests, only: [ :index, :create, :update ]
+    resources :messages, only: [ :index, :show, :create ]
   end
 
   # Example of regular route:
