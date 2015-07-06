@@ -26,7 +26,11 @@ SQL
       if distance
         if distance.to_i > min_route_distance
           same_route = select_same_routes(result.first['route'], result.first['start'], result.first['finish'], session.user.id)
-          logger.info "closest route(#{same_route['id']}), distance #{same_route['distance']}" if same_route
+          if same_route
+            logger.info "closest route(#{same_route['id']}), distance #{same_route['distance']}"
+          else
+            logger.info "no routes found for session #{session.id}"
+          end
           if same_route && same_route['distance'].to_i < min_route_distance
             logger.info "consider route(#{same_route['id']}), distance #{same_route['distance']} as a same route"
             session.update!(processed: true, car_route_id: same_route['id'])
@@ -37,7 +41,7 @@ SQL
             ActiveRecord::Base.transaction do
             result = ActiveRecord::Base.connection.exec_query(sql,'SQL', [[nil, session.user.id], [nil, Time.now], [nil, result.first['route']]]).first
             # session.update!(processed: true, car_route_id: result['id'])
-            p result
+            # p result
             end
 
           end
@@ -49,26 +53,7 @@ SQL
       else
         logger.info "session #{session.id} does not have locations, skipping"
         session.update!(processed: true)
-        break
       end
-
-
-      p result
-      # break
-next
-
-
-      #
-      printf sql
-      break
-      insert_sql = "INSERT INTO car_routes (user_id, created_at, updated_at, route) (#{sql}) RETURNING id::text"
-      p insert_sql
-      ActiveRecord::Base.transaction do
-      result = CarRoute.connection.exec_query(insert_sql).first
-      session.update!(processed: true)
-      p result
-      end
-      break
     end
   end
 

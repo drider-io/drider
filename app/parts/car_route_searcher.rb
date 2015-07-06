@@ -1,32 +1,37 @@
 class CarRouteSearcher
   def search(car_search)
-    within_sql =<<SQL
-  ST_DWithin(route, ?, 500 ) AND
-  ST_DWithin(route, ?, 500 )
-SQL
-    users = CarRoute.select('DISTINCT user_id').where(within_sql, car_search.from_m, car_search.to_m )
+#
+#     s1 = CarRoute.from(CarRoute.all)
+#     p  = s1.project(1).to_sql
+#
+#     p p
+#     return
+#     within_sql =<<SQL
+# SQL
+#     users = CarRoute.select('DISTINCT user_id').where(within_sql, car_search.from_m, car_search.to_m )
+#
+#     select =
 
-    select = <<SQL
+
+    inner_query = CarRoute
+            .select_with_args('
 *,
-ST_ClosestPoint(route, ?) as start,
-ST_ClosestPoint(route, ?) as finish,
-ST_LineLocatePoint()
-SQL
-    p = CarRoute
-            .select_with_args(select, [car_search.from_m, car_search.to_m])
-            .where(user_id: users.map{|u| u.user_id})
-            .where(within_sql, car_search.from_m, car_search.to_m )
+ST_ClosestPoint(route, ?) as pickup_point,
+ST_ClosestPoint(route, ?) as drop_point,
+ST_LineLocatePoint(route, ?) as pickup_float,
+ST_LineLocatePoint(route, ?) as drop_float
+', [car_search.from_m, car_search.to_m, car_search.from_m, car_search.to_m])
+            .where('
+ST_DWithin(route, ?, 500 ) AND
+ST_DWithin(route, ?, 500 )
+', car_search.from_m, car_search.to_m )
 
-
-
-    # p = CarRoute.select_with_args("1, ? , ?", [2,3])
-    # CarRoute.where(driver_id: users)
-
-
-
-
+    routes = CarRoute.select('*')
+        .from(inner_query)
+        # .where('finish_float > start_float')
     p routes
-    routes
+    # r = Geocoder.search([29.951,-90.081])
+    routes.map{|route| CarRouteSearchResult.new(route) }
   end
 
 end

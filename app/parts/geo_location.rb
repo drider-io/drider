@@ -5,11 +5,18 @@ class GeoLocation
   end
 
   def m
-    unless @m
+    unless @location
       geo = Geocoder.search("Україна, Львів, #{@address}").try(:first)
-      @m = to_m(geo.coordinates[0], geo.coordinates[1])
+      @location = to_m(geo.coordinates[0], geo.coordinates[1])
     end
-    @m
+    @location
+  end
+
+  def g
+    unless @g
+      @g = to_g(m)
+    end
+    @g
   end
 
   def address
@@ -24,5 +31,9 @@ class GeoLocation
 
   def to_m(lat, long)
     RGeo::Geographic.simple_mercator_factory(srid: 3857).point(long, lat).projection
+  end
+
+  def to_g(m)
+    RGeo::Feature.cast(m, :factory => RGeo::Geographic.spherical_factory(srid: 4326), :project => true)
   end
 end
