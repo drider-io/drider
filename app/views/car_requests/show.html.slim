@@ -1,0 +1,27 @@
+p id="notice"
+  = notice
+
+p
+  strong Status:
+  = @car_request.status
+
+
+p
+  strong Scheduled to:
+  = @car_request.scheduled_to
+
+p
+  strong Driver:
+  = @car_request.driver_id
+
+p
+  strong Passenger:
+  = @car_request.passenger_id
+
+p
+  strong From title:
+  = @car_request.pickup_address
+
+p
+  strong To title:
+  = @car_request.drop_address

@@ -1,0 +1,45 @@
+<%= form_for(@car_search) do |f| %>
+  <% if @car_search.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@car_search.errors.count, "error") %> prohibited this car_search from being saved:</h2>
+
+      <ul>
+      <% @car_search.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :scheduled_to %><br>
+    <%= f.datetime_select :scheduled_to %>
+  </div>
+  <div class="field">
+    <%= f.label :from_title %><br>
+    <%= f.text_field :from_title %>
+  </div>
+  <div class="field">
+    <%= f.label :to_title %><br>
+    <%= f.text_field :to_title %>
+  </div>
+  <div class="field">
+    <%= f.label :from_m %><br>
+    <%= f.text_field :from_m %>
+  </div>
+  <div class="field">
+    <%= f.label :to_m %><br>
+    <%= f.text_field :to_m %>
+  </div>
+  <div class="field">
+    <%= f.label :pinned %><br>
+    <%= f.check_box :pinned %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

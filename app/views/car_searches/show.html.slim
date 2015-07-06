@@ -1,0 +1,39 @@
+p id="notice"
+  = notice
+
+p
+  strong Scheduled to:
+  =@car_search.scheduled_to
+
+p
+  strong From title:
+  =@car_search.from_title
+
+p
+  strong To title:
+  =@car_search.to_title
+
+p
+  strong Pinned:
+  = @car_search.pinned
+
+-@routes.each do |route|
+  div
+    div
+      label з
+      =route.pickup_address
+    div
+      label до
+      =route.drop_address
+    div
+      =form_tag(car_requests_path, method: :post)
+        =hidden_field_tag :car_route_id, route.id
+        =hidden_field_tag :pickup_address, route.pickup_address
+        =hidden_field_tag :drop_address, route.drop_address
+        =hidden_field_tag :pickup_location, [route.pickup_location.y, route.pickup_location.x]
+        =hidden_field_tag :drop_location, [route.drop_location.y, route.drop_location.x]
+        button type="submit" Резервувати
+
+
+  hr
+

@@ -8,6 +8,20 @@ class CarRequestsController < ApplicationController
     @car_requests = CarRequest.all
   end
 
+  # GET /car_requests/1
+  # GET /car_requests/1.json
+  def show
+  end
+
+  # GET /car_requests/new
+  def new
+    @car_request = CarRequest.new
+  end
+
+  # GET /car_requests/1/edit
+  def edit
+  end
+
   # POST /car_requests
   # POST /car_requests.json
   def create
@@ -35,6 +49,16 @@ class CarRequestsController < ApplicationController
         format.html { render :edit }
         format.json { render json: @car_request.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  # DELETE /car_requests/1
+  # DELETE /car_requests/1.json
+  def destroy
+    @car_request.destroy
+    respond_to do |format|
+      format.html { redirect_to car_requests_url, notice: 'Car request was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
