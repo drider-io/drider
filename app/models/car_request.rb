@@ -4,4 +4,9 @@ class CarRequest < ActiveRecord::Base
   belongs_to :driver, class: 'User'
   belongs_to :passenger, class: 'User'
   has_many :messages
+
+  after_create do
+    ActiveSupport::Notifications.instrument('car_request_created', request: self)
+  end
+
 end
