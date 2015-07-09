@@ -1,0 +1,78 @@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMFgi5v9PX7UQGb6e4XIl6iNelo1zwlOE"></script>
+<script type="text/javascript">
+  (function() {
+    var startMarker = new google.maps.Marker({
+      draggable: true,
+      title: 'Початок'
+    });
+    var finishMarker = new google.maps.Marker({
+      draggable: true,
+      title: 'Призначення'
+    });
+    var from = $('#car_search_from_title');
+    var to = $('#car_search_to_title');
+    var map;
+    function initialize() {
+      var mapOptions = {
+        center: {lat: 49.8419071, lng: 24.0315675},
+        zoom: 12
+      };
+      map = new google.maps.Map(document.getElementById('map-canvas'),
+          mapOptions);
+
+      var onDrag = function(e){
+        setMarker(this, e.latLng);
+      };
+      google.maps.event.addListener(startMarker, 'dragend', onDrag);
+      google.maps.event.addListener(finishMarker, 'dragend', onDrag);
+      google.maps.event.addListener(map, 'click', function (e) {
+        if (!empty(from) && !empty(to)){
+          setMarker(startMarker, null);
+          setMarker(finishMarker, null);
+        }
+
+        if (empty(from)) setMarker(startMarker, e.latLng); else setMarker(finishMarker, e.latLng);
+
+//        placeMarker(e.latLng, map);
+//          console.log(a);
+//            map.setCenter();
+      });
+    }
+
+    function placeMarker(position, map) {
+
+      var marker = new google.maps.Marker({
+        position: position,
+        map: map
+      });
+//      map.panTo(position);
+      if ( !startMarker || (startMarker && finishMarker) ) setStartMarker(marker)
+      if ( !finishMarker ) setFinishMarker(marker);
+    }
+
+    function getOrCreateMarker(latLng){
+//      if (startMarker && en)
+    }
+
+    function setMarker(marker, value){
+      var ref;
+      if (marker == startMarker) ref = from; else ref = to;
+      ref.val(value || '');
+      if (value){
+        marker.setPosition(value);
+        marker.setMap(map);
+      } else {
+        marker.setMap(null);
+      }
+    }
+
+
+    function empty(ref){
+      return 0 == ref.val().length;
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+  })();
+</script>
+
+<div id="map-canvas"></div>

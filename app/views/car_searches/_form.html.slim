@@ -1,0 +1,31 @@
+= form_for(@car_search) do |f|
+  -if @car_search.errors.any?
+    div id="error_explanation"
+      h2
+        = pluralize(@car_search.errors.count, "error")
+        'prohibited this car_search from being saved:
+
+      ul
+        - @car_search.errors.full_messages.each do |message|
+          li = message
+
+  div class="field"
+    = f.label :scheduled_to
+    br
+    = f.datetime_select :scheduled_to
+  div class="field"
+    = f.label :from_title
+    br
+    = f.text_field :from_title
+  div class="field"
+    = f.label :to_title
+    br
+    = f.text_field :to_title
+  div class="field"
+    = f.label :pinned
+    br
+    = f.check_box :pinned
+  div class="actions"
+    = f.submit
+
+=render 'shared/gmap'
