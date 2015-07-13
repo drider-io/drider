@@ -5,6 +5,14 @@
       var data_url = '<%= @map_data_url %>';
     <% end %>
 
+    <% if @from_marker %>
+      var from_marker = <%= @from_marker.to_json.html_safe %>;
+    <% end %>
+
+    <% if @to_marker %>
+      var to_marker = <%= @to_marker.to_json.html_safe %>;
+    <% end %>
+
     var startMarker = new google.maps.Marker({
       draggable: true,
       title: 'Початок'
@@ -41,6 +49,8 @@
 //          console.log(a);
 //            map.setCenter();
       });
+      if (from_marker) setMarker(startMarker, from_marker);
+      if (to_marker) setMarker(finishMarker, to_marker);
       if (data_url) map.data.loadGeoJson(data_url);
     }
 

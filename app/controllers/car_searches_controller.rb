@@ -12,6 +12,16 @@ class CarSearchesController < ApplicationController
   # GET /car_searches/1.json
   def show
     @routes = CarRouteSearcher.new.search(@car_search)
+    @from_marker = {
+        lat: @car_search.from_g.y,
+        lng: @car_search.from_g.x,
+    }
+    @to_marker = {
+        lat: @car_search.to_g.y,
+        lng: @car_search.to_g.x,
+    }
+
+
     @map_data_url = car_search_url(@car_search, format: :json)
     respond_to do |format|
       format.html
