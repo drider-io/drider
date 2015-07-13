@@ -26,7 +26,7 @@ ST_DWithin(route, ?, 500 ) AND
 ST_DWithin(route, ?, 500 )
 ', car_search.from_m, car_search.to_m )
 
-    routes = CarRoute.select('*')
+    routes = CarRoute.select('*, ST_LineSubstring(route, pickup_float, drop_float) as sub_route')
         .from(inner_query)
         # .where('finish_float > start_float')
     p routes
