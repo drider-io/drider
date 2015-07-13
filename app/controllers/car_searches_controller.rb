@@ -12,6 +12,11 @@ class CarSearchesController < ApplicationController
   # GET /car_searches/1.json
   def show
     @routes = CarRouteSearcher.new.search(@car_search)
+    @map_data_url = car_search_url(@car_search, format: :json)
+    respond_to do |format|
+      format.html
+      format.json { render :json => CarSearchResultSerializer.new(@routes) }
+    end
   end
 
   # GET /car_searches/new

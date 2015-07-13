@@ -25,4 +25,7 @@ class CarRouteSearchResult
     GeoLocation.new(location: route['pickup_point']).g
   end
 
+  def shared_route
+    GeoLocation.new.to_g(route['sub_route'])
+  end
 end

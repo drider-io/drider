@@ -1,6 +1,10 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMFgi5v9PX7UQGb6e4XIl6iNelo1zwlOE"></script>
 <script type="text/javascript">
   (function() {
+    <% if @map_data_url %>
+      var data_url = '<%= @map_data_url %>';
+    <% end %>
+
     var startMarker = new google.maps.Marker({
       draggable: true,
       title: 'Початок'
@@ -37,6 +41,7 @@
 //          console.log(a);
 //            map.setCenter();
       });
+      if (data_url) map.data.loadGeoJson(data_url);
     }
 
     function placeMarker(position, map) {
