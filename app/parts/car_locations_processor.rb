@@ -11,7 +11,7 @@ class CarLocationsProcessor
   def process
     logger.info "car_location -> car_routes started"
     CarSession.where(processed: false).find_each do |session|
-      sql_route = session.car_locations.select("ST_Simplify(ST_MakeLine(m),10) as route").to_sql
+      sql_route = session.car_locations.select("ST_Simplify(ST_MakeLine(m ORDER BY id),10) as route").to_sql
       sql = <<SQL
 SELECT
   ST_MaxDistance(rr.route, rr.route) as distance,
@@ -40,7 +40,7 @@ INSERT INTO car_routes (user_id, created_at, updated_at, route) VALUES( $1, $2, 
 SQL
             ActiveRecord::Base.transaction do
             result = ActiveRecord::Base.connection.exec_query(sql,'SQL', [[nil, session.user.id], [nil, Time.now], [nil, result.first['route']]]).first
-            # session.update!(processed: true, car_route_id: result['id'])
+            session.update!(processed: true, car_route_id: result['id'])
             # p result
             end
 
