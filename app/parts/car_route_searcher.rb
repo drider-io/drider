@@ -28,7 +28,7 @@ ST_DWithin(route, ?, 500 )
 
     routes = CarRoute.select('*, ST_LineSubstring(route, pickup_float, drop_float) as sub_route')
         .from(inner_query)
-        # .where('finish_float > start_float')
+        .where('drop_float > pickup_float')
     p routes
     # r = Geocoder.search([29.951,-90.081])
     routes.map{|route| CarRouteSearchResult.new(route) }
