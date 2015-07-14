@@ -59,6 +59,15 @@
             strokeColor: color
           };
       });
+      map.data.addListener('mouseover', function(event) {
+          map.data.revertStyle();
+          map.data.overrideStyle(event.feature, {strokeWeight: 5});
+        });
+
+        map.data.addListener('mouseout', function(event) {
+          map.data.revertStyle();
+        });
+
 
 
       if ('undefined' != typeof from_marker) startMarker.setPosition(from_marker);
