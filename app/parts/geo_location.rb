@@ -29,8 +29,8 @@ class GeoLocation
   end
 
 
-  def to_m(lat, long)
-    RGeo::Geographic.simple_mercator_factory(srid: 3857).point(long, lat).projection
+  def to_m(lat, lng)
+    RGeo::Geographic.simple_mercator_factory(srid: 3785).point(lng, lat).projection
   end
 
   def to_g(m)
