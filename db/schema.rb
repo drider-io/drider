@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150706201457) do
+ActiveRecord::Schema.define(version: 20150714194534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20150706201457) do
     t.string   "drop_address"
     t.datetime "created_at",                                            null: false
     t.datetime "updated_at",                                            null: false
+    t.integer  "car_route_id"
   end
 
   add_index "car_requests", ["driver_id"], name: "index_car_requests_on_driver_id", using: :btree
@@ -146,6 +147,7 @@ ActiveRecord::Schema.define(version: 20150706201457) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "car_requests", "car_routes"
   add_foreign_key "car_requests", "users", column: "driver_id"
   add_foreign_key "car_requests", "users", column: "passenger_id"
   add_foreign_key "car_searches", "users"
