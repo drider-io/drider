@@ -19,7 +19,7 @@ div.car_search
     = @car_search.pinned
 
   -@routes.each do |route|
-    div
+    div id="route#{route.id}"
       div
         label з
         =route.pickup_address

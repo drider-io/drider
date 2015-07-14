@@ -11,6 +11,7 @@ class CarSearchResultSerializer
           {
               type: 'Feature',
               properties: {
+                  id: e.id,
                   color: "##{color_generator.create_hex}"
               },
               geometry: RGeo::GeoJSON.encode(e.shared_route)

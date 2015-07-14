@@ -59,14 +59,18 @@
             strokeColor: color
           };
       });
-      map.data.addListener('mouseover', function(event) {
-          map.data.revertStyle();
-          map.data.overrideStyle(event.feature, {strokeWeight: 5});
-        });
+      map.data.addListener('mouseover', function (event) {
+        map.data.revertStyle();
+        map.data.overrideStyle(event.feature, {strokeWeight: 5});
+      });
 
-        map.data.addListener('mouseout', function(event) {
-          map.data.revertStyle();
-        });
+      map.data.addListener('mouseout', function (event) {
+        map.data.revertStyle();
+      });
+      map.data.addListener('click', function (event) {
+        var id = event.feature.getProperty('id');
+        location.hash = "#route" + id;
+      });
 
 
 
