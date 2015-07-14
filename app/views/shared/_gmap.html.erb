@@ -52,6 +52,15 @@
 //          console.log(a);
 //            map.setCenter();
       });
+      map.data.setStyle(function(feature) {
+          var color = feature.getProperty('color');
+        console.log(color);
+          return {
+            strokeColor: color
+          };
+      });
+
+
       if ('undefined' != typeof from_marker) startMarker.setPosition(from_marker);
       if ('undefined' != typeof to_marker) finishMarker.setPosition(to_marker);
       if ('undefined' != typeof data_url) map.data.loadGeoJson(data_url);
