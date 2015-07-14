@@ -12,8 +12,8 @@ class CarSearchesController < ApplicationController
   # GET /car_searches/1.json
   def show
     @routes = CarRouteSearcher.new.search(@car_search)
-    @from_marker = @car_search.from_g
-    @to_marker = @car_search.to_g
+    @from_marker = GeoLocation.new.to_g(@car_search.from_m)
+    @to_marker = GeoLocation.new.to_g(@car_search.to_m)
 
 
     @map_data_url = car_search_url(@car_search, format: :json)
@@ -66,7 +66,28 @@ class CarSearchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_search_params
-      params.require(:car_search).permit(:scheduled_to, :from_title, :to_title, :from_g, :to_g, :pinned)
-      .tap{|params| params[:user] = current_user}
+      search_params = params.require(:car_search)
+      search_params.permit(:scheduled_to, :pinned)
+      .tap{|params|
+        params[:user] = current_user
+        from_m = GeoLocation.new.str_to_m(search_params[:from])
+        to_m = GeoLocation.new.str_to_m(search_params[:to])
+        if from_m
+          params[:from_m] = from_m
+          params[:from_title] = GeoLocation.new(location: from_m).address
+        else
+          params[:from_title] = search_params[:from]
+          params[:from_m] = GeoLocation.new(address: search_params[:from]).m
+        end
+
+        if to_m
+          params[:to_m] = to_m
+          params[:to_title] = GeoLocation.new(location: to_m).address
+        else
+          params[:to_title] = search_params[:to]
+          params[:to_m] = GeoLocation.new(address: search_params[:to]).m
+        end
+      }
     end
+
 end

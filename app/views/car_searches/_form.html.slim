@@ -14,20 +14,18 @@
     br
     = f.datetime_select :scheduled_to
   div class="field"
-    = f.label :from_title
+    = f.label :from
     br
-    = f.text_field :from_title
+    = f.text_field :from
   div class="field"
-    = f.label :to_title
+    = f.label :to
     br
-    = f.text_field :to_title
+    = f.text_field :to
   div class="field"
     = f.label :pinned
     br
     = f.check_box :pinned
   div class="actions"
     = f.submit
-    = f.text_field :from_g
-    = f.text_field :to_g
 
 =render 'shared/gmap'

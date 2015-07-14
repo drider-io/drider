@@ -21,16 +21,19 @@
       draggable: true,
       title: 'Призначення'
     });
-    var from = $('#car_search_from_g');
-    var to = $('#car_search_to_g');
+    var from = $('#car_search_from');
+    var to = $('#car_search_to');
     var map;
     function initialize() {
       var mapOptions = {
         center: {lat: 49.8419071, lng: 24.0315675},
         zoom: 12
       };
+      geocoder = new google.maps.Geocoder();
       map = new google.maps.Map(document.getElementById('map-canvas'),
           mapOptions);
+      startMarker.setMap(map);
+      finishMarker.setMap(map);
 
       var onDrag = function(e){
         setMarker(this, e.latLng);
@@ -49,8 +52,8 @@
 //          console.log(a);
 //            map.setCenter();
       });
-      if ('undefined' != typeof from_marker) setMarker(startMarker, from_marker);
-      if ('undefined' != typeof to_marker) setMarker(finishMarker, to_marker);
+      if ('undefined' != typeof from_marker) startMarker.setPosition(from_marker);
+      if ('undefined' != typeof to_marker) finishMarker.setPosition(to_marker);
       if ('undefined' != typeof data_url) map.data.loadGeoJson(data_url);
     }
 
@@ -76,6 +79,14 @@
         ref.val(value.lat()+", "+value.lng() || '');
         marker.setPosition(value);
         marker.setMap(map);
+        geocoder.geocode({'latLng': value}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+              console.log(results[1]);
+            }
+          }
+        });
+
       } else {
         ref.val("");
         marker.setMap(null);

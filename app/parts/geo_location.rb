@@ -36,4 +36,14 @@ class GeoLocation
   def to_g(m)
     RGeo::Feature.cast(m, :factory => RGeo::Geographic.spherical_factory(srid: 4326), :project => true)
   end
+
+  def str_to_m(str)
+    match = str.match /^(\d+\.{,1}\d+)\s*\,{,1}\s*(\d+\.{,1}\d+)$/
+    if match
+      to_m(match[1], match[2])
+    else
+      nil
+    end
+  end
+
 end
