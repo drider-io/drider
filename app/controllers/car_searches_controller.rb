@@ -12,14 +12,8 @@ class CarSearchesController < ApplicationController
   # GET /car_searches/1.json
   def show
     @routes = CarRouteSearcher.new.search(@car_search)
-    @from_marker = {
-        lat: @car_search.from_g.y,
-        lng: @car_search.from_g.x,
-    }
-    @to_marker = {
-        lat: @car_search.to_g.y,
-        lng: @car_search.to_g.x,
-    }
+    @from_marker = @car_search.from_g
+    @to_marker = @car_search.to_g
 
 
     @map_data_url = car_search_url(@car_search, format: :json)
@@ -72,7 +66,7 @@ class CarSearchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_search_params
-      params.require(:car_search).permit(:scheduled_to, :from_title, :to_title, :from_m, :to_m, :pinned)
+      params.require(:car_search).permit(:scheduled_to, :from_title, :to_title, :from_g, :to_g, :pinned)
       .tap{|params| params[:user] = current_user}
     end
 end

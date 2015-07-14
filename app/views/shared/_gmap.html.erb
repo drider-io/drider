@@ -1,16 +1,16 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMFgi5v9PX7UQGb6e4XIl6iNelo1zwlOE"></script>
 <script type="text/javascript">
-  (function() {
+//  (function() {
     <% if @map_data_url %>
       var data_url = '<%= @map_data_url %>';
     <% end %>
 
     <% if @from_marker %>
-      var from_marker = <%= @from_marker.to_json.html_safe %>;
+      var from_marker = <%= "new google.maps.LatLng(#{@from_marker.y}, #{@from_marker.x})".html_safe %>;
     <% end %>
 
     <% if @to_marker %>
-      var to_marker = <%= @to_marker.to_json.html_safe %>;
+      var to_marker = <%= "new google.maps.LatLng(#{@to_marker.y}, #{@to_marker.x})".html_safe %>;
     <% end %>
 
     var startMarker = new google.maps.Marker({
@@ -21,8 +21,8 @@
       draggable: true,
       title: 'Призначення'
     });
-    var from = $('#car_search_from_title');
-    var to = $('#car_search_to_title');
+    var from = $('#car_search_from_g');
+    var to = $('#car_search_to_g');
     var map;
     function initialize() {
       var mapOptions = {
@@ -49,9 +49,9 @@
 //          console.log(a);
 //            map.setCenter();
       });
-      if (from_marker) setMarker(startMarker, from_marker);
-      if (to_marker) setMarker(finishMarker, to_marker);
-      if (data_url) map.data.loadGeoJson(data_url);
+      if ('undefined' != typeof from_marker) setMarker(startMarker, from_marker);
+      if ('undefined' != typeof to_marker) setMarker(finishMarker, to_marker);
+      if ('undefined' != typeof data_url) map.data.loadGeoJson(data_url);
     }
 
     function placeMarker(position, map) {
@@ -72,11 +72,12 @@
     function setMarker(marker, value){
       var ref;
       if (marker == startMarker) ref = from; else ref = to;
-      ref.val(value || '');
       if (value){
+        ref.val(value.lat()+", "+value.lng() || '');
         marker.setPosition(value);
         marker.setMap(map);
       } else {
+        ref.val("");
         marker.setMap(null);
       }
     }
@@ -87,7 +88,7 @@
     }
 
     google.maps.event.addDomListener(window, 'load', initialize);
-  })();
+//  })();
 </script>
 
 <div id="map-canvas"></div>
