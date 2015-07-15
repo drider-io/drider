@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714194534) do
+ActiveRecord::Schema.define(version: 20150715071627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,14 +32,14 @@ ActiveRecord::Schema.define(version: 20150714194534) do
   add_index "car_locations", ["car_session_id"], name: "index_car_locations_on_car_session_id", using: :btree
 
   create_table "car_requests", force: :cascade do |t|
-    t.integer  "status"
+    t.integer  "status",                                                null: false
     t.datetime "scheduled_to"
-    t.integer  "driver_id"
-    t.integer  "passenger_id"
-    t.geometry "pickup_location", limit: {:srid=>3785, :type=>"point"}
-    t.geometry "drop_location",   limit: {:srid=>3785, :type=>"point"}
-    t.string   "pickup_address"
-    t.string   "drop_address"
+    t.integer  "driver_id",                                             null: false
+    t.integer  "passenger_id",                                          null: false
+    t.geometry "pickup_location", limit: {:srid=>3785, :type=>"point"}, null: false
+    t.geometry "drop_location",   limit: {:srid=>3785, :type=>"point"}, null: false
+    t.string   "pickup_address",                                        null: false
+    t.string   "drop_address",                                          null: false
     t.datetime "created_at",                                            null: false
     t.datetime "updated_at",                                            null: false
     t.integer  "car_route_id"
@@ -65,13 +65,13 @@ ActiveRecord::Schema.define(version: 20150714194534) do
   add_index "car_routes", ["is_actual"], name: "index_car_routes_on_is_actual", using: :btree
 
   create_table "car_searches", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "user_id",                                            null: false
     t.datetime "scheduled_to"
-    t.string   "from_title"
-    t.string   "to_title"
-    t.boolean  "pinned"
-    t.geometry "from_m",       limit: {:srid=>3785, :type=>"point"}
-    t.geometry "to_m",         limit: {:srid=>3785, :type=>"point"}
+    t.string   "from_title",                                         null: false
+    t.string   "to_title",                                           null: false
+    t.boolean  "pinned",                                             null: false
+    t.geometry "from_m",       limit: {:srid=>3785, :type=>"point"}, null: false
+    t.geometry "to_m",         limit: {:srid=>3785, :type=>"point"}, null: false
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
   end

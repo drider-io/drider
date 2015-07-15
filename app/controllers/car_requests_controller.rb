@@ -78,6 +78,7 @@ class CarRequestsController < ApplicationController
         p[:passenger] = current_user
         p[:car_route] = CarRoute.find(params[:car_route_id])
         p[:driver_id] = p[:car_route].user_id
+        p[:status] = 'sent'
       }
     end
 end
