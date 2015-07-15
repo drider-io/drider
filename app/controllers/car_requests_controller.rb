@@ -1,6 +1,7 @@
 class CarRequestsController < ApplicationController
   layout 'account'
   before_action :set_car_request, only: [:show, :edit, :update, :destroy]
+  before_action :user_required
 
   # GET /car_requests
   # GET /car_requests.json
@@ -70,6 +71,13 @@ class CarRequestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_request_params
-      params.permit(:scheduled_to, :pickup_location, :drop_location, :pickup_address, :drop_address)
+      params.permit(:scheduled_to, :pickup_address, :drop_address, )
+      .tap { |p|
+        p[:pickup_location] = GeoLocation.new.str_to_m(params[:pickup_location])
+        p[:drop_location] = GeoLocation.new.str_to_m(params[:drop_location])
+        p[:passenger] = current_user
+        p[:car_route] = CarRoute.find(params[:car_route_id])
+        p[:driver_id] = p[:car_route].user_id
+      }
     end
 end

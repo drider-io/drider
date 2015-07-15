@@ -5,7 +5,7 @@ class MessageGenerator
                to: car_request.driver,
                car_request: car_request,
                body: <<TEXT
-Привіт, підвезеж з #{car_request.pickup_address} до #{car_request.drop_location} ?
+Привіт, підвезеж з #{car_request.pickup_address} до #{car_request.drop_address} ?
 TEXT
     )
   end
