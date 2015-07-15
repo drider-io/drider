@@ -1,5 +1,8 @@
 h1 hello
-=current_user
+-if current_user
+  =image_tag current_user.image_url
+  =current_user.name
+
 
 javascript:
   var connection = new WebSocket('ws://'+window.location.hostname+':3000/chat');

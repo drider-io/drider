@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }#, :skip => [:sessions, :registrations]
   get "/chat" => "socket#chat", as: "chat"
 
   # The priority is based upon order of creation: first created -> highest priority.

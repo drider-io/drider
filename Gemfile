@@ -62,4 +62,6 @@ gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'redis'
 gem 'rgeo-geojson'
 gem 'color-generator'
-
+gem 'omniauth-facebook'
+gem "figaro"
+gem "koala", "~> 2.0"
