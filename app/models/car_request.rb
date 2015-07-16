@@ -1,5 +1,13 @@
 class CarRequest < ActiveRecord::Base
-  enum status: [:sent, :accepted, :confirmed, :ride, :finished, :canceled]
+  enum status: {
+      sent: 'sent',
+      accepted: 'accepted',
+      confirmed: 'confirmed',
+      ride: 'ride',
+      finished: 'finished',
+      canceled: 'canceled',
+    }
+
 
   belongs_to :driver, class_name: 'User'
   belongs_to :passenger, class_name: 'User'
@@ -21,6 +29,26 @@ class CarRequest < ActiveRecord::Base
     else
       passenger
     end
+
   end
+
+  def can_close?(*aaa)
+    p aaa
+    true
+  end
+
+  include AASM
+  aasm :column => 'status', :enum => true do
+    state :sent, :initial => true
+
+    event :run do
+      transitions :from => :sent, :to => :accepted, :guard=>:can_close?
+    end
+
+    event :cancel
+
+
+  end
+
 
 end

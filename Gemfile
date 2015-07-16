@@ -65,3 +65,5 @@ gem 'color-generator'
 gem 'omniauth-facebook'
 gem "figaro"
 gem "koala", "~> 2.0"
+gem 'aasm'
+
