@@ -6,7 +6,7 @@ class CarRequestsController < ApplicationController
   # GET /car_requests
   # GET /car_requests.json
   def index
-    @car_requests = CarRequest.all
+    @car_requests = CarRequest.with_user(current_user)
   end
 
   # GET /car_requests/1

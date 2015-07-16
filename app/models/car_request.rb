@@ -10,4 +10,17 @@ class CarRequest < ActiveRecord::Base
     ActiveSupport::Notifications.instrument('car_request_created', request: self)
   end
 
+  scope :with_user, ->(user) {
+    r = arel_table
+    where(r[:driver_id].eq(user.id).or(r[:passenger_id].eq(user.id))).order('id ASC')
+  }
+
+  def cor(user)
+    if user.id == passenger_id
+      driver
+    else
+      passenger
+    end
+  end
+
 end
