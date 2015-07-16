@@ -2,3 +2,9 @@ li
   -cor = car_request.cor(current_user)
   =image_tag cor.image_url
   =cor.name
+  =car_request.pickup_address
+  =car_request.drop_address
+  =form_tag car_request_path(car_request) do
+    -[:accept, :confirm, :finish, :cancel].each do |action|
+      -if car_request.send("may_#{action}?",current_user)
+        =submit_tag t(action)

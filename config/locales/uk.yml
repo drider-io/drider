@@ -26,3 +26,7 @@ uk:
         - :day
         - :month
         - :year
+  accept: Погодитись
+  confirm: Підтвердити
+  finish: Завершити
+  cancel: Відмінити
