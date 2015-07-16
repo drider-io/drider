@@ -1,2 +1,6 @@
 li
+  -cor = message.cor(current_user)
+  =link_to message_path(cor) do
+    =image_tag cor.image_url
+    =cor.name
   =message.body

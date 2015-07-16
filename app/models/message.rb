@@ -18,9 +18,19 @@ GROUP BY cors.cor_id
 SQL
     Message.where("id IN (#{sanitize_sql_array([sql, user.id,user.id,user.id,user.id])})").order('id DESC')
 }
+  scope :conversation, -> (user1, user2) {
+    m = Message.arel_table
+    Message.where(m[:to_id].eq(user1.id).and(m[:from_id].eq(user2.id)).or(m[:from_id].eq(user1.id).and(m[:to_id].eq(user2.id)))).order('id ASC')
+  }
 
 
-
+def cor(user)
+  if user.id == to_id
+    from
+  else
+    to
+  end
+end
 
 
 def self.index1(user)

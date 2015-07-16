@@ -1,0 +1,17 @@
+=image_tag @correspondent.image_url
+=@correspondent.name
+ul
+  -@messages.each do |message|
+    li
+      -if message.from_id == current_user.id
+        div style="text-align: right"
+          =message.body
+      -else
+        div style="text-align: left"
+          =message.body
+
+div
+  =form_tag messages_path do
+    =hidden_field_tag :to_id, @correspondent.id
+    =text_field_tag :body
+    =button_tag 'Писати'
