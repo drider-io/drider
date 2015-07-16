@@ -32,20 +32,42 @@ class CarRequest < ActiveRecord::Base
 
   end
 
-  def can_close?(*aaa)
-    p aaa
-    true
+  def is_driver?(user)
+    user.id == driver_id
+  end
+
+  def is_passenger?(user)
+    user.id == passenger_id
   end
 
   include AASM
   aasm :column => 'status', :enum => true do
     state :sent, :initial => true
+    state :accepted
+    state :confirmed
+    state :ride
+    state :finished
+    state :canceled
 
-    event :run do
-      transitions :from => :sent, :to => :accepted, :guard=>:can_close?
+    event :accept do
+      transitions :from => :sent, :to => :accepted, :guard=>:is_driver?
     end
 
-    event :cancel
+    event :confirm do
+      transitions :from => :accepted, :to => :confirmed, :guard=>:is_passenger?
+    end
+
+    event :ride do
+      transitions :from => :confirmed, :to => :ride
+    end
+
+    event :finish do
+      transitions :from => [:ride, :confirmed], :to => :finished
+    end
+
+    event :cancel do
+      transitions :from => [:sent, :accepted, :confirmed], :to => :canceled
+    end
 
 
   end
