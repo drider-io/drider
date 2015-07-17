@@ -13,6 +13,7 @@ class MessagesController < ApplicationController
   def show
     @correspondent = User.find(params[:id])
     @messages = Message.conversation(@correspondent, current_user)
+    @last_request_messages_id = @messages.group_by{|m| m.car_request_id}.map{|k,v| v.max_by{|e| e.id}}.map(&:id)
   end
 
   # POST /messages
