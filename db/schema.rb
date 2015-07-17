@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150716083348) do
+ActiveRecord::Schema.define(version: 20150717130440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,15 +51,15 @@ ActiveRecord::Schema.define(version: 20150716083348) do
   add_index "car_routes", ["is_actual"], name: "index_car_routes_on_is_actual", using: :btree
 
   create_table "car_searches", force: :cascade do |t|
-    t.integer  "user_id",                                            null: false
-    t.datetime "scheduled_to"
-    t.string   "from_title",                                         null: false
-    t.string   "to_title",                                           null: false
-    t.boolean  "pinned",                                             null: false
-    t.geometry "from_m",       limit: {:srid=>3785, :type=>"point"}, null: false
-    t.geometry "to_m",         limit: {:srid=>3785, :type=>"point"}, null: false
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.integer  "user_id",                                          null: false
+    t.time     "time",                                             null: false
+    t.string   "from_title",                                       null: false
+    t.string   "to_title",                                         null: false
+    t.boolean  "pinned",                                           null: false
+    t.geometry "from_m",     limit: {:srid=>3785, :type=>"point"}, null: false
+    t.geometry "to_m",       limit: {:srid=>3785, :type=>"point"}, null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
   end
 
   add_index "car_searches", ["user_id"], name: "index_car_searches_on_user_id", using: :btree
