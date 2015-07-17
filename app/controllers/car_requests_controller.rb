@@ -1,17 +1,12 @@
 class CarRequestsController < ApplicationController
   layout 'account'
-  before_action :set_car_request, only: [:show, :edit, :update, :destroy]
+  before_action :set_car_request, only: [:edit, :update, :destroy]
   before_action :user_required
 
   # GET /car_requests
   # GET /car_requests.json
   def index
     @car_requests = CarRequest.with_user(current_user)
-  end
-
-  # GET /car_requests/1
-  # GET /car_requests/1.json
-  def show
   end
 
   # GET /car_requests/new
@@ -27,13 +22,12 @@ class CarRequestsController < ApplicationController
   # POST /car_requests.json
   def create
     @car_request = CarRequest.new(car_request_params)
-
     respond_to do |format|
       if @car_request.save
-        format.html { redirect_to @car_request, notice: 'Car request was successfully created.' }
+        format.html { redirect_to car_requests_url, notice: 'Car request was successfully created.' }
         format.json { render :show, status: :created, location: @car_request }
       else
-        format.html { render :new }
+        format.html { redirect_to new_car_search, notice: 'car request failed'}
         format.json { render json: @car_request.errors, status: :unprocessable_entity }
       end
     end
