@@ -42,15 +42,10 @@ class CarRequestsController < ApplicationController
   # PATCH/PUT /car_requests/1
   # PATCH/PUT /car_requests/1.json
   def update
-    respond_to do |format|
-      if @car_request.update(car_request_params)
-        format.html { redirect_to @car_request, notice: 'Car request was successfully updated.' }
-        format.json { render :show, status: :ok, location: @car_request }
-      else
-        format.html { render :edit }
-        format.json { render json: @car_request.errors, status: :unprocessable_entity }
-      end
-    end
+    redirect_to :root and return unless @car_request.aasm.events.map(&:name).map(&:to_s).include? params[:form_action]
+    @car_request.send(params[:form_action], nil, current_user)
+    @car_request.save!
+    redirect_to car_requests_url
   end
 
   # DELETE /car_requests/1
