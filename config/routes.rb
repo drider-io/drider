@@ -14,9 +14,10 @@ Rails.application.routes.draw do
 
   scope "/lviv" do
     resources :car_searches, only: [ :index, :new, :create, :show, :update ]
-    resources :car_requests, only: [ :index, :create, :update ]
-    resources :messages, only: [ :index, :show, :create ]
   end
+
+  resources :car_requests, only: [ :index, :create, :update ]
+  resources :messages, only: [ :index, :show, :create ]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
