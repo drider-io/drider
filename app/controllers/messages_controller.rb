@@ -1,4 +1,5 @@
 class MessagesController < ApplicationController
+  layout 'account'
   # before_action :set_message, only: [:show, :edit, :update, :destroy]
   before_action :user_required
 

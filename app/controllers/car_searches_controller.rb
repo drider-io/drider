@@ -1,4 +1,5 @@
 class CarSearchesController < ApplicationController
+  layout 'account'
   before_action :set_car_search, only: [:show, :edit, :update, :destroy]
 
   # GET /car_searches

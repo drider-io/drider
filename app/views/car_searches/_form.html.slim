@@ -1,4 +1,4 @@
-= form_for(@car_search) do |f|
+= form_for(@car_search, :html => {class: 'form-horizontal'} ) do |f|
   -if @car_search.errors.any?
     div id="error_explanation"
       h2
@@ -9,22 +9,25 @@
         - @car_search.errors.full_messages.each do |message|
           li = message
 
-  div class="field"
-    = f.label :scheduled_to
-    br
-    = f.datetime_select :scheduled_to
-  div class="field"
-    = f.label :from
-    br
-    = f.text_field :from
-  div class="field"
-    = f.label :to
-    br
-    = f.text_field :to
-  div class="field"
-    = f.label :pinned
-    br
-    = f.check_box :pinned
+  div class="form-group col-sm-6"
+    label for="car_search_time" class="col-xs-2 control-label" Час
+    div.col-xs-10
+      =f.time_field :time
+  div class="form-group col-sm-6"
+    label for="car_search_from" class="col-xs-2 control-label" Звідки
+    div class="col-xs-10"
+      = f.text_field :from
+  div class="form-group col-sm-6"
+    label for="car_search_from" class="col-xs-2 control-label" Куди
+    div class="col-xs-10"
+      = f.text_field :to
+  div class="form-group col-sm-6"
+    div class="col-sm-offset-2 col-sm-10"
+      div class="checkbox"
+        label
+          =f.check_box :pinned do
+          'Регулярний маршрут
+
   div class="actions"
     = f.submit
 
