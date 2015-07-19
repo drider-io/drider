@@ -10,25 +10,22 @@
           li = message
 
   div class="form-group col-sm-6"
-    label for="car_search_time" class="col-xs-2 control-label" Час
-    div.col-xs-10
-      =f.time_field :time
-  div class="form-group col-sm-6"
     label for="car_search_from" class="col-xs-2 control-label" Звідки
     div class="col-xs-10"
-      = f.text_field :from
+      = f.text_field :from, placeholder: 'вулиця дім або координати', class: 'address'
   div class="form-group col-sm-6"
     label for="car_search_from" class="col-xs-2 control-label" Куди
     div class="col-xs-10"
-      = f.text_field :to
+      = f.text_field :to, placeholder: 'вулиця дім або координати', class: 'address'
   div class="form-group col-sm-6"
-    div class="col-sm-offset-2 col-sm-10"
-      div class="checkbox"
-        label
-          =f.check_box :pinned do
-          'Регулярний маршрут
-
-  div class="actions"
+    label for="car_search_time" class="col-xs-2 control-label" Час
+    div.col-xs-10
+      =f.time_field :time
+  div.form-group.col-sm-6.car_search_pinned
+    div.col-xs-2 &nbsp;
+    =f.check_box :pinned do
+    'Регулярний маршрут
+  div class="actions col-sm-12"
     = f.submit
 
 =render 'shared/gmap'
