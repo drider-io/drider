@@ -1,6 +1,7 @@
 class CarSearchesController < ApplicationController
   layout 'account'
   before_action :set_car_search, only: [:show, :edit, :update, :destroy]
+  before_action { menu_set_active('search') }
 
   # GET /car_searches
   # GET /car_searches.json
