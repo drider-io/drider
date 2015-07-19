@@ -2,23 +2,24 @@
   -if @car_search.errors.any?
     div id="error_explanation"
       h2
-        = pluralize(@car_search.errors.count, "error")
-        'prohibited this car_search from being saved:
+        = pluralize(@car_search.errors.count, "Помилки")
+        '
+        ' в пошуку
 
       ul
-        - @car_search.errors.full_messages.each do |message|
+        - @car_search.errors.messages.values.flatten.each do |message|
           li = message
 
   div class="form-group col-sm-6"
-    label for="car_search_from" class="col-xs-2 control-label" Звідки
+    =label_tag :from, 'Звідки', class: "col-xs-2 control-label"
     div class="col-xs-10"
       = f.text_field :from, placeholder: 'вулиця дім або координати', class: 'address'
   div class="form-group col-sm-6"
-    label for="car_search_from" class="col-xs-2 control-label" Куди
+    =label_tag :to, 'Куди', class: "col-xs-2 control-label"
     div class="col-xs-10"
       = f.text_field :to, placeholder: 'вулиця дім або координати', class: 'address'
   div class="form-group col-sm-6"
-    label for="car_search_time" class="col-xs-2 control-label" Час
+    =label_tag :time, 'Час', class: "col-xs-2 control-label"
     div.col-xs-10
       =f.time_field :time
   div.form-group.col-sm-6.car_search_pinned

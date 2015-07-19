@@ -36,3 +36,15 @@ uk:
   car_request_status_desc_ride: В дорозі
   car_request_status_desc_canceled: Скасовано
   car_request_status_desc_finished: Завершено
+
+  activerecord:
+    errors:
+      models:
+        car_search:
+          attributes:
+            time:
+              blank: Час має бути вказаний
+            from:
+              blank: Відсутнє місце відправлення
+            to:
+              blank: Відсутнє місце призначення
