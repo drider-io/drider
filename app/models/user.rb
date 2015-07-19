@@ -17,4 +17,8 @@ class User < ActiveRecord::Base
     end
   end
 
+  def first_name
+    name.try(:match, /^(\w+)/).try(:[], 1)
+  end
+
 end

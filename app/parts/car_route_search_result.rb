@@ -28,4 +28,16 @@ class CarRouteSearchResult
   def shared_route
     GeoLocation.new.to_g(route['sub_route'])
   end
+
+  def pickup_time
+    '12:00'
+  end
+
+  def created_at
+    route['created_at']
+  end
+
+  def driver
+    @driver ||= User.find(route['user_id'])
+  end
 end

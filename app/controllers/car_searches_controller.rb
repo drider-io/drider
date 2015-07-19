@@ -50,7 +50,7 @@ class CarSearchesController < ApplicationController
   def update
     respond_to do |format|
       if @car_search.update(car_search_params)
-        format.html { redirect_to @car_search, notice: 'Car search was successfully updated.' }
+        format.html { redirect_to @car_search }
         format.json { render :show, status: :ok, location: @car_search }
       else
         format.html { render :edit }

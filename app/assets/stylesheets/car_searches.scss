@@ -3,6 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .car_search {
+  margin-left: 10px;
   #map-canvas {
     width: 100%;
     height: 500px;
@@ -15,4 +16,18 @@
   .car_search_pinned {
     line-height: 3em;
   }
+}
+
+.ava-line{
+  margin-left: 58px;
+  .avatar {
+    float: left;
+    margin-top: 3px;
+    margin-left: -58px;
+  }
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
 }
