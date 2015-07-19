@@ -68,7 +68,7 @@ class CarSearchesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_search_params
       search_params = params.require(:car_search)
-      search_params.permit(:scheduled_to, :pinned)
+      search_params.permit(:time, :pinned)
       .tap{|params|
         params[:user] = current_user
         from_m = GeoLocation.new.str_to_m(search_params[:from])
