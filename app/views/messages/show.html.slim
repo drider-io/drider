@@ -1,6 +1,6 @@
 =image_tag @correspondent.image_url
 =@correspondent.name
-ul
+ul.list-unstyled
   -@messages.each do |message|
     -if message.car_request_id
       li

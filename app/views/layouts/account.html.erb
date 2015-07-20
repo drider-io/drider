@@ -1,4 +1,6 @@
 <% @layout_name = 'application' %>
 <%= render partial: 'shared/navbar' %>
-<%= yield %>
+<div class="container">
+  <%= yield %>
+</div>
 <%= parent_layout(:application) %>
