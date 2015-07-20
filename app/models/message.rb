@@ -3,6 +3,12 @@ class Message < ActiveRecord::Base
   belongs_to :to, class_name: 'User'
   belongs_to :car_request
 
+  enum delivery_satatus: {
+      sent:      'sent',
+      delivered: 'delivered',
+      read:      'read',
+    }
+
   scope :index, -> (user) {
     sql =<<SQL
 SELECT MAX(id) as id FROM messages JOIN

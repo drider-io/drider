@@ -7,6 +7,11 @@ class CarRequest < ActiveRecord::Base
       finished: 'finished',
       canceled: 'canceled',
     }
+  enum delivery_satatus: {
+      sent: 'sent',
+      delivered: 'delivered',
+      read: 'read',
+    }
 
 
   belongs_to :driver, class_name: 'User'

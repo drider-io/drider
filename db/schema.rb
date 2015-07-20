@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150720145453) do
+ActiveRecord::Schema.define(version: 20150720210826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,19 +88,8 @@ ActiveRecord::Schema.define(version: 20150720145453) do
   add_index "car_sessions", ["number"], name: "index_car_sessions_on_number", using: :btree
   add_index "car_sessions", ["processed"], name: "index_car_sessions_on_processed", using: :btree
 
-  create_table "messages", force: :cascade do |t|
-    t.integer  "from_id"
-    t.integer  "to_id"
-    t.integer  "car_request_id"
-    t.string   "body"
-    t.datetime "seen_at"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
-  add_index "messages", ["car_request_id"], name: "index_messages_on_car_request_id", using: :btree
-  add_index "messages", ["from_id"], name: "index_messages_on_from_id", using: :btree
-  add_index "messages", ["to_id"], name: "index_messages_on_to_id", using: :btree
+# Could not dump table "messages" because of following StandardError
+#   Unknown type 'delivery_status' for column 'delivery_status'
 
   create_table "points", force: :cascade do |t|
     t.geography "lonlat",     limit: {:srid=>4326, :type=>"point", :geographic=>true}
