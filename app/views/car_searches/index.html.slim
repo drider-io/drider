@@ -1,0 +1,14 @@
+=link_to 'Новий пошук', new_car_search_path, class: 'btn btn-success btn-lg'
+h1 Пошуки
+-if @pinned_car_searches.to_a.count > 0
+  h2 На кожен день
+  ul
+    -@pinned_car_searches.each do |car_search|
+      li.row
+        =render car_search
+-if @unpinned_car_searches.to_a.count > 0
+  h2 Нерегулярні
+  ul
+    -@unpinned_car_searches.each do |car_search|
+      li.row
+        =render car_search

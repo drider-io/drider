@@ -2,6 +2,7 @@ class CarRequestsController < ApplicationController
   layout 'account'
   before_action :set_car_request, only: [:edit, :update, :destroy]
   before_action :user_required
+  before_action { menu_set_active('requests') }
 
   # GET /car_requests
   # GET /car_requests.json

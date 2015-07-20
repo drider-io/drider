@@ -1,0 +1,10 @@
+div.col-xs-12
+  'Звідки:
+  strong =car_search.from_title
+div.col-xs-12
+  'Куди:
+  strong =car_search.to_title
+div.col-xs-12
+  'Час:
+  strong
+    =link_to car_search.time.to_formatted_s(:time), car_search

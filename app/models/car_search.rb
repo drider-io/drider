@@ -25,7 +25,9 @@ class CarSearch < ActiveRecord::Base
   # def to_g
   #   GeoLocation.new.to_g(to_m) if to_m
   # end
-
+  scope :with_user, ->(user) {
+    where(user: user)
+  }
 
   def from
     from_title

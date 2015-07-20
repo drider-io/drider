@@ -6,8 +6,8 @@ class CarSearchesController < ApplicationController
   # GET /car_searches
   # GET /car_searches.json
   def index
-    @car_searches = CarSearch.all
-    p
+    @pinned_car_searches = CarSearch.with_user(current_user).where(pinned: true).order('id DESC').limit(10)
+    @unpinned_car_searches = CarSearch.with_user(current_user).where(pinned: false).order('id DESC').limit(10)
   end
 
   # GET /car_searches/1

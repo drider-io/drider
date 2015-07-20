@@ -2,6 +2,7 @@ class MessagesController < ApplicationController
   layout 'account'
   # before_action :set_message, only: [:show, :edit, :update, :destroy]
   before_action :user_required
+  before_action { menu_set_active('messages') }
 
   # GET /messages
   # GET /messages.json
