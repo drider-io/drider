@@ -1,11 +1,14 @@
 li
   -cor = car_request.cor(current_user)
-  =image_tag cor.image_url
-  =cor.name
-  =car_request.pickup_address
-  =car_request.drop_address
-  =t("car_request_status_desc_#{car_request.status}")
-  =form_tag car_request_path(car_request), method: 'PATCH' do
-    -[:accept, :confirm, :finish, :cancel].each do |action|
-      -if car_request.send("may_#{action}?",current_user)
-        =button_tag t(action), type: 'submit', name: 'form_action', value: action
+  div.ava-line
+    =image_tag cor.image_url, class: 'avatar'
+    =cor.name
+    div
+      =car_request.pickup_address
+      '->
+      =car_request.drop_address
+    =t("car_request_status_desc_#{car_request.status}")
+    =form_tag car_request_path(car_request), method: 'PATCH' do
+      -[:accept, :confirm, :finish, :cancel].each do |action|
+        -if car_request.send("may_#{action}?",current_user)
+          =button_tag t(action), type: 'submit', name: 'form_action', value: action
