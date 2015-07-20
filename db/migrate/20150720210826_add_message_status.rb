@@ -4,8 +4,8 @@ class AddMessageStatus < ActiveRecord::Migration
       CREATE TYPE delivery_status AS ENUM ('sent', 'delivered', 'read');
     SQL
 
-    add_column :messages, :delivery_status, :delivery_status
-    add_column :car_requests, :delivery_status, :delivery_status
+    add_column :messages, :delivery_status, :delivery_status, default: 'sent', null: false
+    add_column :car_requests, :delivery_status, :delivery_status, default: 'sent', null: false
   end
 
   def down
