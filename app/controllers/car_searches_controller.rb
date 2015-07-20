@@ -27,7 +27,8 @@ class CarSearchesController < ApplicationController
 
   # GET /car_searches/new
   def new
-    @car_search = CarSearch.new
+    time = (Time.now + 1.hour).beginning_of_minute
+    @car_search = CarSearch.new(time: time)
   end
 
   # POST /car_searches

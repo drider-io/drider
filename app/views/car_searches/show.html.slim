@@ -17,12 +17,14 @@ div.car_search
           =route.driver.first_name
           div
             =route.pickup_address
+            '
             '->
+            '
             =route.drop_address
           div
             =form_tag(car_requests_path, method: :post)
               =hidden_field_tag :car_route_id, route.id
-              =hidden_field_tag :time, [route.drop_location.y, route.drop_location.x]
+              =hidden_field_tag :time, @car_search.time.to_formatted_s(:time)
               =hidden_field_tag :pickup_address, route.pickup_address
               =hidden_field_tag :drop_address, route.drop_address
               =hidden_field_tag :pickup_location, [route.pickup_location.y, route.pickup_location.x]

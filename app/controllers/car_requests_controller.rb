@@ -69,6 +69,9 @@ class CarRequestsController < ApplicationController
         p[:car_route] = CarRoute.find(params[:car_route_id])
         p[:driver_id] = p[:car_route].user_id
         p[:status] = 'sent'
+        time = DateTime.parse(params[:time])
+        time += 1.day if time < Time.now
+        p[:scheduled_to] = time
       }
     end
 end
