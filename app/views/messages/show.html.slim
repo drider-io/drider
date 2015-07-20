@@ -7,10 +7,10 @@ ul.list-unstyled
         =render partial: 'car_requests/car_request', locals: { car_request: message.car_request }
     li
       -if message.from_id == current_user.id
-        div style="text-align: right"
+        div.alert.alert-info style="text-align: right"
           =message.body
       -else
-        div style="text-align: left"
+        div.alert.alert-warning style="text-align: left"
           =message.body
 
 div
