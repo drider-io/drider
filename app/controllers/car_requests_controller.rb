@@ -7,7 +7,7 @@ class CarRequestsController < ApplicationController
   # GET /car_requests
   # GET /car_requests.json
   def index
-    @car_requests = CarRequest.with_user(current_user)
+    @car_requests = CarRequest.with_user(current_user).order('id DESC')
   end
 
   # GET /car_requests/new

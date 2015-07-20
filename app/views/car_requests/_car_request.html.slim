@@ -3,7 +3,10 @@ li
   div.ava-line
     =image_tag cor.image_url, class: 'avatar'
     =cor.name
+    '
+    span.text-muted =tiny_time_from_now(car_request.created_at)
     div
+      =car_request.scheduled_to.to_formatted_s(:time)
       =car_request.pickup_address
       '->
       =car_request.drop_address

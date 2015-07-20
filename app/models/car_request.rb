@@ -20,7 +20,7 @@ class CarRequest < ActiveRecord::Base
 
   scope :with_user, ->(user) {
     r = arel_table
-    where(r[:driver_id].eq(user.id).or(r[:passenger_id].eq(user.id))).order('id ASC')
+    where(r[:driver_id].eq(user.id).or(r[:passenger_id].eq(user.id)))
   }
 
   def cor(user)
