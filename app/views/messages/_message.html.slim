@@ -1,6 +1,10 @@
+-cor = message.cor(current_user)
 li
-  -cor = message.cor(current_user)
-  =link_to message_path(cor) do
-    =image_tag cor.image_url
-    =cor.name
-  =message.body
+  div.ava-line
+    =link_to message_path(cor) do
+      =image_tag cor.image_url, class: 'avatar'
+      =cor.name
+    '
+    span.text-muted =tiny_time_from_now(message.created_at)
+    div
+      =message.body

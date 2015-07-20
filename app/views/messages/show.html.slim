@@ -16,5 +16,7 @@ ul
 div
   =form_tag messages_path do
     =hidden_field_tag :to_id, @correspondent.id
-    =text_field_tag :body
-    =button_tag 'Писати'
+    div.input-group
+      =text_field_tag :body,'', class: 'form-control', placeholder: 'Повідомлення'
+      span.input-group-btn
+        =button_tag 'Писати', class: 'btn btn-default'
