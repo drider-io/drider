@@ -203,10 +203,11 @@
                 <div class="clearfix"></div>
                 <small><em></em></small>
             </div>
-            <div class="space"></div>
 
 
           <div id="map-canvas"></div>
+            <div class="space"></div>
+
         </div>
     </div>
 
@@ -299,18 +300,18 @@
       map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
 
-      var connection = new WebSocket('ws://'+window.location.hostname+':3000/chat');
-      connection.onopen = function () {
-        connection.send('Ping'); // Send the message 'Ping' to the server
-      };
-
-      // Log errors
-      connection.onerror = function (error) {
-        console.log('WebSocket Error ' + error);
-      };
-
-      // Log messages from the server
-      connection.onmessage = function (e) {
-        console.log('Server: ' + e.data);
-      };
+//      var connection = new WebSocket('ws://'+window.location.hostname+':4000/chat');
+//      connection.onopen = function () {
+//        connection.send('Ping'); // Send the message 'Ping' to the server
+//      };
+//
+//      // Log errors
+//      connection.onerror = function (error) {
+//        console.log('WebSocket Error ' + error);
+//      };
+//
+//      // Log messages from the server
+//      connection.onmessage = function (e) {
+//        console.log('Server: ' + e.data);
+//      };
     </script>
