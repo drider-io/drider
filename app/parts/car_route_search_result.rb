@@ -30,8 +30,8 @@ class CarRouteSearchResult
     GeoLocation.new.to_g(route['sub_route'])
   end
 
-  def created_at
-    route['created_at']
+  def started_at
+    route['started_at']
   end
 
   def driver

@@ -16,6 +16,7 @@ class CarRequest < ActiveRecord::Base
 
   belongs_to :driver, class_name: 'User'
   belongs_to :passenger, class_name: 'User'
+  belongs_to :active_user, class_name: 'User'
   has_many :messages
   belongs_to :car_route
 
@@ -26,6 +27,10 @@ class CarRequest < ActiveRecord::Base
   scope :with_user, ->(user) {
     r = arel_table
     where(r[:driver_id].eq(user.id).or(r[:passenger_id].eq(user.id)))
+  }
+
+  scope :unread, ->(user) {
+    where(delivery_status: ['posted','delivered'], active_user: user)
   }
 
   def cor(user)
@@ -54,27 +59,31 @@ class CarRequest < ActiveRecord::Base
     state :finished
     state :canceled
 
-    event :accept do
+    event :accept, after: :update_delivery do
       transitions :from => :sent, :to => :accepted, :guard=>:is_driver?
     end
 
-    event :confirm do
+    event :confirm, after: :update_delivery do
       transitions :from => :accepted, :to => :confirmed, :guard=>:is_passenger?
     end
 
-    event :ride do
+    event :ride, after: :update_delivery do
       transitions :from => :confirmed, :to => :ride
     end
 
-    event :finish do
+    event :finish, after: :update_delivery do
       transitions :from => [:ride, :confirmed], :to => :finished
     end
 
-    event :cancel do
+    event :cancel, after: :update_delivery do
       transitions :from => [:sent, :accepted, :confirmed], :to => :canceled
     end
 
+  end
 
+  def update_delivery(n, user)
+    self.active_user = cor(user)
+    self.delivery_status='posted'
   end
 
 

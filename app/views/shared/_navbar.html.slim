@@ -15,8 +15,8 @@ nav id="tf-menu" class="navbar navbar-default on"
         li class=('active' if 'requests' == @active_menu)
           a href="#{car_requests_path}" class="page-scroll"
             'Запити
-            -if @requests_count
-              span class="badge" =@requests_count
+            -if unread_requests_count > 0
+              span class="badge" =unread_requests_count
         li class=('active' if 'messages' == @active_menu)
           a href="#{messages_path}" class="page-scroll"
             'Повідомлення

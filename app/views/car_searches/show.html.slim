@@ -10,7 +10,7 @@ div.car_search
       div.col-sm-3
         label актуальнісь:
         '
-        =distance_of_time_in_words_to_now(route.created_at)
+        =distance_of_time_in_words_to_now(route.started_at)
       div.col-sm-12
         div.ava-line
           =image_tag route.driver.image_url, class: 'avatar'

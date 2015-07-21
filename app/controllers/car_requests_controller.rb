@@ -8,6 +8,7 @@ class CarRequestsController < ApplicationController
   # GET /car_requests.json
   def index
     @car_requests = CarRequest.with_user(current_user).order('id DESC')
+    mark_requests_as_read
   end
 
   # GET /car_requests/new
@@ -68,10 +69,17 @@ class CarRequestsController < ApplicationController
         p[:passenger] = current_user
         p[:car_route] = CarRoute.find(params[:car_route_id])
         p[:driver_id] = p[:car_route].user_id
+        p[:active_user_id] = p[:driver_id]
         p[:status] = 'sent'
         time = DateTime.parse(params[:time])
         time += 1.day if time < Time.now
         p[:scheduled_to] = time
       }
     end
+
+  def mark_requests_as_read
+    to_update = @car_requests.select{|m| m.delivery_status != 'read' && m.active_user_id == current_user.id}
+    CarRequest.where(id: to_update).update_all(delivery_status: 'read') if to_update.present?
+  end
+
 end

@@ -31,7 +31,7 @@ class MessagesController < ApplicationController
 
 
   def mark_messages_as_read
-    to_update = @messages.select{|m| m.delivery_status != 'read' && m.to_id == current_user.id}
+    to_update = @messages.to_a.select{|m| m.delivery_status != 'read' && m.to_id == current_user.id}
     Message.where(id: to_update).update_all(delivery_status: 'read') if to_update.present?
   end
 
