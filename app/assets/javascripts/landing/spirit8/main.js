@@ -125,4 +125,6 @@ function main() {
 
 
 }
-main();
+$(window).load(function() {
+  main();
+});

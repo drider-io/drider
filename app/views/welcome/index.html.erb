@@ -23,8 +23,8 @@
             <li><a href="#tf-team" class="page-scroll">Як</a></li>
             <li><a href="#tf-services" class="page-scroll">Водію</a></li>
             <li><a href="#tf-clients" class="page-scroll">Пасажиру</a></li>
-            <li><a href="#tf-testimonials" class="page-scroll">Мара</a></li>
-            <li><a href="#contact" class="page-scroll">Контакт</a></li>
+            <li><a href="#tf-contact" class="page-scroll">Мара</a></li>
+            <li><a href="#tf-testimonials" class="page-scroll">Контакт</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -48,7 +48,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="/img/02.jpg" class="img-responsive">
+                    <img src="<%= image_path('landing/car.jpg') %>" class="img-responsive">
                 </div>
                 <div class="col-md-6">
                     <div class="about-text">
@@ -120,7 +120,7 @@
       <div class="container">
           <div class="row">
               <div class="col-md-6">
-                  <img src="/img/driver.jpg" class="img-responsive">
+                  <img src="<%= image_url('landing/driver.jpg') %>" class="img-responsive">
               </div>
               <div class="col-md-6">
                   <div class="about-text">
@@ -133,7 +133,7 @@
                       <ul class="about-list">
                           <li>
                               <span class="fa fa-dot-circle-o"></span>
-                              <strong></strong> <em>Зареєструватися в спільноті</em>
+                              <strong></strong> <em><a href="/users/sign_in">Зареєструватися</a> в спільноті</em>
                           </li>
                           <li>
                               <span class="fa fa-dot-circle-o"></span>
@@ -165,14 +165,14 @@
                 </div>
               <div class="row">
                   <div class="col-md-6">
-                      <img src="/img/passenger.jpg" class="img-responsive">
+                      <img src="<%= image_path('landing/passenger.jpg') %>" class="img-responsive">
                   </div>
                   <div class="col-md-6">
                       <div class="about-text">
                           <ul class="about-list">
                               <li>
                                   <span class="fa fa-dot-circle-o"></span>
-                                  <strong></strong> <em>Зареєструватися в спільноті</em>
+                                  <strong></strong> <em><a href="/users/sign_in">Зареєструватися</a> в спільноті</em>
                               </li>
                               <li>
                                   <span class="fa fa-dot-circle-o"></span>
@@ -193,7 +193,7 @@
 
     <!-- Portfolio Section
     ==========================================-->
-    <div id="tf-testimonials">
+    <div id="tf-contact">
         <div class="container"> <!-- Container -->
             <div class="section-title text-center center">
                 <h2><strong>Мапа</strong></h2>
@@ -213,7 +213,7 @@
 
     <!-- Testimonials Section
     ==========================================-->
-    <div id="contact" class="text-center">
+    <div id="tf-testimonials" class="text-center">
         <div class="overlay">
             <div class="container">
               <div class="row">
