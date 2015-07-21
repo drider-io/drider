@@ -7,8 +7,8 @@ class CarRequest < ActiveRecord::Base
       finished: 'finished',
       canceled: 'canceled',
     }
-  enum delivery_satatus: {
-      sent: 'sent',
+  enum delivery_status: {
+      posted: 'posted',
       delivered: 'delivered',
       read: 'read',
     }

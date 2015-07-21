@@ -4,7 +4,7 @@ class Message < ActiveRecord::Base
   belongs_to :car_request
 
   enum delivery_satatus: {
-      sent:      'sent',
+      posted:      'posted',
       delivered: 'delivered',
       read:      'read',
     }
