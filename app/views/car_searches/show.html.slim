@@ -29,7 +29,7 @@ div.car_search
               =hidden_field_tag :drop_address, route.drop_address
               =hidden_field_tag :pickup_location, [route.pickup_location.y, route.pickup_location.x]
               =hidden_field_tag :drop_location, [route.drop_location.y, route.drop_location.x]
-              button.btn.btn-xs.btn-primary type="submit" Резервувати
+              button.btn.btn-xs.btn-primary class=(@car_requests_drivers_ids.include?(route.driver.id) && 'disabled' ) type="submit" Резервувати
 
 
     hr

@@ -16,7 +16,7 @@ class CarSearchesController < ApplicationController
     @routes = CarRouteSearcher.new.search(@car_search)
     @from_marker = GeoLocation.new.to_g(@car_search.from_m)
     @to_marker = GeoLocation.new.to_g(@car_search.to_m)
-
+    @car_requests_drivers_ids = CarRequest.where(passenger: current_user).where.not(status: ['finished','canceled']).map(&:driver_id)
 
     @map_data_url = car_search_url(@car_search, format: :json)
     respond_to do |format|
