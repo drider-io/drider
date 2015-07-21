@@ -35,11 +35,17 @@ SQL
             logger.info "consider route(#{same_route['id']}), distance #{same_route['distance']} as a same route"
             session.update!(processed: true, car_route_id: same_route['id'])
           else
+            max_min = session.car_locations.select('max(created_at) as max, min(created_at) as min').to_a.first
             sql =<<SQL
-INSERT INTO car_routes (user_id, created_at, updated_at, route) VALUES( $1, $2, $2, ST_GeomFromEWKT($3)) RETURNING id::text
+INSERT INTO car_routes (user_id, created_at, updated_at, route, started_at, finished_at) VALUES( $1, $2, $2, ST_GeomFromEWKT($3), $4, $5) RETURNING id::text
 SQL
             ActiveRecord::Base.transaction do
-            result = ActiveRecord::Base.connection.exec_query(sql,'SQL', [[nil, session.user.id], [nil, Time.now], [nil, result.first['route']]]).first
+            result = ActiveRecord::Base.connection.exec_query(sql,'SQL', [[nil, session.user.id],
+                                                                          [nil, Time.now],
+                                                                          [nil, result.first['route']],
+                                                                          [nil, max_min['min']],
+                                                                          [nil, max_min['max']]]
+            ).first
             session.update!(processed: true, car_route_id: result['id'])
             # p result
             end

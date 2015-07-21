@@ -1,7 +1,8 @@
 class CarRouteSearchResult
-  attr_reader :route
-  def initialize(route)
+  attr_reader :route, :pickup_time
+  def initialize(route, pickup_time)
     @route = route
+    @pickup_time = pickup_time
   end
 
   def pickup_address
@@ -27,10 +28,6 @@ class CarRouteSearchResult
 
   def shared_route
     GeoLocation.new.to_g(route['sub_route'])
-  end
-
-  def pickup_time
-    '12:00'
   end
 
   def created_at
