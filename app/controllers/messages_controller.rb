@@ -3,6 +3,7 @@ class MessagesController < ApplicationController
   # before_action :set_message, only: [:show, :edit, :update, :destroy]
   before_action :user_required
   before_action { menu_set_active('messages') }
+  # after_action :mark_messages_as_read, only: [:show]
 
   # GET /messages
   # GET /messages.json
@@ -15,6 +16,7 @@ class MessagesController < ApplicationController
   def show
     @correspondent = User.find(params[:id])
     @messages = Message.conversation(@correspondent, current_user)
+    mark_messages_as_read
   end
 
   # POST /messages
@@ -25,6 +27,12 @@ class MessagesController < ApplicationController
     redirect_to message_url(correspondent.id) and return if params[:body].blank?
     msg = Message.create(from: current_user, to: correspondent, body: params[:body])
     redirect_to message_url(correspondent.id)
+  end
+
+
+  def mark_messages_as_read
+    to_update = @messages.select{|m| m.delivery_status != 'read' && m.to_id == current_user.id}
+    Message.where(id: to_update).update_all(delivery_status: 'read') if to_update.present?
   end
 
   private

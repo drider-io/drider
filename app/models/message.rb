@@ -9,6 +9,9 @@ class Message < ActiveRecord::Base
       read:      'read',
     }
 
+  scope :unread, -> (user) {
+    where(delivery_status: ['posted','delivered'], to: user)
+  }
   scope :index, -> (user) {
     sql =<<SQL
 SELECT MAX(id) as id FROM messages JOIN
