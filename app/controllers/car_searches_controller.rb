@@ -73,6 +73,7 @@ class CarSearchesController < ApplicationController
       search_params.permit(:time, :pinned)
       .tap{|params|
         params[:user] = current_user
+        params[:pinned] ||= false
         from_m = GeoLocation.new.str_to_m(search_params[:from])
         to_m = GeoLocation.new.str_to_m(search_params[:to])
         if from_m

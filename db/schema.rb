@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150721185120) do
+ActiveRecord::Schema.define(version: 20150721222521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20150721185120) do
   add_index "car_routes", ["is_actual"], name: "index_car_routes_on_is_actual", using: :btree
 
   create_table "car_searches", force: :cascade do |t|
-    t.integer  "user_id",                                          null: false
+    t.integer  "user_id"
     t.time     "time",                                             null: false
     t.string   "from_title",                                       null: false
     t.string   "to_title",                                         null: false

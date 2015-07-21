@@ -37,6 +37,18 @@
             <div class="content">
                 <h1><strong><span class="color">Drider</span></strong> вітає вас</h1>
                 <p class="lead">Ми спільнота де я <strong>підвезу</strong> і мене <strong>підвезуть</strong></p>
+              <div class="container" style="width: 400px;">
+                <%= form_tag car_searches_path, method: 'POST', id:'landing_search_from' do %>
+                  <input type="hidden"  name="car_search[from]" class="hidden" value="49.8419071, 24.0315675"/>
+                  <input type="hidden"  name="car_search[time]" value="<%= (Time.now + 1.hour).beginning_of_minute %>"/>
+                  <div class="input-group" style="opacity: 0.6;">
+                  <input class="form-control" type="text" placeholder="вулиця, дім" name="car_search[to]"/>
+                  <span class="input-group-btn">
+                          <button type="submit" class="btn btn-default" type="button">Шукати водія</button>
+                        </span>
+                  </div>
+                <% end %>
+              </div>
                 <a href="#tf-about" class="fa fa-angle-down page-scroll"></a>
             </div>
         </div>
