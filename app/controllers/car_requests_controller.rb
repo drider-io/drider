@@ -25,7 +25,7 @@ class CarRequestsController < ApplicationController
     @car_request = CarRequest.new(car_request_params)
     respond_to do |format|
       if @car_request.save
-        format.html { redirect_to car_requests_url, notice: 'Car request was successfully created.' }
+        format.html { redirect_to car_requests_url }
         format.json { render :show, status: :created, location: @car_request }
       else
         format.html { redirect_to new_car_search, notice: 'car request failed'}
