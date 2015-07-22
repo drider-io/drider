@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'welcome#index'
+   get '/welcome' => 'welcome#index', as: :welcome
+   root 'welcome#entry'
 
   namespace :api do
       resources :log, only: [:create]
