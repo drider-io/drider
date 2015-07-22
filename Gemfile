@@ -52,6 +52,7 @@ end
 
 gem 'tubesock'
 gem 'puma'
+gem 'foreman'
 gem 'geocoder'
 gem 'activerecord-postgis-adapter'
 gem 'devise'
