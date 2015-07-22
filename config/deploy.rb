@@ -84,7 +84,7 @@ task :deploy => :environment do
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
     # invoke :'puma:phased_restart'
-    invoke 'foreman:export'
+    # invoke 'foreman:export'
     to :launch do
       invoke 'foreman:restart'
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
