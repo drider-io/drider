@@ -16,6 +16,7 @@ class MessagesController < ApplicationController
   def show
     @correspondent = User.find(params[:id])
     @messages = Message.conversation(@correspondent, current_user)
+    @messages_by_date = @messages.group_by {|m| m.created_at.to_date}
     mark_messages_as_read
   end
 
