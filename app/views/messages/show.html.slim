@@ -8,7 +8,7 @@ div.messages
           =date
       -messages.each do |message|
         -if message.car_request_id
-          li
+          li style="clear: both"
             =render partial: 'car_requests/car_request', locals: { car_request: message.car_request }
         li
           -if message.from_id == current_user.id
