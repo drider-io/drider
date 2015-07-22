@@ -13,7 +13,7 @@ li
       '->
       =car_request.drop_address
       '
-      a href="#req_map#{car_request.id}" Мапа
+      =link_to 'Мапа', "#{car_requests_path}#req_map#{car_request.id}", :"data-no-turbolink" => true
     strong
       =t("car_request_status_desc_#{car_request.status}")
     =form_tag car_request_path(car_request), method: 'PATCH' do

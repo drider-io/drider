@@ -37,4 +37,4 @@ function onHashChange(e) {
   }
 }
 $(window).on('hashchange', onHashChange);
-$(window).on('load',onHashChange);
+$( document ).ready(onHashChange);
