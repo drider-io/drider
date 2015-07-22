@@ -20,8 +20,8 @@ class CarRequest < ActiveRecord::Base
   has_many :messages
   belongs_to :car_route
 
-  after_create do
-    ActiveSupport::Notifications.instrument('car_request_created', request: self)
+  after_save do
+    ActiveSupport::Notifications.instrument('car_request_changed', request: self)
   end
 
   scope :with_user, ->(user) {
