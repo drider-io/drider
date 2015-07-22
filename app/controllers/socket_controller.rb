@@ -42,6 +42,10 @@ class SocketController < ApplicationController
             p e
           end
         end
+
+        tubesock.onclose do |data|
+          CarLocationsProcessor.perform_in(15.minutes, car_session.id) if car_session
+        end
       end
 
   end
