@@ -3,6 +3,7 @@ require 'mina/rails'
 # require 'mina/git'
 require 'mina/puma'
 require "mina/rsync"
+require 'mina/foreman'
 # require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
 # require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
@@ -11,7 +12,7 @@ require "mina/rsync"
 #   deploy_to    - Path to deploy into.
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
-
+set :application, "car"
 set :domain, 'car'
 set :deploy_to, '/var/www/cardriver'
 # set :repository, 'git@bitbucket.org:2rba/carwebdriver.git'
@@ -82,8 +83,10 @@ task :deploy => :environment do
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
-    invoke :'puma:phased_restart'
+    # invoke :'puma:phased_restart'
+    invoke 'foreman:export'
     to :launch do
+      invoke 'foreman:restart'
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
     end
