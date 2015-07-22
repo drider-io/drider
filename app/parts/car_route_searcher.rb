@@ -29,7 +29,7 @@ ST_DWithin(route, ?, 500 )
     routes = CarRoute.select('*, ST_LineSubstring(route, pickup_float, drop_float) as sub_route')
         .from(inner_query)
         .where('drop_float > pickup_float')
-        .where('created_at >= ?', Time.now - 10.days)
+        #TODO .where('updated_at >= ?', Time.now - 10.days)
     p routes
     # r = Geocoder.search([29.951,-90.081])
     grouped_routes = routes.group_by { |route| route.user_id }
