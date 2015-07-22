@@ -7,13 +7,13 @@ ul.list-unstyled
         =render partial: 'car_requests/car_request', locals: { car_request: message.car_request }
     li
       -if message.from_id == current_user.id
-        div.alert.alert-info style="text-align: right"
+        div.alert.alert-info.pull-right style="text-align: right; width: 80%"
           =message.body
       -else
-        div.alert.alert-warning style="text-align: left"
+        div.alert.alert-warning.pull-left style="text-align: left; width: 80%"
           =message.body
 
-div
+div style="clear: both;"
   =form_tag messages_path do
     =hidden_field_tag :to_id, @correspondent.id
     div.input-group
