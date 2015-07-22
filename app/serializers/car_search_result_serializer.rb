@@ -12,7 +12,25 @@ class CarSearchResultSerializer
               type: 'Feature',
               properties: {
                   id: e.id,
-                  color: "##{color_generator.create_hex}"
+                  color: "##{color_generator.create_hex}",
+                  markers: [
+                      {
+                          title: 'Початок',
+                          position: {
+                            lat: e.pickup_location.y,
+                            lng: e.pickup_location.x
+                          },
+                      },
+                      {
+                          title: 'Призначення',
+                          position: {
+                            lat: e.drop_location.y,
+                            lng: e.drop_location.x
+                          },
+                          icon: ActionController::Base.helpers.image_path("icons/finish.png"),
+                      },
+
+                  ]
               },
               geometry: RGeo::GeoJSON.encode(e.shared_route)
           }

@@ -12,9 +12,12 @@ li
       =car_request.pickup_address
       '->
       =car_request.drop_address
+      '
+      a href="#req_map#{car_request.id}" Мапа
     strong
       =t("car_request_status_desc_#{car_request.status}")
     =form_tag car_request_path(car_request), method: 'PATCH' do
       -[:accept, :confirm, :finish, :cancel].each do |action|
         -if car_request.send("may_#{action}?",current_user)
           =button_tag t(action), type: 'submit', name: 'form_action', value: action, class: 'btn btn-default'
+    div.map-canvas id="req_map#{car_request.id}"

@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     resources :car_searches, only: [ :index, :new, :create, :show, :update ]
   end
 
-  resources :car_requests, only: [ :index, :create, :update ]
+  resources :car_requests, only: [ :index, :create, :update, :show ]
   resources :messages, only: [ :index, :show, :create ]
 
   # Example of regular route:

@@ -6,11 +6,11 @@ class CarRouteSearchResult
   end
 
   def pickup_address
-    GeoLocation.new(location: route['pickup_point']).address
+    GeoLocation.new(location: route['pickup_location']).address
   end
 
   def drop_address
-    GeoLocation.new(location: route['drop_point']).address
+    GeoLocation.new(location: route['drop_location']).address
   end
 
   def id
@@ -19,11 +19,11 @@ class CarRouteSearchResult
 
 
   def pickup_location
-    GeoLocation.new(location: route['pickup_point']).g
+    GeoLocation.new(location: route['pickup_location']).g
   end
 
   def drop_location
-    GeoLocation.new(location: route['pickup_point']).g
+    GeoLocation.new(location: route['drop_location']).g
   end
 
   def shared_route

@@ -16,8 +16,8 @@ class CarRouteSearcher
     inner_query = CarRoute
             .select_with_args('
 *,
-ST_ClosestPoint(route, ?) as pickup_point,
-ST_ClosestPoint(route, ?) as drop_point,
+ST_ClosestPoint(route, ?) as pickup_location,
+ST_ClosestPoint(route, ?) as drop_location,
 ST_LineLocatePoint(route, ?) as pickup_float,
 ST_LineLocatePoint(route, ?) as drop_float
 ', [car_search.from_m, car_search.to_m, car_search.from_m, car_search.to_m])

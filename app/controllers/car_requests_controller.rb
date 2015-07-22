@@ -1,6 +1,6 @@
 class CarRequestsController < ApplicationController
   layout 'account'
-  before_action :set_car_request, only: [:edit, :update, :destroy]
+  before_action :set_car_request, only: [:edit, :update, :show]
   before_action :user_required
   before_action { menu_set_active('requests') }
 
@@ -9,6 +9,13 @@ class CarRequestsController < ApplicationController
   def index
     @car_requests = CarRequest.with_user(current_user).order('id DESC')
     mark_requests_as_read
+  end
+
+  def show
+    route = CarRouteFetcher.new.fetch(@car_request)
+    respond_to do |format|
+      format.json { render :json => CarSearchResultSerializer.new([route]) }
+    end
   end
 
   # GET /car_requests/new
