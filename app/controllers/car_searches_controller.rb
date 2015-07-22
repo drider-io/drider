@@ -2,6 +2,7 @@ class CarSearchesController < ApplicationController
   layout 'account'
   before_action :set_car_search, only: [:show, :edit, :update, :destroy]
   before_action { menu_set_active('search') }
+  before_action :user_required, except: [:create, :show, :update]
 
   # GET /car_searches
   # GET /car_searches.json
@@ -64,7 +65,7 @@ class CarSearchesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_car_search
-      @car_search = CarSearch.find(params[:id])
+      @car_search = CarSearch.where(user_id: current_user && current_user.id ).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
