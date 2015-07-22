@@ -9,9 +9,12 @@ ul.list-unstyled
       -if message.from_id == current_user.id
         div.alert.alert-info.pull-right style="text-align: right; width: 80%"
           =message.body
+          '
+          span.text-muted =message.created_at.to_formatted_s(:time)
       -else
         div.alert.alert-warning.pull-left style="text-align: left; width: 80%"
           =message.body
+          span.pull-right.text-muted =message.created_at.to_formatted_s(:time)
 
 div style="clear: both;"
   =form_tag messages_path do

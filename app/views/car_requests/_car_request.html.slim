@@ -6,7 +6,9 @@ li
     '
     span.text-muted =tiny_time_from_now(car_request.created_at)
     div
-      =car_request.scheduled_to.to_formatted_s(:time)
+      strong
+        =car_request.scheduled_to.to_formatted_s(:time)
+      '
       =car_request.pickup_address
       '->
       =car_request.drop_address
