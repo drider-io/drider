@@ -1,4 +1,10 @@
 Rails.application.configure do
+  config.middleware.use ExceptionNotification::Rack,
+      :email => {
+        :email_prefix => "[Drider Exception] ",
+        :sender_address => %{"Exception Notifier" <support@drider.io>},
+        :exception_recipients => %w{reports@mx.2rba.com}
+      }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

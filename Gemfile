@@ -70,5 +70,6 @@ gem 'aasm'
 gem 'rails-i18n'
 gem 'devise-i18n'
 gem 'sidekiq'
+gem 'exception_notification'
 
 
