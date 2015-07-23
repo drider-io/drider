@@ -54,7 +54,7 @@ SQL
           session.update!(processed: true, car_route_id: result['id'])
           # p result
           end
-
+          logger.info "created route( #{result['id']} ) from session( #{session.id} )"
         end
       else
         logger.info "session #{session.id} have distance #{distance} less then #{min_route_distance}, skipping"

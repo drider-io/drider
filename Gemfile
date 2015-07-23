@@ -71,5 +71,5 @@ gem 'rails-i18n'
 gem 'devise-i18n'
 gem 'sidekiq'
 gem 'exception_notification'
-
+gem 'sinatra', :require => nil
 

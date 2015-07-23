@@ -1,3 +1,4 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }#, :skip => [:sessions, :registrations]
   get "/chat" => "socket#chat", as: "chat"
@@ -19,6 +20,9 @@ Rails.application.routes.draw do
 
   resources :car_requests, only: [ :index, :create, :update, :show ]
   resources :messages, only: [ :index, :show, :create ]
+
+
+  mount Sidekiq::Web => '/sidekiq'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
