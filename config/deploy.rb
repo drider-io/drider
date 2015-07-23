@@ -29,7 +29,7 @@ set :pumactl_socket, "#{deploy_to}/#{shared_path}/tmp/puma/ctl.sock"
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/database.yml', 'log', 'tmp']
+set :shared_paths, ['config/database.yml', 'log', 'tmp', 'config/application.yml']
 
 # Optional settings:
    set :user, 'www-data'    # Username in the server to SSH to.
