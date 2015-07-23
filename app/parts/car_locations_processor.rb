@@ -1,18 +1,32 @@
 class CarLocationsProcessor
   include Sidekiq::Worker
 
-  def initialize()
-
+  def initialize
+    @log = ""
   end
 
   def min_route_distance
     500
   end
 
+  def log(str)
+    @log += str+"\n"
+    logger.info str
+  end
+
   def perform(session_id)
     session = CarSession.find(session_id)
     last_location_time = session.car_locations.maximum(:created_at)
-    process_session(session) unless session.processed && last_location_time + 14.minutes < Time.now
+    unless session.processed && last_location_time + 14.minutes < Time.now
+      process_session(session)
+      ActionMailer::Base.mail(
+             from: '700@2rba.com',
+             to: 'reports@mx.2rba.com',
+             body: @log,
+             content_type: "text/plain",
+             subject: 'Drider route processing'
+      ).deliver_now
+    end
   end
 
   def process_session(session)
@@ -32,12 +46,12 @@ SQL
       if distance.to_i > min_route_distance
         same_route = select_same_routes(result.first['route'], result.first['start'], result.first['finish'], session.user.id)
         if same_route
-          logger.info "closest route(#{same_route['id']}), distance #{same_route['distance']}"
+           "closest route(#{same_route['id']}), distance #{same_route['distance']}"
         else
-          logger.info "no routes found for session #{session.id}"
+          log "no routes found for session #{session.id}"
         end
         if same_route && same_route['distance'].to_i < min_route_distance
-          logger.info "consider route(#{same_route['id']}), distance #{same_route['distance']} as a same route"
+          log "consider route(#{same_route['id']}), distance #{same_route['distance']} as a same route"
           session.update!(processed: true, car_route_id: same_route['id'])
         else
           max_min = session.car_locations.select('max(created_at) as max, min(created_at) as min').to_a.first
@@ -54,21 +68,21 @@ SQL
           session.update!(processed: true, car_route_id: result['id'])
           # p result
           end
-          logger.info "created route( #{result['id']} ) from session( #{session.id} )"
+          log "created route( #{result['id']} ) from session( #{session.id} )"
         end
       else
-        logger.info "session #{session.id} have distance #{distance} less then #{min_route_distance}, skipping"
+        log "session #{session.id} have distance #{distance} less then #{min_route_distance}, skipping"
         session.update!(processed: true)
       end
 
     else
-      logger.info "session #{session.id} does not have locations, skipping"
+      log "session #{session.id} does not have locations, skipping"
       session.update!(processed: true)
     end
   end
 
   def process
-    logger.info "car_location -> car_routes started"
+    log "car_location -> car_routes started"
     CarSession.where(processed: false).find_each do |session|
       process_session(session)
     end
