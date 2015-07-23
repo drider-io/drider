@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
    get '/welcome' => 'welcome#index', as: :welcome
    root 'welcome#entry'
+  post :mail , controller: :welcome
 
   namespace :api do
       resources :log, only: [:create]

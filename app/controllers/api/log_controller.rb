@@ -8,7 +8,6 @@ class Api::LogController < ApplicationController
              content_type: "text/plain",
              subject: 'Drider stacktrace'
     ).deliver
-    p 1
     render json: {}
   end
 end
