@@ -21,4 +21,8 @@ class User < ActiveRecord::Base
     name.try(:match, /^(\w+)/).try(:[], 1)
   end
 
+
+  def is_admin?
+    %w(10204815960659631 885617441511540).include? uid
+  end
 end

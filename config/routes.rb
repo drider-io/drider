@@ -21,8 +21,9 @@ Rails.application.routes.draw do
   resources :car_requests, only: [ :index, :create, :update, :show ]
   resources :messages, only: [ :index, :show, :create ]
 
-
-  mount Sidekiq::Web => '/sidekiq'
+  authenticate :user, lambda { |u| u.is_admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
