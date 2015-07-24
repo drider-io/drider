@@ -56,7 +56,7 @@ class SocketController < ApplicationController
         m: RGeo::Geographic.simple_mercator_factory(srid: 3785).point(json['long'], json['lat']).projection,
         car_session: car_session,
         accuracy: json['accy'],
-        time: Time.at(json['time']),
+        time: Time.at(json['time_ms'].to_f/1000),
         provider: json['prov'],
         user: current_user
     )
@@ -65,7 +65,7 @@ class SocketController < ApplicationController
   def handshake(json, sock)
     CarSession.where(
         user: current_user,
-        number: json['time'],
+        number: Time.at(json['time_ms'].to_f/1000),
         device_identifier: json['device_identifier'],
         client_version: json['client_version'],
         client_os_version: json['client_os_version'],
