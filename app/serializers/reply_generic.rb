@@ -19,6 +19,12 @@ class ReplyGeneric
     self
   end
 
+  def off_client
+    @reply[:off_client] = true
+    self
+  end
+
+
   def handshake_reply
     @reply[:handshake_reply] = true
     self
