@@ -1,35 +1,38 @@
 div.car_search
   p id="notice"
     = notice
-  -@routes.each do |route|
-    div.row id="route#{route.id}"
-      div.col-sm-3
-        label відправлення:
-        '
-        strong =route.pickup_time
-      div.col-sm-3
-        label актуальнісь:
-        '
-        =distance_of_time_in_words_to_now(route.started_at)
-      div.col-sm-12
-        div.ava-line
-          =image_tag route.driver.image_url, class: 'avatar'
-          =route.driver.first_name
-          div
-            =route.pickup_address
-            '
-            '->
-            '
-            =route.drop_address
-          div
-            =form_tag(car_requests_path, method: :post)
-              =hidden_field_tag :car_route_id, route.id
-              =hidden_field_tag :time, @car_search.time.to_formatted_s(:time)
-              =hidden_field_tag :pickup_address, route.pickup_address
-              =hidden_field_tag :drop_address, route.drop_address
-              =hidden_field_tag :pickup_location, [route.pickup_location.y, route.pickup_location.x]
-              =hidden_field_tag :drop_location, [route.drop_location.y, route.drop_location.x]
-              button.btn.btn-xs.btn-primary class=(@car_requests_drivers_ids.include?(route.driver.id) && 'disabled' ) type="submit" Резервувати
+  -if @routes.empty?
+    h4 На жаль жодного маршрута не знайдено, спробуйте перемістити початок або кінець
+  -else
+    -@routes.each do |route|
+      div.row id="route#{route.id}"
+        div.col-sm-3
+          label відправлення:
+          '
+          strong =route.pickup_time
+        div.col-sm-3
+          label актуальнісь:
+          '
+          =distance_of_time_in_words_to_now(route.started_at)
+        div.col-sm-12
+          div.ava-line
+            =image_tag route.driver.image_url, class: 'avatar'
+            =route.driver.first_name
+            div
+              =route.pickup_address
+              '
+              '->
+              '
+              =route.drop_address
+            div
+              =form_tag(car_requests_path, method: :post)
+                =hidden_field_tag :car_route_id, route.id
+                =hidden_field_tag :time, @car_search.time.to_formatted_s(:time)
+                =hidden_field_tag :pickup_address, route.pickup_address
+                =hidden_field_tag :drop_address, route.drop_address
+                =hidden_field_tag :pickup_location, [route.pickup_location.y, route.pickup_location.x]
+                =hidden_field_tag :drop_location, [route.drop_location.y, route.drop_location.x]
+                button.btn.btn-xs.btn-primary class=(@car_requests_drivers_ids.include?(route.driver.id) && 'disabled' ) type="submit" Резервувати
 
 
     hr
