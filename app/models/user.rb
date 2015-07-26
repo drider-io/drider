@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:facebook]
   has_many :car_sessions
   has_many :car_routes
+  has_many :devices
 
   def self.from_omniauth(auth, email)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

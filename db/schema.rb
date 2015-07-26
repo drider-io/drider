@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724204543) do
+ActiveRecord::Schema.define(version: 20150726110947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,9 @@ ActiveRecord::Schema.define(version: 20150724204543) do
   add_index "car_sessions", ["number"], name: "index_car_sessions_on_number", using: :btree
   add_index "car_sessions", ["processed"], name: "index_car_sessions_on_processed", using: :btree
 
+# Could not dump table "devices" because of following StandardError
+#   Unknown type 'push_type' for column 'push_type'
+
 # Could not dump table "messages" because of following StandardError
 #   Unknown type 'delivery_status' for column 'delivery_status'
 
@@ -116,6 +119,8 @@ ActiveRecord::Schema.define(version: 20150724204543) do
     t.string   "access_token"
     t.datetime "access_token_expiration"
   end
+
+  add_index "rpush_apps", ["name"], name: "index_rpush_apps_on_name", unique: true, using: :btree
 
   create_table "rpush_feedback", force: :cascade do |t|
     t.string   "device_token", limit: 64, null: false

@@ -13,6 +13,10 @@ Rails.application.routes.draw do
 
   namespace :api do
       resources :log, only: [:create]
+    resource :token, only: [] do
+      post :gcm
+    end
+
   end
 
   scope "/lviv" do
