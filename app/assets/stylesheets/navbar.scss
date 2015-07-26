@@ -1,3 +1,12 @@
 .navbar-default .navbar-nav > .active {
 //  background-color: gray;
 }
+.navbar{
+  .navbar-collapse{
+    img {
+      height: 36px;
+      width: 36px;
+      margin-top: -8px;
+    }
+  }
+}

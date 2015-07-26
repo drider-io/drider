@@ -22,3 +22,7 @@ nav id="tf-menu" class="navbar navbar-default on"
             'Повідомлення
             -if unread_messages_count > 0
               span class="badge" =unread_messages_count
+        -if current_user
+          li
+            a class="navbar-brand" href="/"
+              img alt="Brand" src="#{current_user.image_url}"
