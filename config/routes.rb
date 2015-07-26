@@ -30,6 +30,11 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  resource :download, only: [] do
+    get :android
+  end
+
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
