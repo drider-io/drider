@@ -10,7 +10,7 @@ function onHashChange(e) {
         center: {lat: 49.8419071, lng: 24.0315675},
         zoom: 12
       };
-      var map = new google.maps.Map(canvas[0],
+      var map = new google.maps.Map(canvas.get(0),
           mapOptions);
       map.data.setStyle(function(feature) {
         var markers = feature.getProperty('markers');
