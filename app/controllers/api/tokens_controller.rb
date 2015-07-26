@@ -1,11 +1,12 @@
-class Api::TokenController < ApplicationController
+class Api::TokensController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   def gcm
     permitted_params = {push_type: 'GCM', token: params[:token], name: params[:name]}
     if current_user
-      user.devices.create(permitted_params)
+      current_user.devices.create(permitted_params)
     else
-      session[:gcm] = permitted_params
+      session[:push_init] = permitted_params
     end
     render nothing: true
   end
