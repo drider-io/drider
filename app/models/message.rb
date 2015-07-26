@@ -33,7 +33,7 @@ SQL
 }
   scope :conversation, -> (user1, user2) {
     m = Message.arel_table
-    Message.where(m[:to_id].eq(user1.id).and(m[:from_id].eq(user2.id)).or(m[:from_id].eq(user1.id).and(m[:to_id].eq(user2.id)))).order('id ASC')
+    Message.where(m[:to_id].eq(user1.id).and(m[:from_id].eq(user2.id)).or(m[:from_id].eq(user1.id).and(m[:to_id].eq(user2.id))))
   }
 
 

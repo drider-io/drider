@@ -15,7 +15,7 @@ class MessagesController < ApplicationController
   # GET /messages/1.json
   def show
     @correspondent = User.find(params[:id])
-    @messages = Message.conversation(@correspondent, current_user)
+    @messages = Message.conversation(@correspondent, current_user).order('id DESC').limit(30).reverse
     @messages_by_date = @messages.group_by {|m| m.created_at.to_date}
     mark_messages_as_read
   end
