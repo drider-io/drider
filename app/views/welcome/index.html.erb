@@ -25,6 +25,13 @@
             <li><a href="#tf-clients" class="page-scroll">Пасажиру</a></li>
             <li><a href="#tf-contact" class="page-scroll">Мара</a></li>
             <li><a href="#tf-testimonials" class="page-scroll">Контакт</a></li>
+            <% if current_user %>
+              <a class="navbar-brand" href="/">
+                <img alt="Avatar" src="<%= current_user.image_url %>" />
+              </a>
+            <% else %>
+            <li><a href="<%= new_user_session_path %>" class="page-scroll">Вхід</a></li>
+            <% end %>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
