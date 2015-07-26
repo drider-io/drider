@@ -1,12 +1,21 @@
 .navbar-default .navbar-nav > .active {
-//  background-color: gray;
+  //  background-color: gray;
 }
-.navbar{
-  .navbar-collapse{
+
+.navbar {
+  .navbar-collapse {
     img {
       height: 36px;
       width: 36px;
       margin-top: -8px;
+    }
+  }
+  .navbar-toggle {
+    .badge {
+      display: block;
+      position: absolute;
+      top: -7px;
+      right: -10px;
     }
   }
 }

@@ -6,6 +6,9 @@ nav id="tf-menu" class="navbar navbar-default on"
         span class="icon-bar"
         span class="icon-bar"
         span class="icon-bar"
+        - unread = unread_requests_count + unread_messages_count
+        -if unread > 0
+          span class="badge" =unread
       a class="navbar-brand" href="#{welcome_path}" Drider
 
     div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"
