@@ -9,6 +9,10 @@ class Message < ActiveRecord::Base
       read:      'read',
     }
 
+  after_save do
+    ActiveSupport::Notifications.instrument('message_saved', message: self)
+  end
+
   scope :unread, -> (user) {
     where(delivery_status: ['posted','delivered'], to: user)
   }

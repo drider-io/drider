@@ -7,7 +7,7 @@ class SocketController < ApplicationController
         handshake_reply_sent = false
         tubesock.onopen do
           # car_session = Time.now.to_s
-          tubesock.send_data tubesock.object_id
+          # tubesock.send_data tubesock.object_id
           check_auth(tubesock)
         end
 

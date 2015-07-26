@@ -47,4 +47,8 @@ class ReplyGeneric
     self
   end
 
+  def as_json(*arg)
+    @reply.as_json(*arg)
+  end
+
 end
