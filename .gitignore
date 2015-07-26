@@ -13,7 +13,6 @@
 /tmp
 .idea
 vendor/
-bin/
 app.iml
 
 # Ignore application configuration
