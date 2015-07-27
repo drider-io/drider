@@ -8,7 +8,8 @@ $( document ).ready(function() {
     scaleControl: false,
     draggable: false,
     center: {lat: 49.8419071, lng: 24.0315675},
-    zoom: 12
+    zoom: 12,
+    disableDefaultUI: true
   };
   var map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
@@ -23,7 +24,9 @@ $( document ).ready(function() {
       var infowindow = new google.maps.InfoWindow({
             content: markerOps.title
         });
-      infowindow.open(map,marker);
+      google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open(map,marker);
+        });
     }
 
 
