@@ -32,7 +32,7 @@ class SocketController < ApplicationController
                   .set_text(
                       render_to_string partial: 'driver/text_area',layout: false, locals:{ car_session: car_session}
                   )
-                reply.stop_client unless car_session.is_location_available
+                reply.off_client unless car_session.is_location_available
                 reply.send
             end
 
@@ -83,7 +83,7 @@ class SocketController < ApplicationController
   def check_auth(sock)
     ReplyGeneric.new(sock)
         .start_webview(url: new_user_session_url)
-        .stop_client
+        .off_client
         .send and return false unless current_user
     true
   end
