@@ -21,4 +21,8 @@ class WelcomeController < ApplicationController
     ).deliver
     redirect_to :welcome, notice: "Дякуємо за звернення"
   end
+
+  def events
+    render :json => RecentEventsSerializer.new(RecentEventsService.new)
+  end
 end

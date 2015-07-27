@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   scope "/lviv" do
     resources :car_searches, only: [ :index, :new, :create, :show, :update ]
+    get :events, controller: :welcome
   end
 
   resources :car_requests, only: [ :index, :create, :update, :show ]

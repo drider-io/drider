@@ -304,32 +304,3 @@
     <!-- Javascripts
     ================================================== -->
     <!--<script type="text/javascript" src="js/main.js"></script>-->
-    <script>
-
-      var mapOptions = {
-        scrollwheel: false,
-        navigationControl: false,
-        mapTypeControl: false,
-        scaleControl: false,
-        draggable: false,
-        center: {lat: 49.8419071, lng: 24.0315675},
-        zoom: 12
-      };
-      map = new google.maps.Map(document.getElementById('map-canvas'),
-            mapOptions);
-
-//      var connection = new WebSocket('ws://'+window.location.hostname+':4000/chat');
-//      connection.onopen = function () {
-//        connection.send('Ping'); // Send the message 'Ping' to the server
-//      };
-//
-//      // Log errors
-//      connection.onerror = function (error) {
-//        console.log('WebSocket Error ' + error);
-//      };
-//
-//      // Log messages from the server
-//      connection.onmessage = function (e) {
-//        console.log('Server: ' + e.data);
-//      };
-    </script>
