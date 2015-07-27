@@ -4,7 +4,7 @@ class Api::TokensController < ApplicationController
   def gcm
     permitted_params = {push_type: 'GCM', token: params[:token], name: params[:name]}
     if current_user
-      current_user.devices.create(permitted_params)
+      current_user.devices.where(permitted_params).first_or_create
     else
       session[:push_init] = permitted_params
     end
