@@ -16,6 +16,7 @@ class MessagesController < ApplicationController
   def show
     @correspondent = User.find(params[:id])
     @messages = Message.conversation(@correspondent, current_user).order('id DESC').limit(30).reverse
+    redirect_to messages_url and return if @messages.empty? #protection from information disclosure
     @messages_by_date = @messages.group_by {|m| m.created_at.to_date}
     mark_messages_as_read
   end
