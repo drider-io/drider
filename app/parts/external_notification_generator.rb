@@ -4,7 +4,7 @@ class ExternalNotificationGenerator
   def on_message_saved(message)
     text = "Повідомлення від #{message.from.name}"
     command = ReplyGeneric.new(nil)
-                  .start_webview(url: Rails.application.routes.url_helpers.message_url(message.from_id))
+                  .start_webview(url: Rails.application.routes.url_helpers.message_url(message.from_id)+'#body')
                   .play_sound(sound_type: 'notification')
 
     message.to.devices.each do |device|
