@@ -27,13 +27,20 @@ class SocketController < ApplicationController
                   handshake_reply_sent = true
                 end
               when 'handshake'
-                car_session = handshake(json, tubesock)
-                reply = ReplyGeneric.new(tubesock)
-                  .set_text(
-                      render_to_string partial: 'driver/text_area',layout: false, locals:{ car_session: car_session}
-                  )
-                reply.off_client unless car_session.is_location_available
-                reply.send
+                if client_version_ok?(json)
+                  car_session = handshake(json, tubesock)
+                  reply = ReplyGeneric.new(tubesock)
+                    .set_text(
+                        render_to_string partial: 'driver/text_area',layout: false, locals:{ car_session: car_session}
+                    )
+                  reply.off_client unless car_session.is_location_available
+                  reply.send
+                else
+                  reply = ReplyGeneric.new(tubesock)
+                    .set_text('Потрібно оновити додаток')
+                    .off_client.send
+                end
+
             end
 
           p data
@@ -90,5 +97,9 @@ class SocketController < ApplicationController
         .off_client
         .send and return false unless current_user
     true
+  end
+
+  def client_version_ok?(json)
+    json['client_version_code'].to_i >= 2
   end
 end
