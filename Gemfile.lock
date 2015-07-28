@@ -72,6 +72,7 @@ GEM
     coffee-script-source (1.9.1.1)
     color-generator (0.0.4)
     columnize (0.9.0)
+    commonjs (0.2.7)
     connection_pool (2.2.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
@@ -125,6 +126,14 @@ GEM
       addressable
       faraday
       multi_json
+    less (2.6.0)
+      commonjs (~> 0.2.7)
+    less-rails (2.7.0)
+      actionpack (>= 4.0)
+      less (~> 2.6.0)
+      sprockets (> 2, < 4)
+      tilt
+    libv8 (3.16.14.11)
     loofah (2.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -202,6 +211,7 @@ GEM
     redis (3.2.1)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
+    ref (2.0.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     rest-client (1.8.0)
@@ -274,6 +284,9 @@ GEM
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
     temple (0.7.6)
+    therubyracer (0.12.2)
+      libv8 (~> 3.16.14.0)
+      ref
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
@@ -332,6 +345,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   koala (~> 2.0)
+  less-rails
   mina
   mina-puma
   mina-rsync
@@ -350,6 +364,7 @@ DEPENDENCIES
   sinatra
   slim
   spring
+  therubyracer
   tubesock
   turbolinks
   twitter-bootstrap-rails

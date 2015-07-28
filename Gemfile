@@ -58,6 +58,8 @@ gem 'activerecord-postgis-adapter'
 gem 'devise'
 gem 'slim'
 gem 'devise-bootstrap-views'
+gem "therubyracer"
+gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem "twitter-bootstrap-rails"
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'redis'

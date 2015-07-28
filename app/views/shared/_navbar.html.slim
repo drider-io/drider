@@ -13,6 +13,15 @@ nav id="tf-menu" class="navbar navbar-default on"
 
     div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"
       ul class="nav navbar-nav navbar-right"
+        li class="dropdown"
+          a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+            'Я водій
+            span class="caret"
+          ul class="dropdown-menu"
+            li
+              a href="#" Я водій
+            li
+              a href="#" Я пасажир
         li class=('active' if 'search' == @active_menu)
           a href="#{car_searches_path}" class="page-scroll" Пошук
         li class=('active' if 'requests' == @active_menu)
