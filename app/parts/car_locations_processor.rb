@@ -45,13 +45,13 @@ SQL
     if distance
       if distance.to_i > min_route_distance
         same_route = select_same_routes(result.first['route'], result.first['start'], result.first['finish'], session.user.id)
-        if same_route
-           "closest route(#{same_route['id']}), distance #{same_route['distance']}"
-        else
-          log "no routes found for session #{session.id}"
-        end
+        # if same_route
+        #    "closest route(#{same_route['id']}), distance #{same_route['distance']}"
+        # else
+        #    "no routes found for session #{session.id} "
+        # end
         if same_route && same_route['distance'].to_i < min_route_distance
-          log "consider route(#{same_route['id']}), distance #{same_route['distance']} as a same route"
+          log "consider route(#{same_route['id']}), distance #{same_route['distance']} as a same route user: #{session.user.name}"
           session.update!(processed: true, car_route_id: same_route['id'])
         else
           max_min = session.car_locations.select('max(created_at) as max, min(created_at) as min').to_a.first
@@ -68,15 +68,15 @@ SQL
           session.update!(processed: true, car_route_id: result['id'])
           # p result
           end
-          log "created route( #{result['id']} ) from session( #{session.id} )"
+          log "created route( #{result['id']} ) from session( #{session.id} ) distance #{distance} user: #{session.user.name}"
         end
       else
-        log "session #{session.id} have distance #{distance} less then #{min_route_distance}, skipping"
+        log "session #{session.id} have distance #{distance} less then #{min_route_distance}, skipping user: #{session.user.name}"
         session.update!(processed: true)
       end
 
     else
-      log "session #{session.id} does not have locations, skipping"
+      log "session #{session.id} does not have locations, skipping user: #{session.user.name}"
       session.update!(processed: true)
     end
   end
