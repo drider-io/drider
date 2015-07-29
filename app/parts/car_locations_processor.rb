@@ -58,7 +58,7 @@ SQL
         #    "no routes found for session #{session.id} "
         # end
         if same_route && same_route['distance'].to_i < min_route_HDdistance
-          log "consider route(#{same_route['id']}), distance: #{distance}, HDdistance #{same_route['distance']} as a same route user: #{session.user.name}"
+          log "consider session(#{session.id}) route(#{same_route['id']}), distance: #{distance}, HDdistance #{same_route['distance']} as a same route, user: #{session.user.name}"
           session.update!(processed: true, car_route_id: same_route['id'])
         else
           max_min = session.car_locations.select('max(created_at) as max, min(created_at) as min').to_a.first
@@ -82,16 +82,16 @@ SQL
           ).first
           session.update!(processed: true, car_route_id: route_result['id'])
           # p result
-          log "created route( #{result['id']} ) from session( #{session.id} ) distance #{distance} user: #{session.user.name}"
+          log "created route( #{result['id']} ) from session( #{session.id} ) distance #{distance}, user: #{session.user.name}"
           end
         end
       else
-        log "session #{session.id} have distance #{distance} less then #{min_route_HDdistance}, skipping user: #{session.user.name}"
+        log "session #{session.id} have distance #{distance} less then #{min_route_HDdistance}, skipping, user: #{session.user.name}"
         session.update!(processed: true)
       end
 
     else
-      log "session #{session.id} does not have locations, skipping user: #{session.user.name}"
+      log "session #{session.id} does not have locations, skipping, user: #{session.user.name}"
       session.update!(processed: true)
     end
   end
