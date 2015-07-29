@@ -27,13 +27,20 @@ class SocketController < ApplicationController
                   handshake_reply_sent = true
                 end
               when 'handshake'
-                car_session = handshake(json, tubesock)
-                reply = ReplyGeneric.new(tubesock)
-                  .set_text(
-                      render_to_string partial: 'driver/text_area',layout: false, locals:{ car_session: car_session}
-                  )
-                reply.off_client unless car_session.is_location_available
-                reply.send
+                if client_version_ok?(json)
+                  car_session = handshake(json, tubesock)
+                  reply = ReplyGeneric.new(tubesock)
+                    .set_text(
+                        render_to_string partial: 'driver/text_area',layout: false, locals:{ car_session: car_session}
+                    )
+                  reply.off_client unless car_session.is_location_available
+                  reply.send
+                else
+                  reply = ReplyGeneric.new(tubesock)
+                    .set_text('Потрібно оновити додаток')
+                    .off_client.send
+                end
+
             end
 
           p data
@@ -63,21 +70,25 @@ class SocketController < ApplicationController
   end
 
   def handshake(json, sock)
-    CarSession.where(
+    session = CarSession.where(
         user: current_user,
-        number: Time.at(json['time_ms'].to_f/1000),
-        device_identifier: json['device_identifier'],
-        client_version: json['client_version'],
-        client_os_version: json['client_os_version'],
-        android_model: json['android_model'],
-        is_gps_available: json['is_gps_available'],
-        is_location_enabled: json['is_location_enabled'],
-        is_location_available: json['is_location_available'],
-        is_google_play_available: json['is_google_play_available'],
-        android_sdk: json['android_sdk'],
-        android_manufacturer: json['android_manufacturer'],
-        client_version_code: json['client_version_code']
-    ).first_or_create
+        number: json['session_number']
+    ).first_or_initialize
+    unless session.persisted?
+      session.device_identifier = json['device_identifier']
+      session.client_version = json['client_version']
+      session.client_os_version = json['client_os_version']
+      session.android_model = json['android_model']
+      session.is_gps_available = json['is_gps_available']
+      session.is_location_enabled = json['is_location_enabled']
+      session.is_location_available = json['is_location_available']
+      session.is_google_play_available = json['is_google_play_available']
+      session.android_sdk = json['android_sdk']
+      session.android_manufacturer = json['android_manufacturer']
+      session.client_version_code = json['client_version_code']
+      session.save!
+    end
+    session
   end
 
   def check_auth(sock)
@@ -86,5 +97,9 @@ class SocketController < ApplicationController
         .off_client
         .send and return false unless current_user
     true
+  end
+
+  def client_version_ok?(json)
+    json['client_version_code'].to_i >= 2
   end
 end
