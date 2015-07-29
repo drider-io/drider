@@ -41,17 +41,17 @@ ActiveRecord::Schema.define(version: 20150728182926) do
   end
 
   create_table "car_routes", force: :cascade do |t|
-    t.geometry "route",       limit: {:srid=>3785, :type=>"line_string"}
-    t.integer  "user_id",                                                                null: false
-    t.boolean  "is_actual",                                               default: true, null: false
-    t.datetime "created_at",                                                             null: false
-    t.datetime "updated_at",                                                             null: false
-    t.datetime "started_at",                                                             null: false
-    t.datetime "finished_at",                                                            null: false
-    t.geometry "from_m",      limit: {:srid=>3857, :type=>"point"}
-    t.geometry "to_m",        limit: {:srid=>3857, :type=>"point"}
-    t.string   "from_title"
-    t.string   "to_title"
+    t.geometry "route",        limit: {:srid=>3785, :type=>"line_string"}
+    t.integer  "user_id",                                                                 null: false
+    t.boolean  "is_actual",                                                default: true, null: false
+    t.datetime "created_at",                                                              null: false
+    t.datetime "updated_at",                                                              null: false
+    t.datetime "started_at",                                                              null: false
+    t.datetime "finished_at",                                                             null: false
+    t.geometry "from_m",       limit: {:srid=>3785, :type=>"point"}
+    t.geometry "to_m",         limit: {:srid=>3785, :type=>"point"}
+    t.string   "from_address"
+    t.string   "to_address"
   end
 
   add_index "car_routes", ["is_actual"], name: "index_car_routes_on_is_actual", using: :btree
