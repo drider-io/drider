@@ -80,7 +80,7 @@ SQL
                                                                   # [nil, stop_address]
                                                                ]
           ).first
-          session.update!(processed: true, car_route_id: route_result['id'])
+          session.update!(processed: true, car_route_id: result['id'])
           # p result
           log "created route( #{result['id']} ) from session( #{session.id} ) distance #{distance}, user: #{session.user.name}"
           end
