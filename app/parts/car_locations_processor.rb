@@ -82,7 +82,9 @@ SQL
           ).first
           session.update!(processed: true, car_route_id: result['id'])
           # p result
-          log "created route( #{result['id']} ) from session( #{session.id} ) distance #{distance}, user: #{session.user.name}"
+          same_route_desc = ''
+          same_route_desc = " HDdistance(#{same_route['distance']}), " if same_route
+          log "created route( #{result['id']} ) from session( #{session.id} ) distance #{distance},#{same_route_desc} user: #{session.user.name}"
           end
         end
       else
