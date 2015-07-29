@@ -1,6 +1,15 @@
 class CarLocationsProcessor
   include Sidekiq::Worker
 
+  def factory
+    @factory ||= RGeo::Geographic.simple_mercator_factory(srid: 3785).projection_factory
+  end
+
+
+  def parser
+    @parser ||= RGeo::WKRep::WKTParser.new(factory, support_ewkt: true, default_srid: 3785)
+  end
+
   def initialize
     @log = ""
   end
@@ -62,10 +71,10 @@ SQL
           session.update!(processed: true, car_route_id: same_route['id'])
         else
           max_min = session.car_locations.select('max(created_at) as max, min(created_at) as min').to_a.first
-          # start_address = GeoLocation.new(location: route_result['start']).address
-          # stop_address = GeoLocation.new(location: route_result['finish']).address
+          start_address = GeoLocation.new(location: parser.parse(route_result['start']) ).address
+          stop_address = GeoLocation.new(location: parser.parse(route_result['finish']) ).address
           sql =<<SQL
-INSERT INTO car_routes (user_id, created_at, updated_at, route, started_at, finished_at) VALUES( $1, $2, $2, ST_GeomFromEWKT($3), $4, $5) RETURNING id::text
+INSERT INTO car_routes (user_id, created_at, updated_at, route, started_at, finished_at, from_m, to_m, from_address, to_address) VALUES( $1, $2, $2, ST_GeomFromEWKT($3), $4, $5, ST_GeomFromEWKT($6), ST_GeomFromEWKT($7), $8, $9 ) RETURNING id::text
 SQL
           ActiveRecord::Base.transaction do
           result = ActiveRecord::Base.connection.exec_query(sql,'SQL', [
@@ -74,10 +83,10 @@ SQL
                                                                   [nil, route_result['route']],
                                                                   [nil, max_min['min']],
                                                                   [nil, max_min['max']],
-                                                                  # [nil, route_result['start']],
-                                                                  # [nil, route_result['finish']],
-                                                                  # [nil, start_address],
-                                                                  # [nil, stop_address]
+                                                                  [nil, route_result['start']],
+                                                                  [nil, route_result['finish']],
+                                                                  [nil, start_address],
+                                                                  [nil, stop_address]
                                                                ]
           ).first
           session.update!(processed: true, car_route_id: result['id'])

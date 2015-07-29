@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 20150728182926) do
     t.datetime "updated_at",                                                              null: false
     t.datetime "started_at",                                                              null: false
     t.datetime "finished_at",                                                             null: false
-    t.geometry "from_m",       limit: {:srid=>3857, :type=>"point"}
-    t.geometry "to_m",         limit: {:srid=>3857, :type=>"point"}
+    t.geometry "from_m",       limit: {:srid=>3785, :type=>"point"}
+    t.geometry "to_m",         limit: {:srid=>3785, :type=>"point"}
     t.string   "from_address"
     t.string   "to_address"
   end
