@@ -1,4 +1,5 @@
 class CarRoutesController < ApplicationController
+  layout 'account'
   before_action :user_required
 
   def index
