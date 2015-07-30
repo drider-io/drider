@@ -15,25 +15,32 @@ nav id="tf-menu" class="navbar navbar-default on"
       ul class="nav navbar-nav navbar-right"
         li class="dropdown"
           a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-            'Я водій
+            -if current_user.driver_role
+              'Я водій
+            -else
+              'Я пасажир
             span class="caret"
           ul class="dropdown-menu"
             li
-              a href="#" Я водій
+              =link_to 'Я водій', driver_role_account_path(value: true)
             li
-              a href="#" Я пасажир
-        li class=('active' if 'search' == @active_menu)
-          a href="#{car_searches_path}" class="page-scroll" Пошук
-        li class=('active' if 'requests' == @active_menu)
-          a href="#{car_requests_path}" class="page-scroll"
-            'Запити
-            -if unread_requests_count > 0
-              span class="badge" =unread_requests_count
-        li class=('active' if 'messages' == @active_menu)
-          a href="#{messages_path}" class="page-scroll"
-            'Повідомлення
-            -if unread_messages_count > 0
-              span class="badge" =unread_messages_count
+              =link_to 'Я пасажир', driver_role_account_path(value: 'false')
+        -if !current_user.driver_role || current_user.ever_drive
+          li class=('active' if 'search' == @active_menu)
+            -if current_user.driver_role
+              a href="#{car_routes_path}" class="page-scroll" Пошук Пасажира
+            -else
+              a href="#{car_searches_path}" class="page-scroll" Пошук Водія
+          li class=('active' if 'requests' == @active_menu)
+            a href="#{car_requests_path}" class="page-scroll"
+              'Запити
+              -if unread_requests_count > 0
+                span class="badge" =unread_requests_count
+          li class=('active' if 'messages' == @active_menu)
+            a href="#{messages_path}" class="page-scroll"
+              'Повідомлення
+              -if unread_messages_count > 0
+                span class="badge" =unread_messages_count
         -if current_user
           li
             a class="navbar-brand" href="/"

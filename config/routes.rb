@@ -37,6 +37,11 @@ Rails.application.routes.draw do
     get :android
   end
 
+  resource :account do
+    get '/driver_role/:value', action: :driver_role, as: :driver_role
+    get :route_required
+  end
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

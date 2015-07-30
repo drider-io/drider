@@ -1,0 +1,23 @@
+class AccountsController < ApplicationController
+  layout 'account'
+  before_action :user_required
+
+  def update
+
+  end
+
+  def route_required
+
+  end
+
+  def driver_role
+    current_user.update!(driver_role: params[:value])
+    redirect_to :root
+  end
+
+  private
+  def account_params
+       params.permit(:driver_role)
+  end
+
+end

@@ -90,6 +90,7 @@ SQL
                                                                ]
           ).first
           session.update!(processed: true, car_route_id: result['id'])
+          session.user.update(ever_drive: true) unless session.user.ever_drive
           # p result
           same_route_desc = ''
           same_route_desc = " HDdistance(#{same_route['distance']}), " if same_route
