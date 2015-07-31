@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 20150731171945) do
     t.integer  "client_version_code"
     t.boolean  "processed",                default: false
     t.integer  "car_route_id"
-    t.integer  "lock_version"
+    t.integer  "lock_version",             default: 0,     null: false
   end
 
   add_index "car_sessions", ["number", "user_id"], name: "car_session_user_index", unique: true, using: :btree
