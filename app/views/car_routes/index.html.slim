@@ -1,6 +1,12 @@
-h1 Маршрути водія
+div.car_routes
+  h1 Маршрути водія
 
-ul
-  -@routes.each do |route|
-    li
-      ="#{route.from_address} -> #{route.to_address}"
+  ul.list-unstyled
+    -@routes.each do |route|
+      li
+        strong =l route.driven_at, format: :short
+        '
+        ="#{route.from_address} -> #{route.to_address}"
+        '
+        =link_to 'Мапа', "#route_map#{route.id}"
+        div.map-canvas id="route_map#{route.id}"

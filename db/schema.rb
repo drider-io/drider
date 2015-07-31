@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150731171945) do
+ActiveRecord::Schema.define(version: 20150731204120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20150731171945) do
     t.geometry "to_m",         limit: {:srid=>3785, :type=>"point"}
     t.string   "from_address"
     t.string   "to_address"
+    t.datetime "driven_at"
   end
 
   add_index "car_routes", ["is_actual"], name: "index_car_routes_on_is_actual", using: :btree

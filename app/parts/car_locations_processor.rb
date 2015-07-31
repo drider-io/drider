@@ -69,12 +69,13 @@ SQL
         if same_route && same_route['distance'].to_i < min_route_HDdistance
           log "consider session(#{session.id}) route(#{same_route['id']}), distance: #{distance}, HDdistance #{same_route['distance']} as a same route, user: #{session.user.name}"
           session.update!(processed: true, car_route_id: same_route['id'])
+          CarRoute.find(same_route['id']).update(driven_at: session.car_locations.order('id').first.created_at)
         else
           max_min = session.car_locations.select('max(created_at) as max, min(created_at) as min').to_a.first
           start_address = GeoLocation.new(location: parser.parse(route_result['start']) ).address
           stop_address = GeoLocation.new(location: parser.parse(route_result['finish']) ).address
           sql =<<SQL
-INSERT INTO car_routes (user_id, created_at, updated_at, route, started_at, finished_at, from_m, to_m, from_address, to_address) VALUES( $1, $2, $2, ST_GeomFromEWKT($3), $4, $5, ST_GeomFromEWKT($6), ST_GeomFromEWKT($7), $8, $9 ) RETURNING id::text
+INSERT INTO car_routes (user_id, created_at, updated_at, route, started_at, finished_at, from_m, to_m, from_address, to_address, driven_at) VALUES( $1, $2, $2, ST_GeomFromEWKT($3), $4, $5, ST_GeomFromEWKT($6), ST_GeomFromEWKT($7), $8, $9, $4 ) RETURNING id::text
 SQL
           ActiveRecord::Base.transaction do
           result = ActiveRecord::Base.connection.exec_query(sql,'SQL', [
