@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150730200339) do
+ActiveRecord::Schema.define(version: 20150731171945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20150730200339) do
     t.integer  "client_version_code"
     t.boolean  "processed",                default: false
     t.integer  "car_route_id"
+    t.integer  "lock_version"
   end
 
   add_index "car_sessions", ["number", "user_id"], name: "car_session_user_index", unique: true, using: :btree

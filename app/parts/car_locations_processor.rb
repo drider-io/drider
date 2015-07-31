@@ -32,7 +32,7 @@ class CarLocationsProcessor
   def perform(session_id)
     session = CarSession.find(session_id)
     last_location_time = session.car_locations.maximum(:created_at)
-    unless session.processed && last_location_time + 14.minutes < Time.now
+    if !session.processed && (last_location_time + 14.minutes < Time.now)
       process_session(session)
       ActionMailer::Base.mail(
              from: '700@2rba.com',
