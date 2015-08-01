@@ -16,6 +16,11 @@
   .car_search_pinned {
     line-height: 3em;
   }
+  .car_search_form{
+    .control-label{
+      display: block;
+    }
+  }
 }
 
 .ava-line{

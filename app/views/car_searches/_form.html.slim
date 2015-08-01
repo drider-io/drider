@@ -1,4 +1,4 @@
-= form_for(@car_search, :html => {class: 'form-horizontal'} ) do |f|
+= form_for(@car_search, :html => {class: 'form-horizontal car_search_form'} ) do |f|
   -if @car_search.errors.any?
     div id="error_explanation"
       h2 Помилки в пошуку
@@ -7,17 +7,20 @@
           li = message
 
   div class="form-group col-sm-6"
-    =label_tag :from, 'Звідки', class: "col-xs-2 control-label"
-    div class="col-xs-10"
-      = f.text_field :from, placeholder: 'вулиця дім або координати', class: 'address'
+    div.row
+      =label_tag :from, 'Звідки', class: "col-xs-2 control-label"
+      div class="col-xs-10"
+        = f.text_field :from, placeholder: 'вулиця дім або координати', class: 'address'
   div class="form-group col-sm-6"
-    =label_tag :to, 'Куди', class: "col-xs-2 control-label"
-    div class="col-xs-10"
-      = f.text_field :to, placeholder: 'вулиця дім або координати', class: 'address'
+    div.row
+      =label_tag :to, 'Куди', class: "col-xs-2 control-label"
+      div class="col-xs-10"
+        = f.text_field :to, placeholder: 'вулиця дім або координати', class: 'address'
   div class="form-group col-sm-6"
-    =label_tag :time, 'Час', class: "col-xs-2 control-label"
-    div.col-xs-10
-      =f.time_field :time
+    div.row
+      =label_tag :time, 'Час', class: "col-xs-2 control-label"
+      div.col-xs-10
+        =f.time_field :time
   div.form-group.col-sm-6.car_search_pinned
     div.col-xs-2 &nbsp;
     =f.check_box :pinned do
