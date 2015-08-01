@@ -28,7 +28,7 @@ nav id="tf-menu" class="navbar navbar-default on"
         -if !current_user.driver_role || current_user.ever_drive
           li class=('active' if 'search' == @active_menu)
             -if current_user.driver_role
-              a href="#{car_routes_path}" class="page-scroll" Пошук Пасажира
+              a href="#{car_routes_path}" class="page-scroll" Маршрути
             -else
               a href="#{car_searches_path}" class="page-scroll" Пошук Водія
           li class=('active' if 'requests' == @active_menu)
