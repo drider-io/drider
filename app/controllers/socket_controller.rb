@@ -46,7 +46,7 @@ class SocketController < ApplicationController
           p data
           end
           rescue StandardError=>e
-            p e
+            ExceptionNotifier.notify_exception(e, :env => request.env)
           end
         end
 
@@ -87,6 +87,9 @@ class SocketController < ApplicationController
       session.android_manufacturer = json['android_manufacturer']
       session.client_version_code = json['client_version_code']
       session.save!
+    end
+    if session.processed
+      raise StandardError.new "atempt to handshake with processed car_session"
     end
     session
   end
