@@ -12,22 +12,24 @@ nav id="tf-menu" class="navbar navbar-default on"
       a class="navbar-brand" href="#{welcome_path}" Drider
 
     div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"
+      -driver_role = current_user && current_user.driver_role
       ul class="nav navbar-nav navbar-right"
         li class="dropdown"
           a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-            -if current_user.driver_role
+            -if driver_role
               'Я водій
             -else
               'Я пасажир
             span class="caret"
           ul class="dropdown-menu"
             li
-              =link_to 'Я водій', driver_role_account_path(value: true)
-            li
-              =link_to 'Я пасажир', driver_role_account_path(value: 'false')
-        -if !current_user.driver_role || current_user.ever_drive
+              -if driver_role
+                =link_to 'Я пасажир', driver_role_account_path(value: 'false')
+              -else
+                =link_to 'Я водій', driver_role_account_path(value: true)
+        -if !driver_role || driver_role && current_user.ever_drive
           li class=('active' if 'search' == @active_menu)
-            -if current_user.driver_role
+            -if driver_role
               a href="#{car_routes_path}" class="page-scroll" Маршрути
             -else
               a href="#{car_searches_path}" class="page-scroll" Пошук Водія
