@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 
   resources :car_routes, only: [ :index, :show, :update, :destroy ]
   resources :car_requests, only: [ :index, :create, :update, :show ]
+  resources :passenger_search
   resources :messages, only: [ :index, :show, :create ]
 
   authenticate :user, lambda { |u| u.is_admin? } do
