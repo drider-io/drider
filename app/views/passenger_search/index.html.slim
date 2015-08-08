@@ -9,21 +9,25 @@ div.passengers_search
           =image_tag result.passenger.image_url, class: 'avatar'
           =result.passenger.first_name
           div
+            =result.passenger_time
+            '
             =result.pickup_address
             '
             '->
             '
             =result.drop_address
           div
-            =result.passenger_time
-            =form_tag(car_requests_path, method: :post)
+            =form_tag(car_requests_path, method: :post, class: 'form-inline')
+              =hidden_field_tag :car_search_id, result.car_search_id
               =hidden_field_tag :car_route_id, result.id
-              =hidden_field_tag :time, result.passenger_time
+              =time_field_tag :time, result.passenger_time, class: 'form-control'
               =hidden_field_tag :pickup_address, result.pickup_address
               =hidden_field_tag :drop_address, result.drop_address
               =hidden_field_tag :pickup_location, [result.pickup_location.y, result.pickup_location.x]
               =hidden_field_tag :drop_location, [result.drop_location.y, result.drop_location.x]
-              button.btn.btn-xs.btn-primary type="submit" Підвезти
-
-          div
-            ="#{result.from_address} -> #{result.to_address}"
+              button.btn.btn-xs.btn-primary class=(is_passenger_ok?(result.passenger) || 'disabled' ) type="submit" Підвезти
+            '
+            =link_to 'Мапа', "#passenger_search_map#{result.car_search_id}"
+          div.map-canvas id="passenger_search_map#{result.car_search_id}"
+          /div
+          /  ="#{result.from_address} -> #{result.to_address}"
