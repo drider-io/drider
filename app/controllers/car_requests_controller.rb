@@ -69,15 +69,23 @@ class CarRequestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_request_params
-      params.permit(:scheduled_to, :pickup_address, :drop_address, )
+      params.permit(:scheduled_to, :pickup_address, :drop_address )
       .tap { |p|
         p[:pickup_location] = GeoLocation.new.str_to_m(params[:pickup_location])
         p[:drop_location] = GeoLocation.new.str_to_m(params[:drop_location])
-        p[:passenger] = current_user
+        p[:car_search] = CarSearch.find(params[:car_search_id])
+        p[:passenger_id] = p[:car_search].user_id
         p[:car_route] = CarRoute.find(params[:car_route_id])
         p[:driver_id] = p[:car_route].user_id
-        p[:active_user_id] = p[:driver_id]
-        p[:status] = 'sent'
+        if p[:driver_id] == current_user.id
+          p[:status] = 'accepted'
+          p[:active_user_id] = p[:passenger_id]
+        elsif p[:passenger_id] == current_user.id
+          p[:active_user_id] = p[:driver_id]
+          p[:status] = 'sent'
+        else
+          raise ActiveRecord::RecordInvalid.new "unknown user_id #{current_user.id} for passenger_id:#{p[:passenger_id]}, driver_id:#{p[:driver_id]}"
+        end
         time = DateTime.parse(params[:time])
         time += 1.day if time < Time.now
         p[:scheduled_to] = time
