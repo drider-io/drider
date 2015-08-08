@@ -26,6 +26,7 @@ div.car_search
               =route.drop_address
             div
               =form_tag(car_requests_path, method: :post)
+                =hidden_field_tag :car_search_id, @car_search.id
                 =hidden_field_tag :car_route_id, route.id
                 =hidden_field_tag :time, @car_search.time.to_formatted_s(:time)
                 =hidden_field_tag :pickup_address, route.pickup_address
