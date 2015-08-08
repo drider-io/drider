@@ -12,13 +12,14 @@ class CarRequest < ActiveRecord::Base
       delivered: 'delivered',
       read: 'read',
     }
-
+#TODO validators
 
   belongs_to :driver, class_name: 'User'
   belongs_to :passenger, class_name: 'User'
   belongs_to :active_user, class_name: 'User'
   has_many :messages
   belongs_to :car_route
+  belongs_to :car_search
 
   after_save do
     ActiveSupport::Notifications.instrument('car_request_changed', request: self)
@@ -36,8 +37,10 @@ class CarRequest < ActiveRecord::Base
   def cor(user)
     if user.id == passenger_id
       driver
-    else
+    elsif user.id == driver_id
       passenger
+    else
+      raise ActiveRecord::RecordInvalid.new "unknown user_id #{user.id} for car_request id:#{id}"
     end
 
   end
@@ -86,5 +89,8 @@ class CarRequest < ActiveRecord::Base
     self.delivery_status='posted'
   end
 
+  def just_created?
+    created_at == updated_at
+  end
 
 end

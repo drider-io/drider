@@ -7,9 +7,15 @@ class MessageGenerator
 Привіт, підвезеж з #{car_request.pickup_address} до #{car_request.drop_address}, #{day} о #{car_request.scheduled_to.to_formatted_s(:time) } ?
 TEXT
       when 'accepted'
-        txt = <<TEXT
+        if car_request.just_created?
+          txt = <<TEXT
+Можу підвезти з #{car_request.pickup_address} до #{car_request.drop_address}, #{day} о #{car_request.scheduled_to.to_formatted_s(:time) } ?
+TEXT
+        else
+          txt = <<TEXT
 Гаразд, зможу підвезти.
 TEXT
+        end
       when 'confirmed'
         txt = <<TEXT
 Домовились, до зустрічі.

@@ -1,6 +1,6 @@
 class CarRoutesController < ApplicationController
   layout 'account'
-  before_action { menu_set_active('search') }
+  before_action { menu_set_active('routes') }
   before_action :user_required
 
   def index
