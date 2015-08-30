@@ -15,5 +15,5 @@
 //= require jquery-ui/autocomplete
 //= require ./application/address_autocomplete
 //= require twitter/bootstrap
-//= require turbolinks
+// require turbolinks
 //= require_tree ./landing
