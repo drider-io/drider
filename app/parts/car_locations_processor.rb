@@ -19,7 +19,7 @@ class CarLocationsProcessor
   end
 
   def min_route_distance
-    500
+    1000
   end
 
 
