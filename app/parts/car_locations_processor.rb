@@ -99,7 +99,7 @@ SQL
           end
         end
       else
-        log "session #{session.id} have distance #{distance} less then #{min_route_HDdistance}, skipping, user: #{session.user.name}"
+        log "session #{session.id} have distance #{distance} less then #{min_route_distance}, skipping, user: #{session.user.name}"
         session.update!(processed: true)
       end
 
