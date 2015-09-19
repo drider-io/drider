@@ -2,6 +2,12 @@ class AccountsController < ApplicationController
   layout 'account'
   before_action :user_required
 
+
+  def show
+    redirect_to messages_url
+  end
+
+
   def update
 
   end
