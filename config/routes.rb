@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resources :log, only: [:create]
     resource :token, only: [] do
       post :gcm
+      post :facebook
     end
 
   end

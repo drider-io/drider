@@ -10,4 +10,27 @@ class Api::TokensController < ApplicationController
     end
     render nothing: true
   end
+
+  def facebook
+    fb_data = Koala::Facebook::API.new(params['token']).get_object("me?fields=id,email,name,picture")
+    email = fb_data.try(:[], 'email')
+    if fb_data['id'] == params['uid'] && email
+      @user = User.from_auth(
+          email:email,
+          provider: 'facebook',
+          uid: fb_data['id'],
+          name: fb_data['name'],
+          image_url: fb_data['picture']['data']['url']
+      )
+      sign_in_and_redirect @user, :event => :authentication
+      if session[:push_init]
+        @user.devices.create(session[:push_init])
+        session.delete(:push_init)
+      end
+    else
+      render :nothing, status: :unprocessable_entity
+    end
+
+  end
+
 end

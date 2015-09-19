@@ -19,6 +19,15 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.from_auth(email:, provider:, uid:, name:, image_url:)
+    where(provider: provider, uid: uid).first_or_create do |user|
+      user.email = email
+      user.password = Devise.friendly_token[0,20]
+      user.name = name   # assuming the user model has a name
+      user.image_url = image_url # assuming the user model has an image
+    end
+  end
+
   def first_name
     name.try(:match, /^(\w+)/).try(:[], 1)
   end
