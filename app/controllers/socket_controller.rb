@@ -103,6 +103,6 @@ class SocketController < ApplicationController
   end
 
   def client_version_ok?(json)
-    json['client_version_code'].to_i >= 3
+    json['client_version_code'].to_i >= 4
   end
 end
