@@ -28,7 +28,7 @@ class Api::TokensController < ApplicationController
         session.delete(:push_init)
       end
     else
-      render :nothing, status: :unprocessable_entity
+      render nothing: true, status: :unprocessable_entity
     end
 
   end

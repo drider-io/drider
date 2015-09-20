@@ -20,4 +20,18 @@ class ApplicationController < ActionController::Base
     return 0 unless current_user
     Message.unread(current_user).count
   end
+
+  def route_helper
+    if current_user.driver_role? && !current_user.ever_drive?
+      redirect_to route_required_account_url
+    elsif unread_requests_count>0
+      redirect_to car_requests_url
+    elsif unread_messages_count>0
+      redirect_to messages_url
+    elsif current_user.driver_role?
+      redirect_to passenger_search_index_url
+    else
+      redirect_to car_searches_url
+    end
+  end
 end

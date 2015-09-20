@@ -36,4 +36,12 @@ class User < ActiveRecord::Base
   def is_admin?
     %w(10204815960659631 885617441511540).include? uid
   end
+
+  def driver_role?
+    driver_role
+  end
+
+  def ever_drive?
+    ever_drive
+  end
 end

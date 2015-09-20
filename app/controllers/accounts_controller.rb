@@ -4,7 +4,7 @@ class AccountsController < ApplicationController
 
 
   def show
-    redirect_to messages_url
+    route_helper
   end
 
 

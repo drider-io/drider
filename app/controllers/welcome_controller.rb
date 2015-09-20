@@ -5,11 +5,7 @@ class WelcomeController < ApplicationController
 
   def entry
     if current_user
-      if current_user.driver_role && !current_user.ever_drive
-        redirect_to route_required_account_url
-      else
-        redirect_to messages_url
-      end
+      route_helper
     else
       redirect_to welcome_url
     end
