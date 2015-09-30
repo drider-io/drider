@@ -44,10 +44,7 @@
             <div class="content">
                 <h1><strong><span class="color">Drider</span></strong> вітає вас</h1>
                 <p class="lead">Ми спільнота де я <strong>підвезу</strong> і мене <strong>підвезуть</strong></p>
-              <div class="container" style="max-width: 400px; position: relative">
-                <%= link_to android_download_path, class: 'download' do %>
-                  <%= image_tag 'icons/android1.png' %>
-                <% end %>
+              <div class="container" style="max-width: 400px;>
                 <%= form_tag car_searches_path, method: 'POST', id:'landing_search_from' do %>
                   <input type="hidden"  name="car_search[from]" class="hidden" value="49.8419071, 24.0315675"/>
                   <input type="hidden"  name="car_search[time]" value="<%= (Time.now + 1.hour).beginning_of_minute %>"/>
@@ -58,6 +55,11 @@
                         </span>
                   </div>
                 <% end %>
+                <div class="text-left" style="margin-top: 24px;">
+                  <%= link_to android_download_path, class: 'download' do %>
+                    <%= image_tag 'icons/android1.png' %>
+                  <% end %>
+                </div>
               </div>
                 <a href="#tf-about" class="fa fa-angle-down page-scroll"></a>
             </div>
