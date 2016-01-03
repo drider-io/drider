@@ -4,7 +4,7 @@ class CarSession < ActiveRecord::Base
 
   def self.for_user(user, params)
     session = where(user: user).order(:id).last
-    last_location = session.car_locations.last if session
+    last_location = session ? session.car_locations.last : nil
     time = last_location.try(:created_at) || session.try(:created_at)
     if time && time > Time.now - 15.minutes
       session
