@@ -76,6 +76,5 @@ gem 'exception_notification'
 gem 'sinatra', :require => nil
 gem 'rpush'
 gem 'jquery-ui-rails'
-gem 'byebug'
 
 

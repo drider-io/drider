@@ -86,7 +86,7 @@ task :deploy => :environment do
     # invoke :'puma:phased_restart'
     # invoke 'foreman:export'
     to :launch do
-      # invoke 'foreman:restart'
+      invoke 'foreman:restart'
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
     end
