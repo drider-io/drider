@@ -1,3 +1,29 @@
+<script>
+  function save_fb_token(token){
+    $.post('/api/token/facebook', {token: token}).success(function(data){
+      try {
+        webkit.messageHandlers.callbackHandler.postMessage(data);
+        return false;
+      } catch (err) {
+        console.log('The native context does not exist yet');
+      }
+    })
+  }
+
+  function mobile_fb_login() {
+    if (window.injectedAndroid) {
+      window.injectedAndroid.login();
+      return false
+    }
+    try {
+      webkit.messageHandlers.callbackHandler.postMessage({fb_login: true});
+      return false;
+    } catch (err) {
+      console.log('The native context does not exist yet');
+    }
+  }
+</script>
+
 <%- if controller_name != 'sessions' %>
 <%= link_to t(".sign_in", :default => "Sign in"), new_session_path(resource_name) %><br />
 <% end -%>
@@ -22,6 +48,6 @@
   <%- resource_class.omniauth_providers.each do |provider| %>
   <%= link_to t('.sign_in_with_provider', :provider => provider.to_s.titleize, :default => "Sign in with #{provider.to_s.titleize}"), omniauth_authorize_path(resource_name, provider),
               class: 'btn btn-primary btn-lg',
-              onclick: 'if (window.injectedAndroid) { window.injectedAndroid.login(); return false };' %><br />
+              onclick: 'return mobile_fb_login()' %><br />
   <% end -%>
 <% end -%>

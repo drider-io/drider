@@ -7,7 +7,11 @@ class WelcomeController < ApplicationController
     if current_user
       route_helper
     else
-      redirect_to welcome_url
+      if params[:client]
+        redirect_to new_user_session_path
+      else
+        redirect_to welcome_url
+      end
     end
   end
 

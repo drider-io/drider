@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :devices
   has_many :car_searches
 
+  before_save :ensure_authentication_token
+
   def self.from_omniauth(auth, email)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = email
@@ -43,5 +45,20 @@ class User < ActiveRecord::Base
 
   def ever_drive?
     ever_drive
+  end
+
+  def ensure_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
+  end
+
+  private
+
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
+    end
   end
 end

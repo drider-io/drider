@@ -28,12 +28,12 @@ class SocketController < ApplicationController
                 end
               when 'handshake'
                 if client_version_ok?(json)
-                  car_session = handshake(json, tubesock)
+                  car_session = CarSession.for_user(current_user, json)
                   reply = ReplyGeneric.new(tubesock)
                     .set_text(
                         render_to_string partial: 'driver/text_area',layout: false, locals:{ car_session: car_session}
                     )
-                  reply.off_client unless car_session.is_location_available
+                  reply.off_client if !json['ios'] && !car_session.is_location_available
                   reply.send
                 else
                   reply = ReplyGeneric.new(tubesock)
