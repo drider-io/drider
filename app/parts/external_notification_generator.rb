@@ -15,6 +15,13 @@ class ExternalNotificationGenerator
           n.registration_ids = [device.token]
           n.data = { title: text, payload: command.to_json }
           n.save!
+        when 'APN'
+          n = Rpush::Apns::Notification.new
+          n.app = Rpush::Apns::App.find_by_name("ios_app")
+          n.device_token = device.token
+          n.alert = text
+          n.data = command.to_hash
+          n.save!
         else
 
       end

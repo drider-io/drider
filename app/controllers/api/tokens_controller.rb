@@ -12,8 +12,9 @@ class Api::TokensController < ApplicationController
   end
 
   def apns
-    permitted_params = {push_type: 'APN', token: params[:token], name: params[:name]}
-    if current_user
+    params = JSON.parse(request.raw_post)
+    permitted_params = {push_type: 'APN', token: params['token'], name: params['name']}
+    if user_signed_in?
       current_user.devices.where(permitted_params).first_or_create
     else
       session[:push_init] = permitted_params

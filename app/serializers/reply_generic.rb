@@ -51,4 +51,7 @@ class ReplyGeneric
     @reply.as_json(*arg)
   end
 
+  def to_hash
+    @reply
+  end
 end
