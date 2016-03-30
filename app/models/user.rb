@@ -53,6 +53,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def image_url
+    attributes['image_url'].sub(/^http:\/\//,'https://')
+  end
+
   private
 
   def generate_authentication_token
