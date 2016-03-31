@@ -5,7 +5,11 @@ class WelcomeController < ApplicationController
 
   def entry
     if current_user
-      route_helper
+      if warning_required?
+        redirect_to device_warning_account_path + '?' + request.env['QUERY_STRING']
+      else
+        route_helper
+      end
     else
       if params[:client]
         redirect_to new_user_session_path
@@ -28,5 +32,12 @@ class WelcomeController < ApplicationController
 
   def events
     render :json => RecentEventsSerializer.new(RecentEventsService.new)
+  end
+
+  private
+
+  def warning_required?
+    'ios' == params[:client] &&
+        (params[:location] != 'Authorized' || params[:notifications] == '')
   end
 end

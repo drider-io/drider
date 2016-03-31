@@ -16,6 +16,12 @@ class AccountsController < ApplicationController
 
   end
 
+  def device_warning
+    @client = params[:client]
+    @location = params[:location]
+    @notifications = params[:notifications]
+  end
+
   def driver_role
     current_user.update!(driver_role: params[:value])
     redirect_to :root

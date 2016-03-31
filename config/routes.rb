@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   resource :account do
     get '/driver_role/:value', action: :driver_role, as: :driver_role
     get :route_required
+    get :device_warning
   end
 
 
