@@ -2,11 +2,22 @@ class ExternalNotificationGenerator
 
 
   def on_message_saved(message)
+    push_notifications(message)
+    publish_notification(message)
+  end
+
+  private
+
+  def publish_notification(message)
+    Redis.new.publish "user_#{message.to.id}", {from: message.from.id}
+  end
+
+
+  def push_notifications(message)
     text = "Повідомлення від #{message.from.name}"
     command = ReplyGeneric.new(nil)
                   .start_webview(url: Rails.application.routes.url_helpers.message_url(message.from_id)+'#body')
                   .play_sound(sound_type: 'notification')
-
     message.to.devices.each do |device|
       case device.push_type
         when 'GCM'
@@ -26,8 +37,6 @@ class ExternalNotificationGenerator
 
       end
     end
-
-
   end
 
 end

@@ -9,6 +9,7 @@ class SocketController < ApplicationController
           # car_session = Time.now.to_s
           # tubesock.send_data tubesock.object_id
           check_auth(tubesock)
+          subscribe(tubesock) if user_signed_in?
         end
 
         tubesock.onmessage do |data|
@@ -52,6 +53,7 @@ class SocketController < ApplicationController
 
         tubesock.onclose do |data|
           CarLocationsProcessor.perform_in(15.minutes, car_session.id) if car_session
+          @redis_thread.kill if @redis_thread.present?
         end
       end
 
@@ -104,5 +106,21 @@ class SocketController < ApplicationController
 
   def client_version_ok?(json)
     json['client_version_code'].to_i >= 4
+  end
+
+
+  private
+
+
+  def subscribe(tubesock)
+    @redis_thread = Thread.new do
+      # Needs its own redis connection to pub
+      # and sub at the same time
+      Redis.new.subscribe "user_#{current_user.id}" do |on|
+        on.message do |channel, message|
+          tubesock.send_data message
+        end
+      end
+    end
   end
 end
