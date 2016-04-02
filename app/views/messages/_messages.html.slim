@@ -1,0 +1,18 @@
+-@messages_by_date.each do |date, messages|
+  li
+    div style="clear: both; text-align: center"
+      =date
+  -messages.each do |message|
+    -if message.car_request && message.car_request.updated_at <= message.created_at
+      li style="clear: both"
+        =render partial: 'car_requests/car_request', locals: { car_request: message.car_request }
+    li
+      -if message.from_id == current_user.id
+        div.alert.alert-info.pull-right style="text-align: right; width: 80%"
+          =message.body
+          '
+          span.text-muted =message.created_at.to_formatted_s(:time)
+      -else
+        div.alert.alert-warning.pull-left style="text-align: left; width: 80%"
+          =message.body
+          span.pull-right.text-muted =message.created_at.to_formatted_s(:time)

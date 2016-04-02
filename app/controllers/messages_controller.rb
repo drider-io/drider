@@ -18,7 +18,20 @@ class MessagesController < ApplicationController
     @messages = Message.conversation(@correspondent, current_user).order('id DESC').limit(30).reverse
     redirect_to messages_url and return if @messages.empty? #protection from information disclosure
     @messages_by_date = @messages.group_by {|m| m.created_at.to_date}
-    mark_messages_as_read
+    respond_to do |format|
+      format.html { mark_messages_as_read }
+      format.json do
+        result= {}
+        if params[:cmt_id].to_i == @correspondent.id
+          mark_messages_as_read
+          result[:messages_html] = render_to_string(partial: 'messages', formats: :html)
+        end
+        result[:urc] = unread_requests_count
+        result[:umc] = unread_messages_count
+        result[:ut] = result[:urc] + result[:umc]
+        render json: result
+      end
+    end
   end
 
   # POST /messages

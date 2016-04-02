@@ -7,8 +7,8 @@ nav id="tf-menu" class="navbar navbar-default on"
         span class="icon-bar"
         span class="icon-bar"
         - unread = unread_requests_count + unread_messages_count
-        -if unread > 0
-          span class="badge" =unread
+        span class="badge badge_ut" class=(0==unread ? 'hide': '')
+          =unread
       a class="navbar-brand" href="#{welcome_path}" Drider
 
     div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"
@@ -40,13 +40,13 @@ nav id="tf-menu" class="navbar navbar-default on"
           li class=('active' if 'requests' == @active_menu)
             a href="#{car_requests_path}" class="page-scroll"
               'Запити
-              -if unread_requests_count > 0
-                span class="badge" =unread_requests_count
+              span class="badge badge_urc" class=(0==unread_requests_count ? 'hide': '')
+                =unread_requests_count
           li class=('active' if 'messages' == @active_menu)
             a href="#{messages_path}" class="page-scroll"
               'Повідомлення
-              -if unread_messages_count > 0
-                span class="badge" =unread_messages_count
+              span class="badge badge_umc" class=(0==unread_messages_count ? 'hide': '')
+                =unread_messages_count
         -if current_user
           li
             a class="navbar-brand" href="/"
