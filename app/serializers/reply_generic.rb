@@ -47,6 +47,11 @@ class ReplyGeneric
     self
   end
 
+  def exec_js(js)
+    @reply[:exec_js] = js
+    self
+  end
+
   def as_json(*arg)
     @reply.as_json(*arg)
   end

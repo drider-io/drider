@@ -9,7 +9,8 @@ class ExternalNotificationGenerator
   private
 
   def publish_notification(message)
-    Redis.new.publish "user_#{message.to.id}", {from: message.from.id}
+    pub_msg = ReplyGeneric.new(nil).exec_js("on_message(#{message.from.id.to_i})").to_json
+    Redis.new.publish "user_#{message.to.id}", pub_msg
   end
 
 
