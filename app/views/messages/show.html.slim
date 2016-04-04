@@ -3,11 +3,12 @@ div.messages
   =@correspondent.name
   ul.list-unstyled.messages-list
     =render partial: 'messages'
-
-  div style="clear: both;"
+  br style="clear: both;"
+  div style="height:60px"
+  div style="position: fixed; bottom: 0px"
     =form_tag messages_path do
       =hidden_field_tag :to_id, @correspondent.id
       div.input-group
-        =text_field_tag :body,'', class: 'form-control', placeholder: 'Повідомлення'
+        =text_area :body,'', class: 'form-control', placeholder: 'Повідомлення', style: "height: 60px;"
         span.input-group-btn
-          =button_tag 'Надіслати', class: 'btn btn-default'
+          =button_tag 'Надіслати', class: 'btn btn-default btn-primary', style: "height: 60px;"
