@@ -8,6 +8,12 @@ function main() {
 
 (function () {
    'use strict';
+  $('#bs-example-navbar-collapse-1').on('show.bs.collapse', function(){
+    $('.navbar-default').addClass('on');
+  }).on('hide.bs.collapse', function(){
+    if ($(window).scrollTop() == 0)
+      $('.navbar-default').removeClass('on');
+  });
 
    /* ==============================================
   	Testimonial Slider
@@ -125,6 +131,6 @@ function main() {
 
 
 }
-$(window).load(function() {
+$(document).ready(function() {
   main();
 });
