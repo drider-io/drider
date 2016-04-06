@@ -13,6 +13,7 @@ function on_message(from_id){
   $.get('/messages/'+from_id+'.json?cmt_id='+cmt_id).success(function(data){
     console.log(data);
     setBadge($('.badge_ut'), data.ut);
+    setAppBadge(data.ut);
     setBadge($('.badge_urc'), data.urc);
     setBadge($('.badge_umc'), data.umc);
     if (data.messages_html){
