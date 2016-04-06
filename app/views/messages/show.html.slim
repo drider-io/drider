@@ -9,6 +9,6 @@ div.messages
     =form_tag messages_path do
       =hidden_field_tag :to_id, @correspondent.id
       div.input-group
-        =text_area :body,'', class: 'form-control', placeholder: 'Повідомлення', style: "height: 60px;"
+        =text_field_tag :body,'', class: 'form-control', placeholder: 'Повідомлення'
         span.input-group-btn
-          =button_tag 'Надіслати', class: 'btn btn-default btn-primary', style: "height: 60px;"
+          =button_tag 'Надіслати', class: 'btn btn-default btn-primary'
