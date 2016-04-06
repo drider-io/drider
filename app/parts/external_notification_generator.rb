@@ -9,7 +9,7 @@ class ExternalNotificationGenerator
   private
 
   def publish_notification(message)
-    pub_msg = ReplyGeneric.new(nil).exec_js("on_message(#{message.from.id.to_i})").to_json
+    pub_msg = reload_command(message).to_json
     Redis.new.publish "user_#{message.to.id}", pub_msg
   end
 
@@ -32,7 +32,8 @@ class ExternalNotificationGenerator
           n.app = Rpush::Apns::App.find_by_name("ios_app")
           n.device_token = device.token
           n.alert = text
-          n.data = command.to_hash
+          n.badge = badge(message.to)
+          n.data = reload_command(message).to_hash
           n.save!
         else
 
@@ -40,4 +41,13 @@ class ExternalNotificationGenerator
     end
   end
 
+  private
+
+  def reload_command(message)
+    ReplyGeneric.new(nil).exec_js("on_message(#{message.from.id.to_i})")
+  end
+
+  def badge(current_user)
+    CarRequest.unread(current_user).count + Message.unread(current_user).count
+  end
 end
