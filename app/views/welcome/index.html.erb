@@ -231,7 +231,14 @@
 
           <div id="map-canvas"></div>
             <div class="space"></div>
-
+          <% active_stats = CarRoute.active_stats %>
+          <h3 style="
+              text-align: left;
+              /* margin-left: 68px; */
+          ">Активних маршрутів <span class="label label-default"> <%= active_stats['routes_count'] %></span></h3>
+          <h3 style="
+                        text-align: left;
+          ">Водіїв <span class="label label-default"> <%= active_stats['users_count'] %></span></h3>
         </div>
     </div>
 

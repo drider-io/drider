@@ -5,4 +5,8 @@ class CarRoute < ActiveRecord::Base
     query = sanitize_sql_array([sql, args].flatten)
     select(query)
   end
+
+  def self.active_stats
+    connection.exec_query("SELECT count(distinct user_id) as users_count, count(id) as routes_count FROM car_routes WHERE updated_at >= (CURRENT_DATE - INTERVAL '1 week')").first
+  end
 end
