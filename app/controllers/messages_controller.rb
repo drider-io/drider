@@ -40,7 +40,7 @@ class MessagesController < ApplicationController
     correspondent = User.find(params[:to_id])
     redirect_to messages_url and return if Message.conversation(correspondent, current_user).first.blank?
     redirect_to message_url(correspondent.id) and return if params[:body].blank?
-    msg = Message.create(from: current_user, to: correspondent, body: params[:body])
+    msg = Message.create!(from: current_user, to: correspondent, body: params[:body])
     redirect_to message_url(correspondent.id)
   end
 

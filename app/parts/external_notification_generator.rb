@@ -26,7 +26,7 @@ class ExternalNotificationGenerator
           n.app = Rpush::Gcm::App.find_by_name("android_app")
           n.registration_ids = [device.token]
           n.data = { title: text, payload: command.to_json }
-          n.save!
+          n.save #TODO refactor with catch errors
         when 'APN'
           n = Rpush::Apns::Notification.new
           n.app = Rpush::Apns::App.find_by_name("ios_app")
@@ -34,7 +34,7 @@ class ExternalNotificationGenerator
           n.alert = text
           n.badge = badge(message.to)
           n.data = reload_command(message).to_hash
-          n.save!
+          n.save #TODO refactor with catch errors
         else
 
       end
