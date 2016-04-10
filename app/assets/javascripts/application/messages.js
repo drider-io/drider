@@ -21,3 +21,9 @@ function on_message(from_id){
     }
   })
 }
+
+$(document).ready(function(){
+  if ($('.messages').length > 0){
+    window.scrollTo(0,document.body.scrollHeight);
+  }
+});
