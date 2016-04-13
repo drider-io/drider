@@ -52,12 +52,12 @@ end
 
 gem 'tubesock', '~> 0.2.7'
 gem 'puma', '~> 3.4.0'
-gem 'foreman'
-gem 'geocoder'
-gem 'activerecord-postgis-adapter'
-gem 'devise'
-gem 'slim'
-gem 'devise-bootstrap-views'
+gem 'foreman', '~> 0.78.0'
+gem 'geocoder', '~> 1.2.8'
+gem 'activerecord-postgis-adapter', '~> 3.0.0'
+gem 'devise', '~> 3.5.1'
+gem 'slim', '~> 3.0.6'
+gem 'devise-bootstrap-views', '~> 0.0.5'
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem "twitter-bootstrap-rails"
@@ -71,7 +71,7 @@ gem "koala", "~> 2.0"
 gem 'aasm'
 gem 'rails-i18n'
 gem 'devise-i18n'
-gem 'sidekiq'
+gem 'sidekiq', '~> 4.1.1'
 gem 'exception_notification'
 gem 'sinatra', :require => nil
 gem 'rpush'
