@@ -51,7 +51,7 @@ group :development, :test do
 end
 
 gem 'tubesock', '~> 0.2.7'
-gem 'puma'
+gem 'puma', '~> 3.4.0'
 gem 'foreman'
 gem 'geocoder'
 gem 'activerecord-postgis-adapter'
