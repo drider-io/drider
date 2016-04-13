@@ -50,7 +50,7 @@ group :development, :test do
   gem 'vcr'
 end
 
-gem 'tubesock'
+gem 'tubesock', '~> 0.2.7'
 gem 'puma'
 gem 'foreman'
 gem 'geocoder'
