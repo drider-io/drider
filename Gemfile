@@ -50,6 +50,10 @@ group :development, :test do
   gem 'vcr'
 end
 
+group :development do
+  gem "letter_opener"
+end
+
 gem 'tubesock', '~> 0.2.7'
 gem 'puma', '~> 3.4.0'
 gem 'foreman', '~> 0.78.0'
