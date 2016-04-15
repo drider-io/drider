@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :car_searches
 
   before_save :ensure_authentication_token
+  after_create :send_welcome_mail
 
   def self.from_omniauth(auth, email)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -64,5 +65,9 @@ class User < ActiveRecord::Base
       token = Devise.friendly_token
       break token unless User.where(authentication_token: token).first
     end
+  end
+
+  def send_welcome_mail
+      UserMailer.welcome(id).deliver_later
   end
 end
