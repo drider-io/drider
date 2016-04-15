@@ -22,6 +22,14 @@ module Car
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    Figaro.load
+    config.mailgun = {
+        :address => "smtp.mailgun.org",
+        :port => 587,
+        :user_name => ENV['mailgun_login'],
+        :password => ENV['mailgun_password']
+      }
   end
   Rails.application.routes.default_url_options[:host] = 'drider.io'
 end
