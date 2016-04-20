@@ -6,10 +6,14 @@ class SocketController < ApplicationController
         car_session = nil
         handshake_reply_sent = false
         tubesock.onopen do
+          begin
           # car_session = Time.now.to_s
           # tubesock.send_data tubesock.object_id
           check_auth(tubesock)
           subscribe(tubesock) if user_signed_in?
+          ensure
+            ActiveRecord::Base.clear_active_connections!
+          end
         end
 
         tubesock.onmessage do |data|
@@ -48,6 +52,8 @@ class SocketController < ApplicationController
           end
           rescue StandardError=>e
             ExceptionNotifier.notify_exception(e, :env => request.env)
+          ensure
+            ActiveRecord::Base.clear_active_connections!
           end
         end
 
