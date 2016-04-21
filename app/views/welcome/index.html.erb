@@ -44,7 +44,7 @@
             <div class="content">
                 <h1><strong><span class="color">Drider</span></strong> вітає вас</h1>
                 <p class="lead">Ми спільнота де я <strong>підвезу</strong> і мене <strong>підвезуть</strong></p>
-              <div class="container" style="max-width: 400px;>
+              <div class="container" style="max-width: 400px;">
                 <%= form_tag car_searches_path, method: 'POST', id:'landing_search_from' do %>
                   <input type="hidden"  name="car_search[from]" class="hidden" value="49.8419071, 24.0315675"/>
                   <input type="hidden"  name="car_search[time]" value="<%= (Time.now + 1.hour).beginning_of_minute %>"/>
@@ -55,11 +55,13 @@
                         </span>
                   </div>
                 <% end %>
+                <% if 'ios' != session[:client] %>
                 <div class="text-left" style="margin-top: 24px;">
                   <%= link_to android_download_path, class: 'download' do %>
                     <%= image_tag 'icons/android1.png' %>
                   <% end %>
                 </div>
+                  <% end %>
               </div>
                 <a href="#tf-about" class="fa fa-angle-down page-scroll"></a>
             </div>
@@ -125,7 +127,11 @@
                     1. Бути зареєстрованим на фейсбуці
                   </li>
                   <li>
-                    2. Мати андроїд смартфон із GPS
+                    <% if 'ios' == session[:client]  %>
+                      2. Мати iOS пристрий із GPS
+                    <% else %>
+                    2. Мати iOS/андроїд пристрий із GPS
+                    <% end %>
                   </li>
                   <li>
                     3. Мати мобільний інтернет
@@ -161,7 +167,11 @@
                           </li>
                           <li>
                               <span class="fa fa-dot-circle-o"></span>
-                              <strong></strong> <em>Встановити <a href="<%= android_download_path %>">додаток</a> на мобільний</em>
+                              <strong></strong> <em>Встановити
+                            <% if 'ios' != session[:client] %>
+                            <a href="<%= android_download_path %>">додаток</a>
+                              <% end %>
+                            на мобільний</em>
                           </li>
                           <li>
                               <span class="fa fa-dot-circle-o"></span>

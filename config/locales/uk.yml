@@ -30,8 +30,8 @@ uk:
   confirm: Підтвердити
   finish: Завершити
   cancel: Відмінити
-  car_request_status_desc_sent: Очикується згода водія
-  car_request_status_desc_accepted: Очикується підтверження пасажира
+  car_request_status_desc_sent: Очікується згода водія
+  car_request_status_desc_accepted: Очікується підтверження пасажира
   car_request_status_desc_confirmed: Погоджено
   car_request_status_desc_ride: В дорозі
   car_request_status_desc_canceled: Скасовано

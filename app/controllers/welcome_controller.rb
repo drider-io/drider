@@ -4,6 +4,7 @@ class WelcomeController < ApplicationController
   end
 
   def entry
+    session[:client] ='ios' if 'ios' == params[:client]
     if current_user
       if warning_required?
         redirect_to device_warning_account_path + '?' + request.env['QUERY_STRING']
