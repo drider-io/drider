@@ -26,10 +26,14 @@ class SocketController < ApplicationController
           if json && json['type']
             case json['type']
               when 'location'
-                save_location(json, car_session)
-                unless handshake_reply_sent
-                  ReplyGeneric.new(tubesock).handshake_reply.send
-                  handshake_reply_sent = true
+                if car_session.present?
+                  save_location(json, car_session)
+                  unless handshake_reply_sent
+                    ReplyGeneric.new(tubesock).handshake_reply.send
+                    handshake_reply_sent = true
+                  end
+                else
+                  tubesock.close
                 end
               when 'handshake'
                 if client_version_ok?(json)
