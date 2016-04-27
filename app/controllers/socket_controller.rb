@@ -34,6 +34,7 @@ class SocketController < ApplicationController
                   end
                 else
                   tubesock.close
+                  raise StandardError.new 'location without handshake'
                 end
               when 'handshake'
                 if client_version_ok?(json)
