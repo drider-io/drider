@@ -8,8 +8,10 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   get '/welcome' => 'welcome#index', as: :welcome
-   root 'welcome#entry'
+  get '/welcome' => 'welcome#index', as: :welcome
+  get '/policy' => 'welcome#policy', as: :policy
+
+  root 'welcome#entry'
   post :mail , controller: :welcome
 
   namespace :api do

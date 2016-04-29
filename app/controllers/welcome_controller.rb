@@ -35,6 +35,10 @@ class WelcomeController < ApplicationController
     render :json => RecentEventsSerializer.new(RecentEventsService.new)
   end
 
+  def policy
+
+  end
+
   private
 
   def warning_required?
