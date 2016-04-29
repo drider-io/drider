@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   has_many :car_searches
 
   before_save :ensure_authentication_token
-  after_create :send_welcome_mail
+  # after_create :send_welcome_mail
 
   def self.from_omniauth(auth, email)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
