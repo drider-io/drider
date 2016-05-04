@@ -11,6 +11,13 @@
   }
 
   function mobile_fb_login() {
+    var policy_checkbox = $('#policy_accepted');
+    if ( policy_checkbox.length > 0 ) {
+      if (!policy_checkbox.prop("checked")) {
+        alert('Ознайомтесь і погодтесь з політикою конфідеційності');
+        return false;
+      }
+    }
     if (window.injectedAndroid) {
       window.injectedAndroid.login();
       return false
@@ -23,6 +30,14 @@
     }
   }
 </script>
+
+<%- if mobile_app? %>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" id="policy_accepted"> Я ознайомився і погоджуюсь з <%= link_to 'політикою конфідеційності', policy_path %>
+    </label>
+  </div>
+<% end %>
 
 <%- if controller_name != 'sessions' %>
 <%= link_to t(".sign_in", :default => "Sign in"), new_session_path(resource_name) %><br />

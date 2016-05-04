@@ -26,4 +26,8 @@ module ApplicationHelper
   def tiny_time_from_now(time)
     format_tiny_time(Time.now - time)
   end
+
+  def mobile_app?
+    'ios' == session[:client]
+  end
 end
