@@ -28,6 +28,6 @@ module ApplicationHelper
   end
 
   def mobile_app?
-    'ios' == session[:client]
+    session[:client].in? ['ios', 'android']
   end
 end
