@@ -55,13 +55,14 @@
                         </span>
                   </div>
                 <% end %>
-                <% if 'ios' != session[:client] %>
                 <div class="text-left" style="margin-top: 24px;">
-                  <%= link_to android_download_path, class: 'download' do %>
-                    <%= image_tag 'icons/android1.png' %>
+                  <% if 'ios' != session[:client] %>
+                    <%= link_to android_download_path, class: 'download' do %>
+                      <%= image_tag 'icons/android1.png' %>
+                    <% end %>
                   <% end %>
+                  <a href="https://itunes.apple.com/ua/app/drider/id1101420670?ls=1&mt=8" style="float: right;display:inline-block;overflow:hidden;background:url(<%= image_path 'icons/badge_appstore-lrg.svg' %>) no-repeat;width:165px;height:40px;"></a>
                 </div>
-                  <% end %>
               </div>
                 <a href="#tf-about" class="fa fa-angle-down page-scroll"></a>
             </div>
