@@ -29,7 +29,9 @@ class ApplicationController < ActionController::Base
   end
 
   def route_helper
-    if current_user.driver_role? && !current_user.ever_drive?
+    if !current_user.role_defined?
+      redirect_to role_select_account_path
+    elsif current_user.driver_role? && !current_user.ever_drive?
       redirect_to route_required_account_url
     elsif unread_requests_count>0
       redirect_to car_requests_url
