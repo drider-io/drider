@@ -28,7 +28,7 @@ nav id="tf-menu" class="navbar navbar-default on navbar-fixed-top"
               -else
                 =link_to 'Я водій', driver_role_account_path(value: true)
 
-        -if driver_role
+        -if driver_role && current_user.ever_drive
           li class=('active' if 'routes' == @active_menu)
             a href="#{car_routes_path}" class="page-scroll" Маршрути
         -if !driver_role || driver_role && current_user.ever_drive
