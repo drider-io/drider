@@ -16,6 +16,10 @@ class AccountsController < ApplicationController
 
   end
 
+  def role_select
+
+  end
+
   def device_warning
     @client = params[:client]
     @location = params[:location]
