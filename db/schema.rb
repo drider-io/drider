@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160316204645) do
+ActiveRecord::Schema.define(version: 20160508131956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,14 @@ ActiveRecord::Schema.define(version: 20160316204645) do
 # Could not dump table "messages" because of following StandardError
 #   Unknown type 'delivery_status' for column 'delivery_status'
 
+  create_table "points", force: :cascade do |t|
+    t.geography "lonlat",     limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.float     "accuracy"
+    t.datetime  "time"
+    t.datetime  "created_at"
+    t.datetime  "updated_at"
+  end
+
   create_table "rpush_apps", force: :cascade do |t|
     t.string   "name",                                null: false
     t.string   "environment"
@@ -163,6 +171,10 @@ ActiveRecord::Schema.define(version: 20160316204645) do
 
   add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
 
+  create_table "test", id: false, force: :cascade do |t|
+    t.geometry "ll", limit: {:srid=>3857, :type=>"point"}
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "device_identifier"
     t.datetime "created_at",                             null: false
@@ -181,7 +193,7 @@ ActiveRecord::Schema.define(version: 20160316204645) do
     t.string   "uid"
     t.string   "name"
     t.string   "image_url"
-    t.boolean  "driver_role",            default: false, null: false
+    t.boolean  "driver_role"
     t.boolean  "ever_drive",             default: false, null: false
     t.string   "authentication_token"
   end

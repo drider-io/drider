@@ -44,6 +44,10 @@ class User < ActiveRecord::Base
     driver_role
   end
 
+  def role_defined?
+    !driver_role.nil?
+  end
+
   def ever_drive?
     ever_drive
   end
