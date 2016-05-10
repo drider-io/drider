@@ -30,4 +30,9 @@ module ApplicationHelper
   def mobile_app?
     session[:client].in? ['ios', 'android']
   end
+
+  def layout_name
+    name = controller.send(:_layout)
+    name.is_a?(String) ? name : 'application'
+  end
 end

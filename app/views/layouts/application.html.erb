@@ -18,7 +18,7 @@
   <link rel="apple-touch-icon" sizes="144x144" href="<%= image_path('icons/apple-touch-icon-144x144.png') %>">
 
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag  layout_name, media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag @layout_name, 'data-turbolinks-track' => true %>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMFgi5v9PX7UQGb6e4XIl6iNelo1zwlOE&libraries=places"></script>
   <%= csrf_meta_tags %>

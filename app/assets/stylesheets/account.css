@@ -13,6 +13,6 @@
  *= require devise_bootstrap_views
  *= require jquery-ui/autocomplete
  *= require_tree ./shared
- *= require_tree ./spirit8
+ *= require_tree ./account
  *= require_self
  */
