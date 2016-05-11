@@ -58,9 +58,9 @@
                 <% end %>
                 <div class="text-left" style="margin-top: 24px;">
                   <% if 'ios' != session[:client] %>
-                    <%= link_to android_download_path, class: 'download' do %>
-                      <%= image_tag 'icons/android1.png' %>
-                    <% end %>
+                    <a href='https://play.google.com/store/apps/details?id=io.drider.car&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+                      <%= image_tag 'icons/google-play-badge.png', style: 'height: 60px;margin-top: -10px;' %>
+                    </a>
                   <% end %>
                   <a href="https://itunes.apple.com/ua/app/drider/id1101420670?ls=1&mt=8" style="float: right;display:inline-block;overflow:hidden;background:url(<%= image_path 'icons/badge_appstore-lrg.svg' %>) no-repeat;width:165px;height:40px;"></a>
                 </div>
@@ -170,9 +170,7 @@
                           <li>
                               <span class="fa fa-dot-circle-o"></span>
                               <strong></strong> <em>Встановити
-                            <% if 'ios' != session[:client] %>
-                            <a href="<%= android_download_path %>">додаток</a>
-                              <% end %>
+                            <a href="#tf-home">додаток</a>
                             на мобільний</em>
                           </li>
                           <li>

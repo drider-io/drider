@@ -7,10 +7,11 @@ div.driver-instruction
       div.alert.alert-info
         ol
           li
-            -if 'ios' == session[:client]
-              | Скачайте додаток для iOS
-            -else
-              =link_to 'Скачайте додаток для Андроїд', android_download_path
+            |Скачайте додаток для
+            '
+            =link_to 'iOS', ios_download_path
+            | /
+            =link_to 'Андроїд', android_download_path
           li Знов увійдіть через фейсбук в додатку
       br
     'Для запису маршрута необхідно:

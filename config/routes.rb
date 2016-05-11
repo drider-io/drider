@@ -39,7 +39,8 @@ Rails.application.routes.draw do
   end
 
   resource :download, only: [] do
-    get :android
+    get :android, to: redirect('https://play.google.com/store/apps/details?id=io.drider.car&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1')
+    get :ios, to: redirect('https://itunes.apple.com/ua/app/drider/id1101420670?ls=1&mt=8')
   end
 
   resource :account do
