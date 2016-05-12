@@ -1,20 +1,10 @@
+-driver_role = current_user && current_user.driver_role
 nav id="tf-menu" class="navbar navbar-default on navbar-fixed-top"
   div class="container"
     div class="navbar-header"
-      button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-        span class="sr-only">Toggle navigation
-        span class="icon-bar"
-        span class="icon-bar"
-        span class="icon-bar"
-        - unread = unread_requests_count + unread_messages_count
-        span class="badge badge_ut" class=(0==unread ? 'hide': '')
-          =unread
-      a class="navbar-brand" href="/" Drider
-
-    div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"
-      -driver_role = current_user && current_user.driver_role
-      ul class="nav navbar-nav navbar-right"
-        -if current_user.try(:role_defined?)
+      a class="navbar-brand hidden-xs hidden-sm" href="/" Drider
+      -if current_user.try(:role_defined?)
+        ul class="nav navbar-nav pull-left pinned"
           li class="dropdown"
             a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
               -if driver_role
@@ -28,16 +18,30 @@ nav id="tf-menu" class="navbar navbar-default on navbar-fixed-top"
                   =link_to 'Я пасажир', driver_role_account_path(value: 'false')
                 -else
                   =link_to 'Я водій', driver_role_account_path(value: true)
-
-          -if driver_role && current_user.ever_drive
-            li class=('active' if 'routes' == @active_menu)
-              a href="#{car_routes_path}" Маршрути
+        ul class="nav navbar-nav pull-left pinned"
           -if !driver_role || driver_role && current_user.ever_drive
             li class=('active' if 'search' == @active_menu)
               -if driver_role
                 a href="#{passenger_search_index_path}" Пошук Пасажира
               -else
                 a href="#{car_searches_path}" Пошук Водія
+
+      button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+        span class="sr-only">Toggle navigation
+        span class="icon-bar"
+        span class="icon-bar"
+        span class="icon-bar"
+        - unread = unread_requests_count + unread_messages_count
+        span class="badge badge_ut" class=(0==unread ? 'hide': '')
+          =unread
+
+    div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"
+      ul class="nav navbar-nav navbar-left"
+        -if current_user.try(:role_defined?)
+          -if driver_role && current_user.ever_drive
+            li class=('active' if 'routes' == @active_menu)
+              a href="#{car_routes_path}" Маршрути
+          -if !driver_role || driver_role && current_user.ever_drive
             li class=('active' if 'requests' == @active_menu)
               a href="#{car_requests_path}"
                 'Запити
@@ -48,7 +52,8 @@ nav id="tf-menu" class="navbar navbar-default on navbar-fixed-top"
                 'Повідомлення
                 span class="badge badge_umc" class=(0==unread_messages_count ? 'hide': '')
                   =unread_messages_count
-        -if current_user
+      -if current_user
+        ul class="nav navbar-nav navbar-right"
           li
             a class="navbar-brand" href="/"
               img alt="Brand" src="#{current_user.image_url}"
