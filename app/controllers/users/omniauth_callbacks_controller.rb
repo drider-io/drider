@@ -16,9 +16,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         @user.devices.create(session[:push_init])
         session.delete(:push_init)
       end
+      link_searches(@user, session[:unsaved_searches])
+      session.delete :unsaved_searches
     else
       session["devise.facebook_data"] = request.env["omniauth.auth"]
       redirect_to new_user_session_url
+    end
+  end
+
+  def link_searches(user, search_ids)
+    if search_ids.is_a?(Array) && search_ids.present?
+      CarSearch.where(user_id: nil).where(id: search_ids).update_all(user_id: user.id)
     end
   end
 end

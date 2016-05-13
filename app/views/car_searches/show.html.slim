@@ -2,7 +2,13 @@ div.car_search
   p id="notice"
     = notice
   -if @routes.empty?
-    h4 На жаль жодного маршрута не знайдено, спробуйте перемістити початок або кінець
+    -if user_signed_in?
+      h4 На жаль, жодного маршрута не знайдено, вам надішлють повідомлення як тільки з’являться потрібні маршрути
+    -else
+      h4
+        ' На жаль, жодного маршрута не знайдено,
+        =link_to 'залишіть email ', new_user_session_path
+        ' аби ми могли вас повідомити про наявність
   -else
     -@routes.each do |route|
       div.row id="route#{route.id}"

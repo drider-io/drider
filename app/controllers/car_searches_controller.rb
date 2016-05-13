@@ -39,6 +39,7 @@ class CarSearchesController < ApplicationController
 
     respond_to do |format|
       if @car_search.save
+        save_to_session(@car_search) unless user_signed_in?
         format.html { redirect_to @car_search }
         format.json { render :show, status: :created, location: @car_search }
       else
@@ -63,6 +64,11 @@ class CarSearchesController < ApplicationController
   end
 
   private
+
+  def save_to_session(search)
+    session[:unsaved_searches] = [] if session[:unsaved_searches].nil?
+    session[:unsaved_searches].push(search.id)
+  end
     # Use callbacks to share common setup or constraints between actions.
     def set_car_search
       @car_search = CarSearch.where(user_id: current_user && current_user.id ).find(params[:id])
