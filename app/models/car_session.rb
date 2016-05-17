@@ -13,6 +13,10 @@ class CarSession < ActiveRecord::Base
     end
   end
 
+  def length
+    car_locations.accurate.select("ST_Length(ST_Simplify(ST_MakeLine(m ORDER BY id),10)) as length").to_a.first['length']
+  end
+
   private
 
   def self.build(user, params)
