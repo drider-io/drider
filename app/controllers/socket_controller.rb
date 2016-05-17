@@ -4,6 +4,7 @@ class SocketController < ApplicationController
   def chat
       hijack do |tubesock|
         car_session = nil
+        last_updated = Time.now - 1.day
         handshake_reply_sent = false
         tubesock.onopen do
           begin
@@ -31,6 +32,10 @@ class SocketController < ApplicationController
                   unless handshake_reply_sent
                     ReplyGeneric.new(tubesock).handshake_reply.send
                     handshake_reply_sent = true
+                  end
+                  if car_session.length.to_i > 500 && Time.now - last_updated > 10
+                    ReplyGeneric.new(tubesock).exec_js("showSession(#{car_session.id})").send
+                    last_updated = Time.now
                   end
                 else
                   tubesock.close
@@ -121,7 +126,6 @@ class SocketController < ApplicationController
 
 
   private
-
 
   def subscribe(tubesock)
     @redis_thread = Thread.new do
