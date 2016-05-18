@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
   end
 
   def image_url
-    attributes['image_url'].sub(/^http:\/\//,'https://')
+    "https://graph.facebook.com/#{uid}/picture?type=square"
   end
 
   private
