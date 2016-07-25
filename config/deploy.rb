@@ -16,7 +16,7 @@ set :application, "car"
 set :domain, 'car'
 set :deploy_to, '/var/www/cardriver'
 # set :repository, 'git@bitbucket.org:2rba/carwebdriver.git'
-set :branch, 'master'
+set :branch, ENV['BRANCH'] || 'master'
 
 
 set :puma_state, "#{deploy_to}/#{shared_path}/tmp/puma/state"
