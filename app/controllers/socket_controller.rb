@@ -40,8 +40,7 @@ class SocketController < ApplicationController
                 else
                   # tubesock.close
                   # raise StandardError.new 'location without handshake'
-
-                  save_location(json, CarSession.new(id:0))
+                  save_location(json, nil)
                 end
               when 'handshake'
                 if client_version_ok?(json)
@@ -82,7 +81,7 @@ class SocketController < ApplicationController
     CarLocation.create!(
         r: RGeo::Geographic.spherical_factory(srid: 4326).point(json['long'], json['lat']),
         m: RGeo::Geographic.simple_mercator_factory(srid: 3785).point(json['long'], json['lat']).projection,
-        car_session_id: car_session.id,
+        car_session: car_session,
         accuracy: json['accy'],
         time: Time.at(json['time_ms'].to_f/1000),
         provider: json['prov'],
