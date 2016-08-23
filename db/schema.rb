@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160731121644) do
+ActiveRecord::Schema.define(version: 20160823134504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,9 +27,14 @@ ActiveRecord::Schema.define(version: 20160731121644) do
     t.integer   "user_id"
     t.datetime  "created_at",                                                              null: false
     t.datetime  "updated_at",                                                              null: false
+    t.integer   "time_id",        limit: 8
+    t.float     "location_time"
+    t.float     "queue_time"
+    t.float     "send_time"
   end
 
   add_index "car_locations", ["car_session_id"], name: "index_car_locations_on_car_session_id", using: :btree
+  add_index "car_locations", ["user_id", "time_id"], name: "index_car_locations_on_user_id_and_time_id", unique: true, using: :btree
 
 # Could not dump table "car_requests" because of following StandardError
 #   Unknown type 'request_status' for column 'status'
@@ -90,6 +95,7 @@ ActiveRecord::Schema.define(version: 20160731121644) do
     t.boolean  "processed",                default: false
     t.integer  "car_route_id"
     t.integer  "lock_version",             default: 0,     null: false
+    t.boolean  "accurate",                 default: true,  null: false
   end
 
   add_index "car_sessions", ["number", "user_id"], name: "car_session_user_index", unique: true, using: :btree
@@ -170,6 +176,12 @@ ActiveRecord::Schema.define(version: 20160731121644) do
   end
 
   add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
+
+  create_table "t1", force: :cascade do |t|
+    t.string "k", limit: 255
+  end
+
+  add_index "t1", ["k"], name: "t1_k_key", unique: true, using: :btree
 
   create_table "test", id: false, force: :cascade do |t|
     t.geometry "ll", limit: {:srid=>3857, :type=>"point"}

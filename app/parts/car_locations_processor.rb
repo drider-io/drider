@@ -31,7 +31,7 @@ class CarLocationsProcessor
 
   def perform(session_id)
     session = CarSession.find(session_id)
-    last_location_time = session.car_locations.accurate.maximum(:created_at)
+    last_location_time = session.car_locations.accurate(session.accurate).maximum(:created_at)
     if last_location_time.blank?
       session.update_attributes(processed: true)
     elsif !session.processed && (last_location_time + 14.minutes < Time.now)
@@ -47,7 +47,7 @@ class CarLocationsProcessor
   end
 
   def process_session(session)
-    sql_route = session.car_locations.accurate.select("ST_Simplify(ST_MakeLine(m ORDER BY id),10) as route").to_sql
+    sql_route = session.car_locations.accurate(session.accurate).select("ST_Simplify(ST_MakeLine(m ORDER BY id),10) as route").to_sql
     sql = <<SQL
 SELECT
 ST_MaxDistance(rr.route, rr.route) as distance,
@@ -71,9 +71,10 @@ SQL
         if same_route && same_route['distance'].to_i < min_route_HDdistance
           log "consider session(#{session.id}) route(#{same_route['id']}), distance: #{distance}, HDdistance #{same_route['distance']} as a same route, user: #{session.user.name}"
           session.update!(processed: true, car_route_id: same_route['id'])
-          CarRoute.find(same_route['id']).update(driven_at: session.car_locations.accurate.order('id').first.created_at)
+          CarRoute.find(same_route['id']).update(driven_at: session.car_locations.accurate(session.accurate).order('id').first.created_at)
         else
-          max_min = session.car_locations.accurate.select('max(created_at) as max, min(created_at) as min').to_a.first
+          maximum = session.car_locations.accurate(session.accurate).maximum(:created_at)
+          minimum = session.car_locations.accurate(session.accurate).minimum(:created_at)
           start_address = GeoLocation.new(location: parser.parse(route_result['start']) ).address
           stop_address = GeoLocation.new(location: parser.parse(route_result['finish']) ).address
           sql =<<SQL
@@ -84,8 +85,8 @@ SQL
                                                                   [nil, session.user.id],
                                                                   [nil, Time.now],
                                                                   [nil, route_result['route']],
-                                                                  [nil, max_min['min']],
-                                                                  [nil, max_min['max']],
+                                                                  [nil, minimum],
+                                                                  [nil, maximum],
                                                                   [nil, route_result['start']],
                                                                   [nil, route_result['finish']],
                                                                   [nil, start_address],

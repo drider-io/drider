@@ -52,6 +52,11 @@ class ReplyGeneric
     self
   end
 
+  def location_ack(location_time_id)
+    @reply[:ack] = location_time_id
+    self
+  end
+
   def as_json(*arg)
     @reply.as_json(*arg)
   end
