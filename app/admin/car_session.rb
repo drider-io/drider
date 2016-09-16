@@ -17,6 +17,9 @@ ActiveAdmin.register CarSession do
     column :user
     column :from_address
     column :created_at
+    column :locations_count do |session|
+      session.car_locations.count
+    end
   end
   show do
     render 'route'
