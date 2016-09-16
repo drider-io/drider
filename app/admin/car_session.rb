@@ -1,5 +1,5 @@
 ActiveAdmin.register CarSession do
-
+  config.filters = false
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
@@ -17,9 +17,6 @@ ActiveAdmin.register CarSession do
     column :user
     column :from_address
     column :created_at
-    column :locations_count do |session|
-      session.car_locations.count
-    end
   end
   show do
     render 'route'
