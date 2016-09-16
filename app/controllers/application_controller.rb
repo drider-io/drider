@@ -52,4 +52,13 @@ class ApplicationController < ActionController::Base
       sign_in(user) if user
     end
   end
+
+  def authenticate_admin_user!
+     if current_user.try(:is_admin)
+       true
+     else
+       flash[:alert] = 'Your account does not have administrative permissions.'
+       redirect_to root_path
+     end
+   end
 end

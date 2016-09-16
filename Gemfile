@@ -37,7 +37,7 @@ group :development, :test do
   gem 'byebug'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+  #gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -65,7 +65,7 @@ gem 'devise-bootstrap-views', '~> 0.0.5'
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem "twitter-bootstrap-rails"
-gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
+# gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'redis'
 gem 'rgeo-geojson'
 gem 'color-generator'
@@ -80,3 +80,5 @@ gem 'exception_notification'
 gem 'sinatra', :require => nil
 gem 'rpush'
 gem 'jquery-ui-rails'
+gem 'facebook-messenger'
+gem 'activeadmin', github: 'activeadmin'
