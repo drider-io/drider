@@ -1,8 +1,11 @@
 require 'sidekiq/web'
 require 'sidekiq/web'
 Rails.application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }#, :skip => [:sessions, :registrations]
+  devise_for :users, ActiveAdmin::Devise.config.merge(:controllers => { :omniauth_callbacks => "users/omniauth_callbacks" })#, :skip => [:sessions, :registrations]
+  ActiveAdmin.routes(self)
   get "/chat" => "socket#chat", as: "chat"
+
+  mount Facebook::Messenger::Server, at: 'bot'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

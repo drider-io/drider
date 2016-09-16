@@ -1,6 +1,7 @@
 class CarSession < ActiveRecord::Base
   belongs_to :user
   has_many :car_locations
+  belongs_to :car_route
 
   def self.for_user(user, params)
     session = where(user: user).order(:id).last
