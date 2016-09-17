@@ -9,4 +9,8 @@ class CarLocation < ActiveRecord::Base
   }
   scope :accurate2k, -> { where('accuracy <= 2000') }
   scope :unprocessed, -> { where(car_session_id: nil).accurate2k.order(:id) }
+
+  def time
+    created_at
+  end
 end
