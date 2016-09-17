@@ -2,6 +2,7 @@ class CarRoute < ActiveRecord::Base
   belongs_to :user
   has_many :car_route_stats
   has_many :car_sessions
+  has_many :details_logs, as: :parent
 
   def self.select_with_args(sql, args)
     query = sanitize_sql_array([sql, args].flatten)

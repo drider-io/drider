@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916140649) do
+ActiveRecord::Schema.define(version: 20160917075257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,16 @@ ActiveRecord::Schema.define(version: 20160916140649) do
   add_index "car_sessions", ["number", "user_id"], name: "car_session_user_index", unique: true, using: :btree
   add_index "car_sessions", ["number"], name: "index_car_sessions_on_number", using: :btree
   add_index "car_sessions", ["processed"], name: "index_car_sessions_on_processed", using: :btree
+
+  create_table "details_logs", force: :cascade do |t|
+    t.integer  "parent_id"
+    t.string   "parent_type"
+    t.text     "info",        default: "", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "details_logs", ["parent_type", "parent_id"], name: "index_details_logs_on_parent_type_and_parent_id", using: :btree
 
 # Could not dump table "devices" because of following StandardError
 #   Unknown type 'push_type' for column 'push_type'
