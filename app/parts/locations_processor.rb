@@ -33,6 +33,7 @@ class LocationsProcessor
       end
 
       if idle_between?(last_location, location)
+        log "idle between #{last_location.id}-#{location.id} [#{last_location.created_at.strftime("%H:%M")}-#{location.created_at.strftime("%H:%M")}]"
         log "create session between locations: (#{last_location.id}..#{location.id})"
         # create session
         ActiveRecord::Base.transaction do

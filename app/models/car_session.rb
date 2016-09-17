@@ -1,8 +1,8 @@
 class CarSession < ActiveRecord::Base
   belongs_to :user
   belongs_to :car_route
-  has_many :car_locations
-  has_many :details_logs, as: :parent
+  has_many :car_locations, dependent: :nullify
+  has_many :details_logs, as: :parent, dependent: :destroy
 
   def self.for_user(user, params)
     session = where(user: user).order(:id).last

@@ -1,6 +1,6 @@
-ActiveAdmin.register CarSession do
+ActiveAdmin.register CarLocation do
   config.filters = false
-  actions :index, :show, :destroy
+  actions :index, :show
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
@@ -13,19 +13,4 @@ ActiveAdmin.register CarSession do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
-  index do
-    selectable_column
-    id_column
-    column :user
-    column :from_address
-    column :created_at
-    column :locations_count do |session|
-      session.car_locations.count
-    end
-    actions
-  end
-  show do
-    render 'route'
-  end
-
 end
