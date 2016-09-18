@@ -1,6 +1,10 @@
 module Loggable
   extend ActiveSupport::Concern
+
   included do
+    def get_log
+      @log
+    end
 
     def log(str)
       @log ||= ''
