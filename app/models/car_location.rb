@@ -11,6 +11,10 @@ class CarLocation < ActiveRecord::Base
   scope :unprocessed, -> { where(car_session_id: nil).accurate2k.order(:id) }
 
   def time
-    created_at
+    location_at || created_at
+  end
+
+  def location_at
+    Time.at(location_time) if location_time.present?
   end
 end
