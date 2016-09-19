@@ -7,7 +7,7 @@ json.features [@car_routes] do |route|
   json.type "Feature"
   json.properties do
     json.markers locations do |location|
-      json.title "#{location.id} #{location.location_at.strftime("%H:%M")}"
+      json.title "#{link_to location.id, admin_car_location_path(location)} #{location.location_at.strftime("%H:%M")}"
       json.position do
         json.lat location.r.y
         json.lng location.r.x
