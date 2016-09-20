@@ -11,13 +11,13 @@
   }
 
   function mobile_fb_login() {
-    var policy_checkbox = $('#policy_accepted');
-    if ( policy_checkbox.length > 0 ) {
-      if (!policy_checkbox.prop("checked")) {
-        alert('Ознайомтесь і погодтесь з політикою конфідеційності');
-        return false;
-      }
-    }
+//    var policy_checkbox = $('#policy_accepted');
+//    if ( policy_checkbox.length > 0 ) {
+//      if (!policy_checkbox.prop("checked")) {
+//        alert('Ознайомтесь і погодтесь з політикою конфідеційності');
+//        return false;
+//      }
+//    }
     if (window.injectedAndroid) {
       window.injectedAndroid.login();
       return false
