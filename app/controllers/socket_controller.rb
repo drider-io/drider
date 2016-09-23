@@ -97,7 +97,7 @@ class SocketController < ApplicationController
     )
     if current_user.fb_chat_id.present?
       Bot.deliver(
-        recipient: current_user.fb_chat_id,
+        recipient: { id: current_user.fb_chat_id },
         message: {
           text: "accy: #{json['accy']}"
         }
