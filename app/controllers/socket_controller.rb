@@ -1,5 +1,6 @@
 class SocketController < ApplicationController
   include Tubesock::Hijack
+  include Facebook::Messenger
 
   def chat
       hijack do |tubesock|
@@ -94,6 +95,14 @@ class SocketController < ApplicationController
         send_time: json['send_time'],
         user: current_user
     )
+    if current_user.fb_chat_id.present?
+      Bot.deliver(
+        recipient: current_user.fb_chat_id,
+        message: {
+          text: "accy: #{json['accy']}"
+        }
+      )
+    end
   rescue ActiveRecord::RecordNotUnique => e
       raise e unless e.to_s.match /duplicate key value violates unique constraint "index_car_locations_on_user_id_and_time_id"/
   ensure
