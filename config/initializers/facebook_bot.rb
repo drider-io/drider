@@ -6,9 +6,9 @@ end
 
 include Facebook::Messenger
 Bot.on :message do |message|
-  Rails.logger.debug message
-  message.id          # => 'mid.1457764197618:41d102a3e1ae206a38'
-  message.sender      # => { 'id' => '1008372609250235' }
+  Rails.logger.debug message.inspect
+  Rails.logger.debug  "message.id #{message.id}"          # => 'mid.1457764197618:41d102a3e1ae206a38'
+  Rails.logger.debug  "message.sender #{message.sender}"      # => { 'id' => '1008372609250235' }
   message.seq         # => 73
   message.sent_at     # => 2016-04-22 21:30:36 +0200
   message.text        # => 'Hello, bot!'
