@@ -82,7 +82,7 @@ class SocketController < ApplicationController
 
   def save_location(json, car_session)
     location_time_id = json['location_time']
-    CarLocation.create!(
+    location = CarLocation.create!(
         r: RGeo::Geographic.spherical_factory(srid: 4326).point(json['long'], json['lat']),
         m: RGeo::Geographic.simple_mercator_factory(srid: 3785).point(json['long'], json['lat']).projection,
         car_session: car_session,
@@ -99,7 +99,7 @@ class SocketController < ApplicationController
       Bot.deliver(
         recipient: { id: current_user.fb_chat_id },
         message: {
-          text: "accy: #{json['accy']}"
+          text: "accy:#{location.accuracy}, #{location.time.strftime("%H:%M")}, #{location.created_at.strftime("%H:%M")}"
         }
       )
     end
