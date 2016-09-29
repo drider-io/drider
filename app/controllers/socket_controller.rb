@@ -99,7 +99,7 @@ class SocketController < ApplicationController
       Bot.deliver(
         recipient: { id: current_user.fb_chat_id },
         message: {
-          text: "accy:#{location.accuracy}, #{location.time.strftime("%H:%M")}, #{location.created_at.strftime("%H:%M")}"
+          text: "accy:#{location.accuracy}, #{location.time.strftime("%H:%M:%S")}, #{location.created_at.strftime("%H:%M:%S")}"
         }
       )
     end
