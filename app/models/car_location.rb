@@ -6,13 +6,13 @@ class CarLocation < ActiveRecord::Base
     if accuracy
       where('accuracy < 20')
     else
-      where('accuracy < 500')
+      where('accuracy < 400')
     end
   }
 
-  scope :accurate500, -> { where('accuracy < 500') }
+  scope :accurate400, -> { where('accuracy < 400') }
   scope :accurate2k, -> { where('accuracy <= 2000') }
-  scope :unprocessed, -> { where(car_session_id: nil).accurate500.order(:id) }
+  scope :unprocessed, -> { where(car_session_id: nil).accurate400.order(:id) }
 
   def time
     location_at || created_at

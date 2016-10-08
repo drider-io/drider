@@ -1,9 +1,9 @@
 class LocationsProcessor
   include Loggable
 
-  MIN_ROUTE_DISTANCE = 5000
-  SAME_PLACE_RADIUS = 4000
-  MIN_IDLE_TIME = 1.hour
+  MIN_ROUTE_DISTANCE = 3000
+  SAME_PLACE_RADIUS = 600
+  MIN_IDLE_TIME = 30.minutes
 
   def perform
     user = user_to_process
