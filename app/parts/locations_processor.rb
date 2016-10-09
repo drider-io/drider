@@ -1,8 +1,8 @@
 class LocationsProcessor
   include Loggable
 
-  MIN_ROUTE_DISTANCE = 3000
-  SAME_PLACE_RADIUS = 600
+  MIN_ROUTE_DISTANCE = 2000
+  SAME_PLACE_RADIUS = 200
   MIN_IDLE_TIME = 30.minutes
 
   def perform
@@ -30,7 +30,7 @@ class LocationsProcessor
 
       last_location = pipe.first
 
-      if idle_between?(last_location, location)
+      if idle_between?(last_location, location) && !within_same_place?(last_location, location)
         log "idle between #{last_location.id}-#{location.id} [#{last_location.time.strftime("%H:%M")}-#{location.time.strftime("%H:%M")}]"
         log "create session between locations: (#{first_location.id}..#{pipe.last.id})"
         # create session
