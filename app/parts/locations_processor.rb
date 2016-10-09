@@ -32,14 +32,14 @@ class LocationsProcessor
 
       if idle_between?(last_location, location)
         log "idle between #{last_location.id}-#{location.id} [#{last_location.time.strftime("%H:%M")}-#{location.time.strftime("%H:%M")}]"
-        log "create session between locations: (#{first_location.id}..#{last_location.id})"
+        log "create session between locations: (#{first_location.id}..#{pipe.last.id})"
         # create session
         ActiveRecord::Base.transaction do
           session = CarSession.create(accurate: false, user: user, number:Time.now.to_i,device_identifier:'1',client_version:'1',client_os_version:'1')
           save_log(session)
           CarLocation.unprocessed.where(user: user)
               .where('id >= ?', first_location.id)
-              .where('id <= ?', last_location.id)
+              .where('id <= ?', pipe,last.id)
               .all.update_all(car_session_id: session.id)
 
           CarLocationsProcessor.new.perform(session.id)
