@@ -39,7 +39,7 @@ class LocationsProcessor
           save_log(session)
           CarLocation.unprocessed.where(user: user)
               .where('id >= ?', first_location.id)
-              .where('id <= ?', pipe,last.id)
+              .where('id <= ?', pipe.last.id)
               .all.update_all(car_session_id: session.id)
 
           CarLocationsProcessor.new.perform(session.id)
