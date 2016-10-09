@@ -29,32 +29,28 @@ class LocationsProcessor
       end
 
       last_location = pipe.first
-      while pipe.first && !within_same_place?(pipe.first,location)
-        last_location = pipe.shift
-      end
 
       if idle_between?(last_location, location)
-        if within_same_place?(first_location, location)
-          log "skip location:#{location.id} as it close to first_location"
-        else
-          log "idle between #{last_location.id}-#{location.id} [#{last_location.time.strftime("%H:%M")}-#{location.time.strftime("%H:%M")}]"
-          log "create session between locations: (#{first_location.id}..#{last_location.id})"
-          # create session
-          ActiveRecord::Base.transaction do
-            session = CarSession.create(accurate: false, user: user, number:Time.now.to_i,device_identifier:'1',client_version:'1',client_os_version:'1')
-            save_log(session)
-            CarLocation.unprocessed.where(user: user)
-                .where('id >= ?', first_location.id)
-                .where('id <= ?', last_location.id)
-                .all.update_all(car_session_id: session.id)
+        log "idle between #{last_location.id}-#{location.id} [#{last_location.time.strftime("%H:%M")}-#{location.time.strftime("%H:%M")}]"
+        log "create session between locations: (#{first_location.id}..#{last_location.id})"
+        # create session
+        ActiveRecord::Base.transaction do
+          session = CarSession.create(accurate: false, user: user, number:Time.now.to_i,device_identifier:'1',client_version:'1',client_os_version:'1')
+          save_log(session)
+          CarLocation.unprocessed.where(user: user)
+              .where('id >= ?', first_location.id)
+              .where('id <= ?', last_location.id)
+              .all.update_all(car_session_id: session.id)
 
-            CarLocationsProcessor.new.perform(session.id)
-          end
-          break
+          CarLocationsProcessor.new.perform(session.id)
         end
+        break
+      end
+
+      while pipe.first && !within_same_place?(pipe.first,location)
+        pipe.shift
       end
       pipe << location
-
     end
   end
 
