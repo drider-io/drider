@@ -1,6 +1,6 @@
 class CarSession < ActiveRecord::Base
   belongs_to :user
-  belongs_to :car_route
+  belongs_to :car_route, dependent: :destroy
   has_many :car_locations, dependent: :nullify
   has_many :details_logs, as: :parent, dependent: :destroy
 
