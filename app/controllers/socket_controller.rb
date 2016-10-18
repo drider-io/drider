@@ -30,7 +30,7 @@ class SocketController < ApplicationController
             case json['type']
               when 'location'
                 if car_session.present?
-                  location_time_id = save_location(json, car_session)
+                  save_location(json, car_session)
                   unless handshake_reply_sent
                     ReplyGeneric.new(tubesock).handshake_reply.send
                     handshake_reply_sent = true
@@ -40,11 +40,9 @@ class SocketController < ApplicationController
                     last_updated = Time.now
                   end
                 else
-                  # tubesock.close
-                  # raise StandardError.new 'location without handshake'
-                  location_time_id = save_location(json, nil)
+                  tubesock.close
+                  raise StandardError.new 'location without handshake'
                 end
-                ReplyGeneric.new(tubesock).location_ack(location_time_id).send
               when 'handshake'
                 if client_version_ok?(json)
                   car_session = CarSession.for_user(current_user, json)
@@ -81,32 +79,15 @@ class SocketController < ApplicationController
   end
 
   def save_location(json, car_session)
-    location_time_id = json['location_time']
-    location = CarLocation.create!(
+    CarLocation.create!(
         r: RGeo::Geographic.spherical_factory(srid: 4326).point(json['long'], json['lat']),
         m: RGeo::Geographic.simple_mercator_factory(srid: 3785).point(json['long'], json['lat']).projection,
         car_session: car_session,
         accuracy: json['accy'],
         time: Time.at(json['time_ms'].to_f/1000),
         provider: json['prov'],
-        time_id: location_time_id.to_f*100000,
-        location_time: json['location_time'],
-        queue_time: json['queue_time'],
-        send_time: json['send_time'],
         user: current_user
     )
-    if current_user.fb_chat_id.present?
-      Bot.deliver(
-        recipient: { id: current_user.fb_chat_id },
-        message: {
-          text: "accy:#{location.accuracy}, speed:#{json['speed']} #{location.time.strftime("%H:%M:%S")}, #{location.created_at.strftime("%H:%M:%S")}"
-        }
-      )
-    end
-  rescue ActiveRecord::RecordNotUnique => e
-      raise e unless e.to_s.match /duplicate key value violates unique constraint "index_car_locations_on_user_id_and_time_id"/
-  ensure
-    return location_time_id
   end
 
   def handshake(json, sock)
