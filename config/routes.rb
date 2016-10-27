@@ -1,8 +1,9 @@
 require 'sidekiq/web'
 require 'sidekiq/web'
 Rails.application.routes.draw do
-  devise_for :users, ActiveAdmin::Devise.config.merge(:controllers => { :omniauth_callbacks => "users/omniauth_callbacks" })#, :skip => [:sessions, :registrations]
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   ActiveAdmin.routes(self)
+
   get "/chat" => "socket#chat", as: "chat"
 
   mount Facebook::Messenger::Server, at: 'bot'
@@ -24,7 +25,10 @@ Rails.application.routes.draw do
       post :apns
       post :facebook
     end
+  end
 
+  namespace :users do
+    resources :logins, only: [:new]
   end
 
   scope "/lviv" do
