@@ -33,5 +33,4 @@ module Car
         :password => ENV['mailgun_password']
       }
   end
-  Rails.application.routes.default_url_options[:host] = 'drider.io'
 end
