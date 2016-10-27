@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923214918) do
+ActiveRecord::Schema.define(version: 20161026130836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,14 +133,6 @@ ActiveRecord::Schema.define(version: 20160923214918) do
 # Could not dump table "messages" because of following StandardError
 #   Unknown type 'delivery_status' for column 'delivery_status'
 
-  create_table "points", force: :cascade do |t|
-    t.geography "lonlat",     limit: {:srid=>4326, :type=>"point", :geographic=>true}
-    t.float     "accuracy"
-    t.datetime  "time"
-    t.datetime  "created_at"
-    t.datetime  "updated_at"
-  end
-
   create_table "rpush_apps", force: :cascade do |t|
     t.string   "name",                                null: false
     t.string   "environment"
@@ -202,16 +194,6 @@ ActiveRecord::Schema.define(version: 20160923214918) do
 
   add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
 
-  create_table "t1", force: :cascade do |t|
-    t.string "k", limit: 255
-  end
-
-  add_index "t1", ["k"], name: "t1_k_key", unique: true, using: :btree
-
-  create_table "test", id: false, force: :cascade do |t|
-    t.geometry "ll", limit: {:srid=>3857, :type=>"point"}
-  end
-
   create_table "users", force: :cascade do |t|
     t.string   "device_identifier"
     t.datetime "created_at",                             null: false
@@ -235,65 +217,12 @@ ActiveRecord::Schema.define(version: 20160923214918) do
     t.string   "authentication_token"
     t.boolean  "is_admin",               default: false, null: false
     t.string   "fb_chat_id"
+    t.string   "bot_state"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "workflowable_actions", force: :cascade do |t|
-    t.string   "name"
-    t.text     "options"
-    t.string   "action_plugin"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "position"
-  end
-
-  create_table "workflowable_stage_actions", force: :cascade do |t|
-    t.integer  "stage_id"
-    t.integer  "action_id"
-    t.string   "event"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "position"
-  end
-
-  add_index "workflowable_stage_actions", ["action_id"], name: "index_workflowable_stage_actions_on_action_id", using: :btree
-  add_index "workflowable_stage_actions", ["stage_id"], name: "index_workflowable_stage_actions_on_stage_id", using: :btree
-
-  create_table "workflowable_stage_next_steps", force: :cascade do |t|
-    t.integer  "current_stage_id"
-    t.integer  "next_stage_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "workflowable_stages", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "workflow_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "workflowable_stages", ["workflow_id"], name: "index_workflowable_stages_on_workflow_id", using: :btree
-
-  create_table "workflowable_workflow_actions", force: :cascade do |t|
-    t.integer  "workflow_id"
-    t.integer  "action_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "workflowable_workflow_actions", ["action_id"], name: "index_workflowable_workflow_actions_on_action_id", using: :btree
-  add_index "workflowable_workflow_actions", ["workflow_id"], name: "index_workflowable_workflow_actions_on_workflow_id", using: :btree
-
-  create_table "workflowable_workflows", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "initial_stage_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   add_foreign_key "car_requests", "car_routes"
   add_foreign_key "car_requests", "car_searches"
