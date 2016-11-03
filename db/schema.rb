@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031134307) do
+ActiveRecord::Schema.define(version: 20161103080823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20161031134307) do
 
   create_table "car_locations", force: :cascade do |t|
     t.geography "r",              limit: {:srid=>4326, :type=>"point", :geographic=>true}
-    t.geometry  "m",              limit: {:srid=>3785, :type=>"point"}
+    t.geometry  "m",              limit: {:srid=>3857, :type=>"point"}
     t.integer   "car_session_id"
     t.float     "accuracy"
     t.datetime  "time",                                                                    null: false
@@ -61,15 +61,15 @@ ActiveRecord::Schema.define(version: 20161031134307) do
   end
 
   create_table "car_routes", force: :cascade do |t|
-    t.geometry "route",        limit: {:srid=>3785, :type=>"line_string"}
+    t.geometry "route",        limit: {:srid=>3857, :type=>"line_string"}
     t.integer  "user_id",                                                                 null: false
     t.boolean  "is_actual",                                                default: true, null: false
     t.datetime "created_at",                                                              null: false
     t.datetime "updated_at",                                                              null: false
     t.datetime "started_at",                                                              null: false
     t.datetime "finished_at",                                                             null: false
-    t.geometry "from_m",       limit: {:srid=>3785, :type=>"point"}
-    t.geometry "to_m",         limit: {:srid=>3785, :type=>"point"}
+    t.geometry "from_m",       limit: {:srid=>3857, :type=>"point"}
+    t.geometry "to_m",         limit: {:srid=>3857, :type=>"point"}
     t.string   "from_address"
     t.string   "to_address"
     t.datetime "driven_at"
@@ -83,8 +83,8 @@ ActiveRecord::Schema.define(version: 20161031134307) do
     t.string   "from_title",                                       null: false
     t.string   "to_title",                                         null: false
     t.boolean  "pinned",                                           null: false
-    t.geometry "from_m",     limit: {:srid=>3785, :type=>"point"}, null: false
-    t.geometry "to_m",       limit: {:srid=>3785, :type=>"point"}, null: false
+    t.geometry "from_m",     limit: {:srid=>3857, :type=>"point"}, null: false
+    t.geometry "to_m",       limit: {:srid=>3857, :type=>"point"}, null: false
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
   end

@@ -2,12 +2,12 @@ class CarLocationsProcessor
   include Sidekiq::Worker
 
   def factory
-    @factory ||= RGeo::Geographic.simple_mercator_factory(srid: 3785).projection_factory
+    @factory ||= RGeo::Geographic.simple_mercator_factory(srid: 3857).projection_factory
   end
 
 
   def parser
-    @parser ||= RGeo::WKRep::WKTParser.new(factory, support_ewkt: true, default_srid: 3785)
+    @parser ||= RGeo::WKRep::WKTParser.new(factory, support_ewkt: true, default_srid: 3857)
   end
 
   def initialize

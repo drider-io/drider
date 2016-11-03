@@ -30,7 +30,7 @@ class GeoLocation
 
 
   def to_m(lat, lng)
-    RGeo::Geographic.simple_mercator_factory(srid: 3785).point(lng, lat).projection
+    RGeo::Geographic.simple_mercator_factory(srid: 3857).point(lng, lat).projection
   end
 
   def to_g(m)
@@ -46,4 +46,7 @@ class GeoLocation
     end
   end
 
+  def address_double_code
+    self.class.new(location: m).address
+  end
 end
