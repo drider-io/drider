@@ -56,6 +56,7 @@ Rails.application.routes.draw do
     get :route_required
     get :device_warning
     get :role_select
+    get :big_image_url
   end
 
 
