@@ -41,6 +41,10 @@ class WelcomeController < ApplicationController
 
   end
 
+  def profile_picture
+    redirect_to "https://graph.facebook.com/#{params[:id]}/picture?height=450"
+  end
+
   private
 
   def warning_required?

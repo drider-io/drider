@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   get '/welcome' => 'welcome#index', as: :welcome
   get '/policy' => 'welcome#policy', as: :policy
+  get '/profile_picture/:id' => 'welcome#profile_picture', as: :profile_picture
 
   root 'welcome#entry'
   post :mail , controller: :welcome
@@ -56,7 +57,6 @@ Rails.application.routes.draw do
     get :route_required
     get :device_warning
     get :role_select
-    get :big_image_url
   end
 
 
