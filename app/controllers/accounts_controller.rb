@@ -31,10 +31,6 @@ class AccountsController < ApplicationController
     redirect_to :root
   end
 
-  def big_image_url
-    redirect_to "https://graph.facebook.com/#{current_user.uid}/picture?height=450"
-  end
-
   private
   def account_params
        params.permit(:driver_role)
