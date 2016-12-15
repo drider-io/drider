@@ -3,6 +3,7 @@ class FbMessage
   include FbApi::ButtonTemplate
   include FbApi::QuickReplies
   include FbApi::AccountLink
+  include FbApi::GenericTemplate
 
   def_delegator :@message, :to_hash, :to_hash
 

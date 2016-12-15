@@ -19,6 +19,8 @@ module FbApi
             {
               content_type: "location",
             }
+          else
+            reply
         end
       end
     end
