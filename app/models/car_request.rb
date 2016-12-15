@@ -21,6 +21,11 @@ class CarRequest < ActiveRecord::Base
   belongs_to :car_route
   belongs_to :car_search
 
+  delegate :from_title, to: :car_search
+  delegate :to_title, to: :car_search
+  delegate :from_m, to: :car_search
+  delegate :to_m, to: :car_search
+
   after_save do
     ActiveSupport::Notifications.instrument('car_request_changed', request: self)
   end
