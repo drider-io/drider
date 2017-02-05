@@ -95,23 +95,84 @@ class User < ActiveRecord::Base
     state :p_search
     state :p_history
 
-    event :new_search, after: :notify_users do
-      after do |transition, message|
-        FbMessage.new(fb_chat_id).quick_replies(text: 'Звідки: вкажіть координату', replies: :location).deliver
-      end
-      transitions :to => :p_from
+    event :new_search do
+      transitions to: :p_from,
+        after: -> do
+          passenger_action.provide_from
+        end
     end
 
-    event :p_from_entered, after: :notify_users do
-      after do |transition, message|
-        FbMessage.new(fb_chat_id).quick_replies(text: 'Куди: вкажіть координату', replies: :location).deliver
-      end
-
-      transitions :from => :p_from, :to => :p_to
+    event :p_cancel do
+      transitions to: :new,
+        after: -> do
+          passenger_action.canceled
+        end
     end
 
-    event :p_to_entered, after: :notify_users do
-      transitions :from => :p_to, :to => :p_time
+    event :go_now do
+      transitions to: :p_search,
+        after: -> do
+          passenger_action.please_wait
+        end
+    end
+
+    event :location do
+      transitions from: :p_from, to: :p_to,
+        guard: -> (coordinates) do
+          m = GeoLocation.new.to_m(coordinates['lat'].to_s, coordinates['long'].to_s)
+          CarRouteSearcher.new.pass_by(m).present?
+        end,
+        after: -> (coordinates) do
+          m = GeoLocation.new.to_m(coordinates['lat'].to_s, coordinates['long'].to_s)
+          address = GeoLocation.new(location: m).address
+          car_search = CarSearch.new(from_m: m, from_title: address)
+          self.last_search = car_search
+          car_search.has_results = true
+          passenger_action.ok
+          passenger_action.provide_to
+        end
+
+      transitions from: :p_from, to: :p_from,
+        after: -> do
+          passenger_action.provide_another_from
+        end
+
+      transitions from: :p_to, to: :p_time,
+        guard: -> (coordinates) do
+          m = GeoLocation.new.to_m(coordinates['lat'].to_s, coordinates['long'].to_s)
+          address = GeoLocation.new(location: m).address
+          car_search = self.last_search
+          if car_search.to_m.present?
+            car_search = self.last_search = car_search.dup
+          end
+
+          car_search.to_m = m
+          car_search.to_title = address
+          car_search.save!
+          @drivers_count = CarRouteSearcher.new.drivers_count(car_search)
+          @drivers_count > 0
+        end,
+        after: -> do
+          self.last_search.has_results=true
+          passenger_action.drivers_found(@drivers_count)
+        end
+
+      transitions from: :p_to, to: :p_to, after: -> do
+        self.last_search.has_results = false
+        passenger_action.provide_another_to
+      end
+    end
+
+    event :text do
+      transitions from: :p_from, to: :p_from, after: -> do
+        passenger_action.location_only
+      end
+      transitions from: :p_to, to: :p_to, after: -> do
+        passenger_action.location_only
+      end
+      transitions from: :new, to: :new, after: -> do
+        passenger_action.how_can_help_you
+      end
     end
 
     event :go_now, after: :notify_users do
@@ -132,6 +193,14 @@ class User < ActiveRecord::Base
       end
       transitions :from => :p_time, :to => :p_search
     end
+  end
+
+  def model
+    self
+  end
+
+  def passenger_action
+    Action::Passenger.new(fb_chat_id)
   end
   
   def notify_users
