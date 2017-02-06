@@ -109,12 +109,21 @@ class User < ActiveRecord::Base
         end
     end
 
+    # event :go_now do
+    #   transitions to: :p_search,
+    #     after: -> do
+    #
+    #     end
+    # end
+
     event :go_now do
-      transitions to: :p_search,
-        after: -> do
-          passenger_action.please_wait
-        end
+      transitions :from => :p_time, :to => :p_search,
+                  after: -> do
+                    passenger_action.please_wait
+                    self.last_search.perform!(nil, self)
+                  end
     end
+
 
     event :location do
       transitions from: :p_from, to: :p_to,
@@ -174,36 +183,12 @@ class User < ActiveRecord::Base
         passenger_action.how_can_help_you
       end
     end
-
-    event :go_now, after: :notify_users do
-      after do |transition, message|
-        CarRouteSearcher.new.drivers(last_search).limit(10).each do |driver|
-          CarRequest.create(
-            car_search: last_search,
-            driver: driver,
-            passenger: self,
-            status: :sent
-          # pickup_location: last_search.from_m,
-          # pickup_address: last_search.from_title,
-          # drop_location: last_search.to_m,
-          # drop_address: last_search.to_title
-          )
-          DriverNotifier.new(driver).perform
-        end
-      end
-      transitions :from => :p_time, :to => :p_search
-    end
-  end
-
+end
   def model
     self
   end
 
   def passenger_action
     Action::Passenger.new(fb_chat_id)
-  end
-  
-  def notify_users
-    
   end
 end

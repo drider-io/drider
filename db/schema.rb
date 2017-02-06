@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213194513) do
+ActiveRecord::Schema.define(version: 20170206080228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,14 +80,15 @@ ActiveRecord::Schema.define(version: 20161213194513) do
   create_table "car_searches", force: :cascade do |t|
     t.integer  "user_id"
     t.time     "time"
-    t.string   "from_title",                                        null: false
+    t.string   "from_title",                                                        null: false
     t.string   "to_title"
     t.boolean  "pinned"
-    t.geometry "from_m",      limit: {:srid=>3857, :type=>"point"}, null: false
+    t.geometry "from_m",      limit: {:srid=>3857, :type=>"point"},                 null: false
     t.geometry "to_m",        limit: {:srid=>3857, :type=>"point"}
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                                        null: false
+    t.datetime "updated_at",                                                        null: false
     t.boolean  "has_results"
+    t.string   "state",                                             default: "new"
   end
 
   add_index "car_searches", ["user_id"], name: "index_car_searches_on_user_id", using: :btree
