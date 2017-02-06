@@ -34,14 +34,14 @@ class Action::Passenger
   end
 
   def ok
-    FbMessage.new(@fb_chat_id).quick_replies(text: 'ok', replies: :location).deliver
+    FbMessage.new(@fb_chat_id).text_message('ok').deliver
   end
 
   def canceled
-    FbMessage.new(@fb_chat_id).quick_replies(text: 'Відмінено', replies: :location).deliver
+    FbMessage.new(@fb_chat_id).text_message('Відмінено').deliver
   end
 
   def please_wait
-    FbMessage.new(@fb_chat_id).quick_replies(text: 'Запити надіслано, зачекайте будь ласка', replies: :location).deliver
+    FbMessage.new(@fb_chat_id).text_message('Запити надіслано, зачекайте 2хв, будь ласка ').deliver
   end
 end
