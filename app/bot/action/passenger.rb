@@ -42,7 +42,7 @@ class Action::Passenger
   end
 
   def please_wait
-    FbMessage.new(@fb_chat_id).text_message('Запити надіслано, зачекайте 2хв, будь ласка ').deliver
+    FbMessage.new(@fb_chat_id).text_message('Запити надіслано, зачекайте, будь ласка ').deliver
   end
 
   def search_in_progress

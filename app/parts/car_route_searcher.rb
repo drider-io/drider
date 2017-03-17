@@ -46,7 +46,8 @@ class CarRouteSearcher
 
   def inner_query(car_search)
     CarRoute
-      .select_with_args('
+      .without_user(car_search.user)
+    .select_with_args('
 *,
 ST_ClosestPoint(route, ?) as pickup_location,
 ST_ClosestPoint(route, ?) as drop_location,

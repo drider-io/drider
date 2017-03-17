@@ -4,6 +4,11 @@ class CarRoute < ActiveRecord::Base
   has_many :car_sessions, dependent: :destroy
   has_many :details_logs, as: :parent, dependent: :destroy
 
+  scope :without_user, ->(user) do
+    where.not(user: user)
+  end
+
+
   def self.select_with_args(sql, args)
     query = sanitize_sql_array([sql, args].flatten)
     select(query)

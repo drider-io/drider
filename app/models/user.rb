@@ -126,6 +126,7 @@ class User < ActiveRecord::Base
                   after: -> do
                     passenger_action.please_wait
                     self.last_search.perform!(nil, self)
+                    RiderNotifier.new(self.last_search).perform
                   end
     end
 
