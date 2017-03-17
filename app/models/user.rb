@@ -95,8 +95,13 @@ class User < ActiveRecord::Base
     state :p_search
     state :p_history
 
+    # event :d_accept do
+    #
+    # end
+
     event :new_search do
-      transitions to: :p_from,
+      transitions from: :p_search, to: :p_search, after: :search_in_progress
+      transitions from: :new, to: :p_from,
         after: -> do
           passenger_action.provide_from
         end
@@ -134,7 +139,7 @@ class User < ActiveRecord::Base
         after: -> (coordinates) do
           m = GeoLocation.new.to_m(coordinates['lat'].to_s, coordinates['long'].to_s)
           address = GeoLocation.new(location: m).address
-          car_search = CarSearch.new(from_m: m, from_title: address)
+          car_search = CarSearch.new(from_m: m, from_title: address, user: self)
           self.last_search = car_search
           car_search.has_results = true
           passenger_action.ok
@@ -173,6 +178,8 @@ class User < ActiveRecord::Base
     end
 
     event :text do
+      transitions from: :p_search, to: :p_search, after: :search_in_progress
+      transitions from: :p_time, to: :p_time, after: :p_time_in_progress
       transitions from: :p_from, to: :p_from, after: -> do
         passenger_action.location_only
       end
@@ -190,5 +197,24 @@ end
 
   def passenger_action
     Action::Passenger.new(fb_chat_id)
+  end
+
+  def p_time_in_progress
+    drivers_count = CarRouteSearcher.new.drivers_count(last_search)
+    passenger_action.drivers_found(drivers_count)
+  end
+
+  def search_in_progress
+    passenger_action.search_in_progress
+  end
+
+  def d_accept!(nothing, options)
+    req = CarRequest.where(driver: self, id: options['req']).first
+    req.accept!
+    passenger_action.driver_accepted_request(req.passenger.name)
+  end
+
+  def d_decline!(nothing, options)
+    CarRequest.where(driver: self, id: options['req']).first.try('decline!')
   end
 end

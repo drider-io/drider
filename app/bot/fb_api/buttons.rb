@@ -16,20 +16,16 @@ module FbApi
         title: 'Відмінити',
         payload: 'p_cancel'
       },
-      d_accept: {
-        type: 'postback',
-        title: 'Так',
-        payload: 'd_accept'
-      },
-      d_decline: {
-        type: 'postback',
-        title: 'Ні',
-        payload: 'd_decline'
-      },
     }
 
     def self.get(*names)
-      names.flatten.map {|name| BUTTONS[name] }
+      names.flatten.map do |name|
+        if name.is_a? Symbol
+          BUTTONS[name]
+        else
+          name
+        end
+      end
     end
   end
 end

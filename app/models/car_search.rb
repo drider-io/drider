@@ -2,6 +2,7 @@ class CarSearch < ActiveRecord::Base
   include AASM
   belongs_to :user
   validates :from, presence: true
+  has_many :car_requests, dependent: :destroy
 
   aasm :column => 'state' do
     state :new, :initial => true
@@ -9,17 +10,20 @@ class CarSearch < ActiveRecord::Base
     state :closed
 
     event :perform do
-      transitions from: :new, to: :active, after: -> (passenger) do
-        CarRouteSearcher.new.drivers(self.last_search).limit(10).each { |driver|
-          CarRequest.create(
+      transitions from: :new, to: :active, after: -> do
+        CarRouteSearcher.new.drivers(self).limit(10).each { |driver|
+          request = CarRequest.create(
             car_search: self,
             driver: driver,
-            passenger: passenger,
+            passenger: user,
             status: :sent
           )
+          begin
           DriverNotifier.new(driver).perform
+          rescue
+            request.delete
+          end
         }
-
       end
     end
   end

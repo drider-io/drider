@@ -44,4 +44,12 @@ class Action::Passenger
   def please_wait
     FbMessage.new(@fb_chat_id).text_message('Запити надіслано, зачекайте 2хв, будь ласка ').deliver
   end
+
+  def search_in_progress
+    FbMessage.new(@fb_chat_id).button_template(text: "Триває пошук", buttons: [:p_cancel]).deliver
+  end
+
+  def driver_accepted_request(name)
+    FbMessage.new(@fb_chat_id).text_message("#{name} відправлено ваш телефон, очикуйте на дзвінок").deliver
+  end
 end

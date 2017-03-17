@@ -67,35 +67,42 @@ class CarRequest < ActiveRecord::Base
     state :finished
     state :canceled
 
-    event :accept, after: :update_delivery do
-      transitions :from => :sent, :to => :accepted, :guard=>:is_driver?
+    event :accept, after_commit: :notify_rider do
+      transitions :from => :sent, :to => :accepted
     end
 
-    event :confirm, after: :update_delivery do
+    event :confirm do
       transitions :from => :accepted, :to => :confirmed, :guard=>:is_passenger?
     end
 
-    event :ride, after: :update_delivery do
+    event :ride do
       transitions :from => :confirmed, :to => :ride
     end
 
-    event :finish, after: :update_delivery do
+    event :finish do
       transitions :from => [:ride, :confirmed], :to => :finished
     end
 
-    event :cancel, after: :update_delivery do
-      transitions :from => [:sent, :accepted, :confirmed], :to => :canceled
+    event :cancel do
+      transitions :from => [:sent, :accepted, :confirmed, :canceled], :to => :canceled
+    end
+
+    event :decline, after_commit: :notify_rider do
+      transitions :from => [:sent], :to => :canceled
     end
 
   end
 
   def update_delivery(n, user)
-    self.active_user = cor(user)
-    self.delivery_status='posted'
+    # self.active_user = cor(user)
+    # self.delivery_status='posted'
   end
 
   def just_created?
     created_at == updated_at
   end
 
+  def notify_rider
+    RiderNotifier.new(car_search).perform
+  end
 end
