@@ -8,7 +8,7 @@ include Facebook::Messenger
 Bot.on :message do |message| MessagesRouter.new(message).perform end
 Bot.on :postback do |message| PostbacksRouter.new(message).perform end
 # Bot.on :optin do |message| FbRouter.new(message).perform end
-# Bot.on :account_linking do |message| FbRouter.new(message).perform end
+Bot.on :account_linking do |message| PostbacksRouter.new(message).account_linking end
 
   # Rails.logger.debug message.inspect
   # Rails.logger.debug  "message.id #{message.id}"          # => 'mid.1457764197618:41d102a3e1ae206a38'

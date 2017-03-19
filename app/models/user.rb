@@ -5,10 +5,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable,
          :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook]
-  has_many :car_sessions
-  has_many :car_routes
-  has_many :devices
-  has_many :car_searches
+  has_many :car_sessions, dependent: :destroy
+  has_many :car_routes, dependent: :destroy
+  has_many :devices, dependent: :destroy
+  has_many :car_searches, dependent: :destroy
   belongs_to :last_search, class_name: 'CarSearch'
 
   before_save :ensure_authentication_token
