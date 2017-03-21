@@ -7,7 +7,7 @@ li
     span.text-muted =tiny_time_from_now(car_request.created_at)
     div
       strong
-        =car_request.scheduled_to.to_formatted_s(:time)
+        =car_request.scheduled_to.try(:to_formatted_s, :time)
       '
       =car_request.pickup_address
       '->

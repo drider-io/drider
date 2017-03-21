@@ -24,7 +24,7 @@ class PassengerSearchResult
   end
 
   def passenger_time
-    @result['passenger_time'].to_formatted_s(:time)
+    @result['passenger_time'].try(:to_formatted_s, :time)
   end
 
   def pickup_address
