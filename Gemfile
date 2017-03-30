@@ -69,7 +69,7 @@ gem "twitter-bootstrap-rails"
 gem 'redis'
 gem 'rgeo-geojson'
 gem 'color-generator'
-gem 'omniauth-facebook'
+gem 'omniauth-facebook', '~> 4.0.0'
 gem "figaro"
 gem "koala", "~> 2.0"
 gem 'aasm'
