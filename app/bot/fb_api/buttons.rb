@@ -16,6 +16,16 @@ module FbApi
         title: 'Відмінити',
         payload: 'p_cancel'
       },
+      select_driver: {
+        type: 'postback',
+        title: 'Я водій',
+        payload: 'select_driver'
+      },
+      select_rider: {
+        type: 'postback',
+        title: 'Я пасажир',
+        payload: 'select_rider'
+      },
     }
 
     def self.get(*names)

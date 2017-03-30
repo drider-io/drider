@@ -87,8 +87,9 @@ class User < ActiveRecord::Base
 
 
   include AASM
-  aasm :column => 'bot_state' do
-    state :new, :initial => true
+  aasm :column => 'bot_state', :whiny_transitions => false do
+    state :role_select, :initial => true
+    state :new
     state :p_from
     state :p_to
     state :p_time
@@ -178,7 +179,27 @@ class User < ActiveRecord::Base
       end
     end
 
+    event :select_rider do
+      before do
+        self.driver_role = false
+        save!
+        passenger_action.how_can_help_you
+      end
+      transitions from: :role_select, to: :new
+    end
+
+    event :select_driver do
+      before do
+        self.driver_role = true
+        save!
+      end
+      transitions from: :role_select, to: :new
+    end
+
     event :text do
+      transitions from: :role_select, to: :role_select, after: -> do
+        Action::Generic.new(fb_chat_id).please_select_role
+      end
       transitions from: :p_search, to: :p_search, after: :search_in_progress
       transitions from: :p_time, to: :p_time, after: :p_time_in_progress
       transitions from: :p_from, to: :p_from, after: -> do
