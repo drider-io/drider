@@ -7,6 +7,4 @@ namespace :route do
 
     CarLocationsProcessor.new.process
   end
-
-
 end
