@@ -72,22 +72,12 @@ class User < ActiveRecord::Base
     uid.present?
   end
 
-  private
-
-  def generate_authentication_token
-    loop do
-      token = Devise.friendly_token
-      break token unless User.where(authentication_token: token).first
-    end
+  def self.all_states
+    aasm.states.map(&:name)
   end
-
-  def send_welcome_mail
-      UserMailer.welcome(id).deliver_later
-  end
-
 
   include AASM
-  aasm :column => 'bot_state', :whiny_transitions => false do
+  aasm :column => 'bot_state', :whiny_transitions => true do
     state :role_select, :initial => true
     state :new
     state :p_from
@@ -95,6 +85,9 @@ class User < ActiveRecord::Base
     state :p_time
     state :p_search
     state :p_history
+    state :d_app_install_required
+    state :d_any_route_required
+    state :d_keep_driving
 
     # event :d_accept do
     #
@@ -193,7 +186,9 @@ class User < ActiveRecord::Base
         self.driver_role = true
         save!
       end
-      transitions from: :role_select, to: :new
+      transitions from: User.all_states, to: :d_keep_driving, guard: :ever_drive?
+      transitions from: User.all_states, to: :d_app_install_required, guard: -> { devices.blank? }
+      transitions from: User.all_states, to: :d_any_route_required
     end
 
     event :text do
@@ -215,6 +210,19 @@ class User < ActiveRecord::Base
 end
   def model
     self
+  end
+
+  private
+
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
+    end
+  end
+
+  def send_welcome_mail
+    UserMailer.welcome(id).deliver_later
   end
 
   def passenger_action
