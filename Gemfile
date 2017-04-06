@@ -72,7 +72,7 @@ gem 'color-generator'
 gem 'omniauth-facebook', '~> 4.0.0'
 gem "figaro"
 gem "koala", "~> 2.0"
-gem 'aasm'
+gem 'aasm', "~> 4.12.0"
 gem 'rails-i18n'
 gem 'devise-i18n'
 gem 'sidekiq', '~> 4.1.1'
