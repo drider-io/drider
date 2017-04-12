@@ -85,13 +85,9 @@ class User < ActiveRecord::Base
     state :p_time
     state :p_search
     state :p_history
-    state :d_app_install_required
-    state :d_any_route_required
-    state :d_keep_driving
+    state :d_role
 
-    # event :d_accept do
-    #
-    # end
+    after_all_transitions :send_message
 
     event :new_search do
       transitions from: :p_search, to: :p_search, after: :search_in_progress
@@ -107,13 +103,6 @@ class User < ActiveRecord::Base
           passenger_action.canceled
         end
     end
-
-    # event :go_now do
-    #   transitions to: :p_search,
-    #     after: -> do
-    #
-    #     end
-    # end
 
     event :go_now do
       transitions :from => :p_time, :to => :p_search,
@@ -178,7 +167,7 @@ class User < ActiveRecord::Base
         save!
         passenger_action.how_can_help_you
       end
-      transitions from: :role_select, to: :new
+      transitions from: User.all_states, to: :new
     end
 
     event :select_driver do
@@ -186,9 +175,7 @@ class User < ActiveRecord::Base
         self.driver_role = true
         save!
       end
-      transitions from: User.all_states, to: :d_keep_driving, guard: :ever_drive?
-      transitions from: User.all_states, to: :d_app_install_required, guard: -> { devices.blank? }
-      transitions from: User.all_states, to: :d_any_route_required
+      transitions from: User.all_states, to: :d_role
     end
 
     event :text do
@@ -206,13 +193,34 @@ class User < ActiveRecord::Base
       transitions from: :new, to: :new, after: -> do
         passenger_action.how_can_help_you
       end
+      transitions from: :d_role, to: :d_role
     end
 end
   def model
     self
   end
 
+  def send_message
+    if driver_role?
+      driver_message
+    end
+  end
+
+  def driver_message
+    if ever_drive?
+      #keep driving
+    elsif devices.blank?
+      driver_action.please_install_app
+    else
+      driver_action.please_record_a_route
+    end
+  end
+
   private
+
+  def driver_action
+    Action::Driver.new(fb_chat_id)
+  end
 
   def generate_authentication_token
     loop do

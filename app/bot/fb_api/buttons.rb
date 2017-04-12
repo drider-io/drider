@@ -26,6 +26,16 @@ module FbApi
         title: 'Я пасажир',
         payload: 'select_rider'
       },
+      app_ios: {
+        type: 'web_url',
+        title: 'iOS',
+        url: 'https://itunes.apple.com/ua/app/drider/id1101420670?ls=1&mt=8'
+      },
+      app_android: {
+        type: 'web_url',
+        title: 'Android',
+        url: 'https://play.google.com/store/apps/details?id=io.drider.car&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'
+      },
     }
 
     def self.get(*names)
