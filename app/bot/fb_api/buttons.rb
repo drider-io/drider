@@ -29,7 +29,7 @@ module FbApi
       app_ios: {
         type: 'web_url',
         title: 'iOS',
-        url: 'https://itunes.apple.com/ua/app/drider/id1101420670?ls=1&mt=8'
+        url: 'fb1589454371319440://applink' #https://itunes.apple.com/ua/app/drider/id1101420670?ls=1&mt=8
       },
       app_android: {
         type: 'web_url',
