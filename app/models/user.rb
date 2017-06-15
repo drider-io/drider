@@ -3,13 +3,14 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   # :recoverable,:registerable,
   devise :database_authenticatable,
-         :rememberable, :trackable, :validatable,
+         :rememberable, :trackable,
          :omniauthable, :omniauth_providers => [:facebook]
   has_many :car_sessions, dependent: :destroy
   has_many :car_routes, dependent: :destroy
   has_many :devices, dependent: :destroy
   has_many :car_searches, dependent: :destroy
   belongs_to :last_search, class_name: 'CarSearch'
+  belongs_to :parent, class_name: 'User'
 
   before_save :ensure_authentication_token
   after_create :send_welcome_mail
@@ -175,7 +176,9 @@ class User < ActiveRecord::Base
         self.driver_role = true
         save!
       end
-      transitions from: User.all_states, to: :d_role
+      transitions from: User.all_states, to: :d_role, after: -> do
+
+      end
     end
 
     event :text do

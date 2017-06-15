@@ -57,6 +57,11 @@ class ReplyGeneric
     self
   end
 
+  def set_auth_token(token)
+    @reply[:set_auth_token] = token
+    self
+  end
+
   def as_json(*arg)
     @reply.as_json(*arg)
   end

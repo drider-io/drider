@@ -11,7 +11,14 @@ class SocketController < ApplicationController
           begin
           # car_session = Time.now.to_s
           # tubesock.send_data tubesock.object_id
-          check_auth(tubesock)
+          user = find_user
+          unless user
+            user = create_user
+            ReplyGeneric.new(tubesock)
+                .set_auth_token(user.authentication_token)
+                .send
+          end
+          # check_auth(tubesock)
           subscribe(tubesock) if user_signed_in?
           ensure
             ActiveRecord::Base.clear_active_connections!
@@ -129,6 +136,24 @@ class SocketController < ApplicationController
 
 
   private
+
+  def find_user
+    token = request.headers['Auth-Token']
+    user = nil
+    if token.present?
+      sleep(rand(200) / 1000.0)
+      user = User.where(authentication_token: token).first
+      user = user.parent if user.parent
+      sign_in(user) if user
+    end
+    user
+  end
+
+  def create_user
+    user = User.create
+    sign_in(user)
+    user
+  end
 
   def subscribe(tubesock)
     @redis_thread = Thread.new do
