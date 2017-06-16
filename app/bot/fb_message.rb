@@ -17,6 +17,6 @@ class FbMessage
   end
 
   def deliver
-    Bot.deliver @message
+    Bot.deliver @message, access_token: ENV['facebook_page_access_token']
   end
 end

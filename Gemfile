@@ -80,5 +80,5 @@ gem 'exception_notification'
 gem 'sinatra', :require => nil
 gem 'rpush'
 gem 'jquery-ui-rails'
-gem 'facebook-messenger'
+gem 'facebook-messenger', "~> 1.0.0"
 gem 'activeadmin', github: 'activeadmin'
