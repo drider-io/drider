@@ -69,6 +69,10 @@ class User < ActiveRecord::Base
     "http://drider.io.rsz.io/profile_picture/#{uid}?width=382&height=200&bgcolor=fff"
   end
 
+  def linked_to_fb?
+    fb_chat_id.present? || (parent.present? && parent.fb_chat_id.present?)
+  end
+
   def identified?
     uid.present?
   end

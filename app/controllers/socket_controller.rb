@@ -14,12 +14,14 @@ class SocketController < ApplicationController
           user = find_user
           unless user
             user = create_user
+            sign_in(user)
             ReplyGeneric.new(tubesock)
                 .set_auth_token(user.authentication_token)
                 .send
           end
           # check_auth(tubesock)
-          subscribe(tubesock) if user_signed_in?
+          subscribe(tubesock)
+          ReplyGeneric.new(tubesock).account_linked(current_user.linked_to_fb?).send
           ensure
             ActiveRecord::Base.clear_active_connections!
           end
@@ -42,8 +44,8 @@ class SocketController < ApplicationController
                     ReplyGeneric.new(tubesock).handshake_reply.send
                     handshake_reply_sent = true
                   end
-                  if car_session.length.to_i > 500 && Time.now - last_updated > 10
-                    ReplyGeneric.new(tubesock).exec_js("showSession(#{car_session.id})").send
+                  if Time.now - last_updated > 10
+                    ReplyGeneric.new(tubesock).session_length(car_session).send
                     last_updated = Time.now
                   end
                 else

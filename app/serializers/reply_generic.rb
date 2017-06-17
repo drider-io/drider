@@ -52,6 +52,11 @@ class ReplyGeneric
     self
   end
 
+  def session_length(session)
+    @reply[:session_length] = session.length.to_i.to_s
+    self
+  end
+
   def location_ack(location_time_id)
     @reply[:ack] = location_time_id
     self
@@ -59,6 +64,11 @@ class ReplyGeneric
 
   def set_auth_token(token)
     @reply[:set_auth_token] = token
+    self
+  end
+
+  def account_linked(value)
+    @reply[:account_linked] = value
     self
   end
 

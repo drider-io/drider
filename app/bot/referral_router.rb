@@ -30,6 +30,7 @@ class ReferralRouter
           end
         end
       end
+      Redis.new.publish "user_#{user.id}", {account_linked: true}.to_json
     end
   end
 
