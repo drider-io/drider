@@ -27,10 +27,12 @@ class CarLocationsProcessor
   def log(str)
     @log += str+"\n"
     logger.info str
+    ReplyGeneric.new(@user).status_label(str).send
   end
 
   def perform(session_id)
     session = CarSession.find(session_id)
+    @user = session.user
     last_location_time = session.car_locations.accurate(session.accurate).maximum(:created_at)
     if last_location_time.blank?
       session.update_attributes(processed: true)

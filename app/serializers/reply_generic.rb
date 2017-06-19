@@ -1,11 +1,15 @@
 class ReplyGeneric
-  def initialize(socket)
-    @sock = socket
+  def initialize(transport)
+    @transport = transport
     @reply = {}
   end
 
   def send
-    @sock.send_data @reply.to_json
+    if @transport.is_a? User
+      Redis.new.publish "user_#{@transport.id}", @reply.to_json
+    else
+      @transport.send_data @reply.to_json
+    end
   end
 
   def start_webview(url:, show_on_locked_screen: false)
@@ -69,6 +73,11 @@ class ReplyGeneric
 
   def routes_count(count)
     @reply[:routes_count] = count
+    self
+  end
+
+  def status_label(value)
+    @reply[:status_label] = value
     self
   end
 

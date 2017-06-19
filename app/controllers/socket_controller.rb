@@ -69,7 +69,9 @@ class SocketController < ApplicationController
                     .set_text('Потрібно оновити додаток')
                     .off_client.send
                 end
-
+              when 'finish_route'
+                CarLocationsProcessor.perform(car_session.id) if car_session
+                car_session = nil
             end
 
           p data
