@@ -70,7 +70,7 @@ class SocketController < ApplicationController
                     .off_client.send
                 end
               when 'finish_route'
-                CarLocationsProcessor.perform(car_session.id) if car_session
+                CarLocationsProcessor.perform_async(car_session.id) if car_session
                 car_session = nil
             end
 
