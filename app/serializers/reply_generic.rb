@@ -67,6 +67,11 @@ class ReplyGeneric
     self
   end
 
+  def routes_count(count)
+    @reply[:routes_count] = count
+    self
+  end
+
   def account_linked(value)
     @reply[:account_linked] = value
     self

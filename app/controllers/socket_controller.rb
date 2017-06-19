@@ -21,7 +21,10 @@ class SocketController < ApplicationController
           end
           # check_auth(tubesock)
           subscribe(tubesock)
-          ReplyGeneric.new(tubesock).account_linked(current_user.linked_to_fb?).send
+          ReplyGeneric.new(tubesock)
+              .account_linked(current_user.linked_to_fb?)
+              .routes_count(current_user.car_routes.count)
+              .send
           ensure
             ActiveRecord::Base.clear_active_connections!
           end
