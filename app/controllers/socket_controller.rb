@@ -73,7 +73,7 @@ class SocketController < ApplicationController
                 #CarLocationsProcessor.perform_async(car_session.id) if car_session
                 if car_session
                   car_session.update(finished_at: Time.now)
-                  CarLocationsProcessor.new.perform(car_session.id)
+                  CarLocationsProcessor.perform_async(car_session.id)
                 end
                 car_session = nil
             end
