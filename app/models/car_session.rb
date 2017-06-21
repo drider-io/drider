@@ -4,8 +4,10 @@ class CarSession < ActiveRecord::Base
   has_many :car_locations, dependent: :nullify
   has_many :details_logs, as: :parent, dependent: :destroy
 
+  scope :unprocessed, -> { where(processed: false) }
+
   def self.for_user(user, params)
-    session = where(user: user).order(:id).last
+    session = unprocessed.where(user: user).order(:id).last
     last_location = session ? session.car_locations.last : nil
     time = last_location.try(:created_at) || session.try(:created_at)
     if time && time > Time.now - 15.minutes

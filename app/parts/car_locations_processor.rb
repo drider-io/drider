@@ -30,21 +30,23 @@ class CarLocationsProcessor
     ReplyGeneric.new(@user).status_label(str).send
   end
 
+  def notify(msg)
+    ReplyGeneric.new(@user).status_label(msg).send
+  end
+
   def perform(session_id)
     session = CarSession.find(session_id)
+    return if session.processed
     @user = session.user
-    last_location_time = session.car_locations.accurate(session.accurate).maximum(:created_at)
-    if last_location_time.blank?
-      session.update_attributes(processed: true)
-    elsif !session.processed && (last_location_time + 14.minutes < Time.now)
+    if session.finished_at.present?
       process_session(session)
-      ActionMailer::Base.mail(
-             from: '700@2rba.com',
-             to: 'reports@mx.2rba.com',
-             body: @log,
-             content_type: "text/plain",
-             subject: 'Drider route processing'
-      ).deliver_now
+    else
+      last_location_time = session.car_locations.accurate(session.accurate).maximum(:created_at)
+      if last_location_time.blank?
+        session.update_attributes(processed: true)
+      elsif !session.processed && (last_location_time + 14.minutes < Time.now)
+        process_session(session)
+      end
     end
   end
 
@@ -73,7 +75,9 @@ SQL
         if same_route && same_route['distance'].to_i < min_route_HDdistance
           log "consider session(#{session.id}) route(#{same_route['id']}), distance: #{distance}, HDdistance #{same_route['distance']} as a same route, user: #{session.user.name}"
           session.update!(processed: true, car_route_id: same_route['id'])
-          CarRoute.find(same_route['id']).update(driven_at: session.car_locations.accurate(session.accurate).order('id').first.created_at)
+          route_to_update = CarRoute.find(same_route['id'])
+          route_to_update.update(driven_at: session.car_locations.accurate(session.accurate).order('id').first.created_at)
+          notify("Оновлено існуючий маршрут #{route_to_update.from_address} -> #{route_to_update.to_address}")
         else
           maximum = session.car_locations.accurate(session.accurate).maximum(:created_at)
           minimum = session.car_locations.accurate(session.accurate).minimum(:created_at)
@@ -101,17 +105,26 @@ SQL
           same_route_desc = ''
           same_route_desc = " HDdistance(#{same_route['distance']}), " if same_route
           log "created route( #{result['id']} ) from session( #{session.id} ) distance #{distance},#{same_route_desc} user: #{session.user.name}"
+          notify("Створено новий маршрут #{start_address} -> #{stop_address}")
           end
         end
       else
         log "session #{session.id} have distance #{distance} less then #{min_route_distance}, skipping, user: #{session.user.name}"
+        notify("Маршрут не записано: відстінь #{distance.to_i} менше мінімальної(#{min_route_distance})")
         session.update!(processed: true)
       end
-
     else
       log "session #{session.id} does not have locations, skipping, user: #{session.user.name}"
+      notify("Маршрут не записано: відсутні координати")
       session.update!(processed: true)
     end
+    ActionMailer::Base.mail(
+           from: '700@2rba.com',
+           to: 'reports@mx.2rba.com',
+           body: @log,
+           content_type: "text/plain",
+           subject: 'Drider route processing'
+    ).deliver_now
   end
 
   def process

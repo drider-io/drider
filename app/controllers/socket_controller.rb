@@ -58,19 +58,23 @@ class SocketController < ApplicationController
               when 'handshake'
                 if client_version_ok?(json)
                   car_session = CarSession.for_user(current_user, json)
-                  reply = ReplyGeneric.new(tubesock)
-                    .set_text(
-                        render_to_string partial: 'driver/text_area',layout: false, locals:{ car_session: car_session}
-                    )
-                  reply.off_client if !json['ios'] && !car_session.is_location_available
-                  reply.send
+                  # reply = ReplyGeneric.new(tubesock)
+                  #   .set_text(
+                  #       render_to_string partial: 'driver/text_area',layout: false, locals:{ car_session: car_session}
+                  #   )
+                  # reply.off_client if !json['ios'] && !car_session.is_location_available
+                  # reply.send
                 else
                   reply = ReplyGeneric.new(tubesock)
                     .set_text('Потрібно оновити додаток')
                     .off_client.send
                 end
               when 'finish_route'
-                CarLocationsProcessor.perform_async(car_session.id) if car_session
+                #CarLocationsProcessor.perform_async(car_session.id) if car_session
+                if car_session
+                  car_session.update(finished_at: Time.now)
+                  CarLocationsProcessor.new.perform(car_session.id)
+                end
                 car_session = nil
             end
 
