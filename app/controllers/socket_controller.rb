@@ -14,11 +14,11 @@ class SocketController < ApplicationController
           user = find_user
           unless user
             user = create_user
-            sign_in(user)
             ReplyGeneric.new(tubesock)
                 .set_auth_token(user.authentication_token)
                 .send
           end
+          sign_in(user)
           # check_auth(tubesock)
           subscribe(tubesock)
           ReplyGeneric.new(tubesock)
@@ -57,7 +57,6 @@ class SocketController < ApplicationController
                     last_updated = Time.now
                   end
                 else
-                  tubesock.close
                   raise StandardError.new 'location without handshake'
                 end
               when 'handshake'
@@ -178,7 +177,11 @@ class SocketController < ApplicationController
       # and sub at the same time
       Redis.new.subscribe "user_#{current_user.id}" do |on|
         on.message do |channel, message|
-          tubesock.send_data message
+          if "disconnect" == message
+            tubesock.close!
+          else
+            tubesock.send_data message
+          end
         end
       end
     end

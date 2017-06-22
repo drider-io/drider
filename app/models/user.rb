@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
 
   def link_to(parent:)
     update!(parent: parent)
+    Redis.new.publish "user_#{id}", "disconnect"
     transaction do
       CarLocation.unscoped.where(user: self).update_all(user_id: parent.id)
       CarSession.unscoped.where(user: self).update_all(user_id: parent.id)
