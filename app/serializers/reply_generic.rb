@@ -56,6 +56,11 @@ class ReplyGeneric
     self
   end
 
+  def set_session_id(id)
+    @reply[:set_session_id] = id
+    self
+  end
+
   def session_length(session)
     @reply[:session_length] = session.length.to_i.to_s
     self

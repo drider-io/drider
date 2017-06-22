@@ -41,6 +41,11 @@ class SocketController < ApplicationController
           if json && json['type']
             case json['type']
               when 'location'
+                if car_session.blank?
+                  if json['session_id'].present?
+                    car_session = current_user.car_sessions.inprogress.where(id: json['session_id']).first
+                  end
+                end
                 if car_session.present?
                   save_location(json, car_session)
                   unless handshake_reply_sent
@@ -57,7 +62,8 @@ class SocketController < ApplicationController
                 end
               when 'handshake'
                 if client_version_ok?(json)
-                  car_session = CarSession.for_user(current_user, json)
+                  car_session = CarSession.for_user(current_user, json) unless car_session
+                  ReplyGeneric.new(tubesock).set_session_id(car_session.id.to_s).send
                   # reply = ReplyGeneric.new(tubesock)
                   #   .set_text(
                   #       render_to_string partial: 'driver/text_area',layout: false, locals:{ car_session: car_session}
@@ -108,30 +114,30 @@ class SocketController < ApplicationController
     )
   end
 
-  def handshake(json, sock)
-    session = CarSession.where(
-        user: current_user,
-        number: json['session_number']
-    ).first_or_initialize
-    unless session.persisted?
-      session.device_identifier = json['device_identifier']
-      session.client_version = json['client_version']
-      session.client_os_version = json['client_os_version']
-      session.android_model = json['android_model']
-      session.is_gps_available = json['is_gps_available']
-      session.is_location_enabled = json['is_location_enabled']
-      session.is_location_available = json['is_location_available']
-      session.is_google_play_available = json['is_google_play_available']
-      session.android_sdk = json['android_sdk']
-      session.android_manufacturer = json['android_manufacturer']
-      session.client_version_code = json['client_version_code']
-      session.save!
-    end
-    if session.processed
-      raise StandardError.new "atempt to handshake with processed car_session"
-    end
-    session
-  end
+  # def handshake(json, sock)
+  #   session = CarSession.where(
+  #       user: current_user,
+  #       number: json['session_number']
+  #   ).first_or_initialize
+  #   unless session.persisted?
+  #     session.device_identifier = json['device_identifier']
+  #     session.client_version = json['client_version']
+  #     session.client_os_version = json['client_os_version']
+  #     session.android_model = json['android_model']
+  #     session.is_gps_available = json['is_gps_available']
+  #     session.is_location_enabled = json['is_location_enabled']
+  #     session.is_location_available = json['is_location_available']
+  #     session.is_google_play_available = json['is_google_play_available']
+  #     session.android_sdk = json['android_sdk']
+  #     session.android_manufacturer = json['android_manufacturer']
+  #     session.client_version_code = json['client_version_code']
+  #     session.save!
+  #   end
+  #   if session.processed
+  #     raise StandardError.new "atempt to handshake with processed car_session"
+  #   end
+  #   session
+  # end
 
   def check_auth(sock)
     ReplyGeneric.new(sock)

@@ -5,16 +5,17 @@ class CarSession < ActiveRecord::Base
   has_many :details_logs, as: :parent, dependent: :destroy
 
   scope :unprocessed, -> { where(processed: false) }
+  scope :inprogress, -> { where(processed: false, finished_at: nil) }
 
   def self.for_user(user, params)
-    session = unprocessed.where(user: user).order(:id).last
-    last_location = session ? session.car_locations.last : nil
-    time = last_location.try(:created_at) || session.try(:created_at)
-    if time && time > Time.now - 15.minutes
-      session
-    else
+    # session = unprocessed.where(user: user).order(:id).last
+    # last_location = session ? session.car_locations.last : nil
+    # time = last_location.try(:created_at) || session.try(:created_at)
+    # if time && time > Time.now - 15.minutes
+    #   session
+    # else
       build(user, params)
-    end
+    # end
   end
 
   def length
