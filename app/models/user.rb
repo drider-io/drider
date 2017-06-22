@@ -38,10 +38,11 @@ class User < ActiveRecord::Base
   def link_to(parent:)
     update!(parent: parent)
     transaction do
-      car_locations.unscoped.update_all(user_id: parent.id)
-      car_sessions.unscoped.update_all(user_id: parent.id)
-      car_routes.unscoped.update_all(user_id: parent.id)
-      devices.unscoped.update_all(user_id: parent.id)
+      CarLocation.unscoped.where(user: self).update_all(user_id: parent.id)
+      CarSession.unscoped.where(user: self).update_all(user_id: parent.id)
+      CarRoute.unscoped.where(user: self).update_all(user_id: parent.id)
+      CarRoute.unscoped.where(user: self).update_all(user_id: parent.id)
+      Device.unscoped.where(user: self).update_all(user_id: parent.id)
     end
   end
 
