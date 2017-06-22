@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:facebook]
   has_many :car_sessions, dependent: :destroy
   has_many :car_routes, dependent: :destroy
+  has_many :car_locations
   has_many :devices, dependent: :destroy
   has_many :car_searches, dependent: :destroy
   belongs_to :last_search, class_name: 'CarSearch'
@@ -31,6 +32,16 @@ class User < ActiveRecord::Base
       user.password = Devise.friendly_token[0,20]
       user.name = name   # assuming the user model has a name
       user.image_url = image_url # assuming the user model has an image
+    end
+  end
+
+  def link_to(parent:)
+    update!(parent: parent)
+    transaction do
+      car_locations.unscoped.update_all(user_id: parent.id)
+      car_sessions.unscoped.update_all(user_id: parent.id)
+      car_routes.unscoped.update_all(user_id: parent.id)
+      devices.unscoped.update_all(user_id: parent.id)
     end
   end
 

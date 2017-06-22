@@ -11,7 +11,7 @@ class ReferralRouter
         user_by_chat_id = User.where(fb_chat_id: @message.sender['id']).first
         if user_by_chat_id.present?
           if user.parent_id.blank?
-            link_to_parent(user, user_by_chat_id) #tested
+            user.link_to(parent: user_by_chat_id)
           elsif user.parent_id != user_by_chat_id.id
             fail "user mismatch error, user.parent_id(#{user.parent_id})!=user_by_chat_id.id(#{user_by_chat_id.id})"
           else
@@ -24,7 +24,7 @@ class ReferralRouter
           user_by_pic = User.where(image_url: fb_data['profile_pic']).first
           if user_by_pic.present?
             update_user(user_by_pic, fb_data)
-            link_to_parent(user, user_by_pic)
+            user.link_to(parent: user_by_pic)
           else
             update_user(user, fb_data)
           end
