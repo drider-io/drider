@@ -31,7 +31,9 @@ class CarLocationsProcessor
   end
 
   def notify(msg)
-    ReplyGeneric.new(@user).status_label(msg).send
+    ReplyGeneric.new(@user)
+        .routes_count(@user.car_routes.count)
+        .status_label(msg).send
   end
 
   def perform(session_id)
