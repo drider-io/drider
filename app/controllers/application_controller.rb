@@ -45,10 +45,8 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize_token_user!
-    unless user_signed_in?
-      find_user
-      redirect_to request.path if user_signed_in?
-    end
+    find_user unless user_signed_in?
+    redirect_to request.path if params[:auth_token].present?
   end
 
   def find_user
