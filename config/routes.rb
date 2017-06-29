@@ -33,15 +33,15 @@ Rails.application.routes.draw do
   end
 
   scope "/lviv" do
-    resources :car_searches, only: [ :index, :new, :create, :show, :update ]
+    # resources :car_searches, only: [ :index, :new, :create, :show, :update ]
     get :events, controller: :welcome
   end
 
   resources :car_routes, only: [ :index, :show, :update, :destroy ]
-  resources :car_requests, only: [ :index, :create, :update, :show ]
-  resources :car_sessions, only: [ :show ]
-  resources :passenger_search
-  resources :messages, only: [ :index, :show, :create ]
+  # resources :car_requests, only: [ :index, :create, :update, :show ]
+  # resources :car_sessions, only: [ :show ]
+  # resources :passenger_search
+  # resources :messages, only: [ :index, :show, :create ]
 
   authenticate :user, lambda { |u| u.is_admin? } do
     mount Sidekiq::Web => '/sidekiq'

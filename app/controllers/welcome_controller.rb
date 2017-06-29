@@ -4,22 +4,7 @@ class WelcomeController < ApplicationController
   end
 
   def entry
-    session[:client] ='ios' if 'ios' == params[:client]
-    session[:client] ='android' if 'android' == params[:client]
-
-    if current_user
-      if warning_required?
-        redirect_to device_warning_account_path + '?' + request.env['QUERY_STRING']
-      else
-        route_helper
-      end
-    else
-      if params[:client]
-        redirect_to new_user_session_path
-      else
-        redirect_to welcome_url
-      end
-    end
+    redirect_to welcome_url
   end
 
   def mail
