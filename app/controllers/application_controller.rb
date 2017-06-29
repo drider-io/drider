@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_filter :set_layout#, :authorize_token_user!
+  before_filter :set_layout, :authorize_token_user!
 
   helper_method :menu_set_active, :unread_messages_count, :unread_requests_count
 
@@ -44,14 +44,25 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # def authorize_token_user!
-  #   token = request.headers['Auth-Token']
-  #   if token.present? && !user_signed_in?
-  #     sleep(rand(200) / 1000.0)
-  #     user = User.where(authentication_token: token).first
-  #     sign_in(user) if user
-  #   end
-  # end
+  def authorize_token_user!
+    unless user_signed_in?
+      find_user
+      redirect_to request.path if user_signed_in?
+      end
+    end
+  end
+
+  def find_user
+     token = request.headers['Auth-Token'] || params[:auth_token]
+     user = nil
+     if token.present?
+       sleep(rand(200) / 1000.0)
+       user = User.where(authentication_token: token).first
+       user = user.parent if user.parent
+       sign_in(user) if user
+     end
+     user
+   end
 
   def authenticate_admin_user!
      if current_user.try(:is_admin)

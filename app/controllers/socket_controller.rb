@@ -153,18 +153,6 @@ class SocketController < ApplicationController
 
   private
 
-  def find_user
-    token = request.headers['Auth-Token']
-    user = nil
-    if token.present?
-      sleep(rand(200) / 1000.0)
-      user = User.where(authentication_token: token).first
-      user = user.parent if user.parent
-      sign_in(user) if user
-    end
-    user
-  end
-
   def create_user
     user = User.create
     sign_in(user)
