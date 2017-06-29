@@ -48,7 +48,6 @@ class ApplicationController < ActionController::Base
     unless user_signed_in?
       find_user
       redirect_to request.path if user_signed_in?
-      end
     end
   end
 
@@ -62,7 +61,7 @@ class ApplicationController < ActionController::Base
        sign_in(user) if user
      end
      user
-   end
+  end
 
   def authenticate_admin_user!
      if current_user.try(:is_admin)
