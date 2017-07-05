@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   belongs_to :parent, class_name: 'User'
 
   before_save :ensure_authentication_token
-  after_create :send_welcome_mail
+  after_create :send_welcome_mail, if: Proc.new { self.email.present? }
 
   scope :fb_chat_authed, -> { where('fb_chat_id IS NOT NULL') }
 
