@@ -109,7 +109,7 @@ class User < ActiveRecord::Base
 
     event :new_search do
       transitions from: :p_search, to: :p_search, after: :search_in_progress
-      transitions from: :new, to: :p_from,
+      transitions from: User.all_states, to: :p_from,
         after: -> do
           passenger_action.provide_from
         end
@@ -215,6 +215,10 @@ class User < ActiveRecord::Base
       end
       transitions from: :d_role, to: :d_role
     end
+
+    event :finish_search do
+      transitions from: :p_search, to: :new
+    end
 end
   def model
     self
@@ -249,6 +253,10 @@ end
     end
   end
 
+  def welcome!(*args)
+    Action::Generic.new(fb_chat_id).please_select_role
+  end
+
   def send_welcome_mail
     UserMailer.welcome(id).deliver_later
   end
@@ -267,9 +275,24 @@ end
   end
 
   def d_accept!(nothing, options)
-    req = CarRequest.where(driver: self, id: options['req']).first
-    req.accept!
-    passenger_action.driver_accepted_request(req.passenger.name)
+    if phone.present?
+      req = CarRequest.where(driver: self, id: options['req']).first
+      req.accept!
+      passenger_action.driver_accepted_request(req.passenger.name)
+    else
+      button = {
+         type: 'web_url',
+         title: 'Вказати телефон',
+         url: Rails.application.routes.url_helpers.new_account_phone_url + "?auth_token=#{authentication_token}",
+         webview_height_ratio: "compact",
+         webview_share_button: "HIDE"
+      }
+      button[:messenger_extensions] = true if Rails.application.routes.url_helpers.root_url.start_with?('https://')
+      FbMessage.new(fb_chat_id)
+        .button_template(text: 'Чудово, будь-ласка вкажіть телефон за яким з вами можна домовитись щодо поіздки',
+                         buttons: [ button ])
+        .deliver
+    end
   end
 
   def d_decline!(nothing, options)
