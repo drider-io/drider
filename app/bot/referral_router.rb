@@ -1,7 +1,4 @@
-class ReferralRouter
-  def initialize(message)
-    @message = message
-  end
+class ReferralRouter < RootRouter
 
   def perform
     token = @message.ref

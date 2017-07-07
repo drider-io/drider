@@ -1,23 +1,14 @@
-class MessagesRouter
-
-  def initialize(message)
-    @message = message
-  end
-
+class MessagesRouter < RootRouter
   def perform
     return if @message.messaging['message']['is_echo']
-    user = User.where(fb_chat_id: @message.sender['id']).first
-    if user.present?
-      if @message.try(:attachments).try(:first).try(:[], 'type') == 'location'
-        coordinates = @message.attachments.first['payload']['coordinates']
-        if coordinates.present?
-          user.send(:location!, nil, coordinates)
-        end
-      else
-        user.send(:text!, nil, @message.try(:text))
+    auth_user
+    if @message.try(:attachments).try(:first).try(:[], 'type') == 'location'
+      coordinates = @message.attachments.first['payload']['coordinates']
+      if coordinates.present?
+        user.send(:location!, nil, coordinates)
       end
     else
-      FbMessage.new(@message.sender['id']).account_link.deliver
+      user.send(:text!, nil, @message.try(:text))
     end
   end
 end
