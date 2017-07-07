@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_admin_user!
-     if current_user.try(:is_admin)
+     if current_user.try(:is_admin) || Rails.env.development?
        true
      else
        flash[:alert] = 'Your account does not have administrative permissions.'
