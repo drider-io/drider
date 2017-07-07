@@ -8,7 +8,7 @@ class Action::Booking
   def from(coordinates)
     m = GeoLocation.new.to_m(coordinates['lat'].to_s, coordinates['long'].to_s)
     address = GeoLocation.new(location: m).address
-    car_search = CarSearch.new(from_m: m, from_title: address)
+    car_search = CarSearch.create!(from_m: m, from_title: address)
     user.last_search = car_search
 
     if CarRouteSearcher.new.pass_by(m)

@@ -10,6 +10,12 @@ class Action::Driver
       .deliver
   end
 
+  def please_provide_phone
+    FbMessage.new(@fb_chat_id)
+      .text_message('Чудово, наступний крок записати маршрут(и) за яким ви можете підвезти. Встановіть мобільний додаток і запишіть маршрут.')
+      .deliver
+  end
+
   def please_record_a_route
     FbMessage.new(@fb_chat_id)
       .text_message('Ви маєте встановлений додаток, скористуйтсь їм аби записати маршрут')

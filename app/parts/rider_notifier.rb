@@ -18,14 +18,16 @@ class RiderNotifier
                                  buttons: [{
                                              type: 'phone_number',
                                              title: 'Задзвонити',
-                                             payload: "0677008523"
+                                             payload: request.driver.phone
                                            },
                                  ])
+      .deliver
     end
     if sent > 0
       message.text_message("Очикуємо на відповідь від #{sent} водіїв з #{total} запитів")
     else
       message.text_message("Пошук завершено")
+      @car_search.user.finish_search!
     end
     message.deliver
   end

@@ -68,7 +68,7 @@ class CarRequest < ActiveRecord::Base
     state :canceled
 
     event :accept, after_commit: :notify_rider do
-      transitions :from => :sent, :to => :accepted
+      transitions :from => [:sent, :accepted], :to => :accepted
     end
 
     event :confirm do

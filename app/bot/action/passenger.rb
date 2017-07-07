@@ -24,7 +24,7 @@ class Action::Passenger
   end
 
   def provide_another_to
-    FbMessage.new(@fb_chat_id).quick_replies(text: 'На жаль, сюди ніхто не може підвезти', replies: :location).deliver
+    FbMessage.new(@fb_chat_id).quick_replies(text: 'На жаль, сюди ніхто не може підвезти, вкажіть іншу координату призначення', replies: :location).deliver
   end
 
   def how_can_help_you
