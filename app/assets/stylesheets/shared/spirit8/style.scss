@@ -174,7 +174,10 @@ a.fa.fa-angle-down:hover{
 #tf-about{
 	padding: 80px 0;
 }
-ul.about-list{ margin: 30px 0 0 ;}
+ul.about-list{
+  margin: 30px 0 0 ;
+  text-align: left;
+}
 ul.about-list li{
 	display: block;
 	font-size: 16px;

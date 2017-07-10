@@ -47,13 +47,13 @@
                 <p class="lead">Ми спільнота де я <strong>підвезу</strong> і мене <strong>підвезуть</strong></p>
               <div class="container" style="max-width: 400px;">
 
-                <div class="text-left" style="margin-top: 24px;">
-                  <% if 'ios' != session[:client] %>
-                    <a href='https://play.google.com/store/apps/details?id=io.drider.car&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
-                      <%= image_tag 'icons/google-play-badge.png', style: 'height: 60px;margin-top: -10px;' %>
-                    </a>
-                  <% end %>
-                  <a href="https://itunes.apple.com/ua/app/drider/id1101420670?ls=1&mt=8" style="float: right;display:inline-block;overflow:hidden;background:url(<%= image_path 'icons/badge_appstore-lrg.svg' %>) no-repeat;width:165px;height:40px;"></a>
+                <div style="margin-top: 24px;">
+                  <div class="fb-messengermessageus"
+                    messenger_app_id="1589454371319440"
+                    page_id="1026215597422812"
+                    color="blue"
+                    size="xlarge" >
+                  </div>
                 </div>
               </div>
                 <a href="#tf-about" class="fa fa-angle-down page-scroll"></a>
@@ -96,6 +96,7 @@
                                 <strong></strong> <em>ми розділяємо витрати на дорогу</em>
                             </li>
                         </ul>
+                      <h5>Приєднатись вже за допомогою <%= link_to 'Messenger', 'https://m.me/1026215597422812'%></h5>
                     </div>
                 </div>
             </div>
@@ -108,29 +109,25 @@
         <div class="overlay">
             <div class="container">
                 <div class="section-title center">
-                    <h2><strong>Я теж хочу</strong>, що для цього потрібно?</h2>
+                    <h2><strong>Як це працює</strong></h2>
                     <div class="line">
                         <hr>
                     </div>
                 </div>
               <div>
-                <h3>Потрібно:</h3>
-                <ul class="about-list">
+                <ul class="about-list ">
                   <li>
-                    1. Бути зареєстрованим на фейсбуці
+                    <span class="fa fa-dot-circle-o"></span> Пасажир вказує де йому потрібно заіхати
                   </li>
                   <li>
-                    <% if 'ios' == session[:client]  %>
-                      2. Мати iOS пристрий із GPS
-                    <% else %>
-                    2. Мати iOS/андроїд пристрий із GPS
-                    <% end %>
+                    <span class="fa fa-dot-circle-o"></span> Водії з відповідними маршрутами отримують запити на згоду підвезти
                   </li>
                   <li>
-                    3. Мати мобільний інтернет
+                    <span class="fa fa-dot-circle-o"></span> Після згоди водія, пасажир отримує можливість подзвонити водію і домовитись як зустрітись
                   </li>
                 </ul>
               </div>
+              <h5>Приєднатись вже за допомогою <%= link_to 'Messenger', 'https://m.me/1026215597422812'%></h5>
 
             </div>
         </div>
@@ -148,25 +145,24 @@
               <div class="col-md-6">
                   <div class="about-text">
                       <div class="section-title">
-                          <h4>Водію</h4>
-                          <h2><strong>3</strong> простих кроки</h2>
+                          <h2>Водію</h2>
+                          <h4>Водій записує маршрути якими він може підвозити, і чекає на запити від пасажирів</h4>
                           <hr>
                           <div class="clearfix"></div>
                       </div>
                       <ul class="about-list">
                           <li>
                               <span class="fa fa-dot-circle-o"></span>
-                              <strong></strong> <em><a href="/users/sign_in">Зареєструватися</a> в спільноті</em>
+                              <strong></strong> <em>Почати спілкування з <%= link_to 'ботом', 'https://m.me/1026215597422812'%>, і отримати посилання на мобільний застосунок</em>
                           </li>
                           <li>
                               <span class="fa fa-dot-circle-o"></span>
-                              <strong></strong> <em>Встановити
-                            <a href="#tf-home">додаток</a>
-                            на мобільний</em>
+                              <strong></strong> <em>За допомогою мобільного застосунка записати маршрути
+                            </em>
                           </li>
                           <li>
                               <span class="fa fa-dot-circle-o"></span>
-                              <strong></strong> <em>Подорожуючи авто звичайним маршрутом підключайте мобільний до живлення</em>
+                              <strong></strong> <em>Вибирати цікавих попутчиків серед запитів і мати гарну подорож</em>
                           </li>
                       </ul>
                   </div>
@@ -197,15 +193,15 @@
                           <ul class="about-list">
                               <li>
                                   <span class="fa fa-dot-circle-o"></span>
-                                  <strong></strong> <em><a href="/users/sign_in">Зареєструватися</a> в спільноті</em>
+                                  <strong></strong> <em>Почати спілкування з <%= link_to 'ботом', 'https://m.me/1026215597422812'%></em>
                               </li>
                               <li>
                                   <span class="fa fa-dot-circle-o"></span>
-                                  <strong></strong> <em>Знайти водія який буде їхати потрібним маршрутом</em>
+                                  <strong></strong> <em>Вказати звідки і куди потрібно заіхати</em>
                               </li>
                               <li>
                                   <span class="fa fa-dot-circle-o"></span>
-                                  <strong></strong> <em>Домовитись за поїздку</em>
+                                  <strong></strong> <em>Зателефонувати водію і домовитись як зустрітись</em>
                               </li>
                           </ul>
                       </div>
