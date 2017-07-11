@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
 
   scope :fb_chat_authed, -> { where('fb_chat_id IS NOT NULL') }
 
-  validates :phone, phone: true
+  validates :phone, phone: true, unless: Proc.new {|u| u.phone.nil? }
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
