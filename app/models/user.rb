@@ -143,7 +143,7 @@ class User < ActiveRecord::Base
         after: -> (coordinates) do
           m = GeoLocation.new.to_m(coordinates['lat'].to_s, coordinates['long'].to_s)
           address = GeoLocation.new(location: m).address
-          car_search = CarSearch.new(from_m: m, from_title: address, user: self)
+          car_search = CarSearch.create!(from_m: m, from_title: address, user: self)
           self.last_search = car_search
           car_search.has_results = true
           passenger_action.ok
@@ -154,6 +154,14 @@ class User < ActiveRecord::Base
         after: -> do
           passenger_action.provide_another_from
         end
+
+      transitions from: :p_to, to: :p_from,
+                  guard: -> (coordinates) do
+                    self.last_search.blank?
+                  end,
+                  after: -> do
+                    passenger_action.provide_another_from
+                  end
 
       transitions from: :p_to, to: :p_time,
         guard: -> (coordinates) do
