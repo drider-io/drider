@@ -82,3 +82,4 @@ gem 'rpush'
 gem 'jquery-ui-rails'
 gem 'facebook-messenger', "~> 1.0.0"
 gem 'activeadmin', github: 'activeadmin'
+gem 'phonelib', "~> 0.6.12"

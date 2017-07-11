@@ -1,16 +1,17 @@
 -content_for :title, 'Вкажіть телефон'
 =form_for current_user, url: account_phone_path, remote: true do |f|
+  div.error
   'Телефон:
   =f.phone_field :phone, autofocus:true
   =f.submit 'Зберегти'
 
 javascript:
   $(document).ready(function () {
-    $("form").on("ajax:success", function(){
+    $("form")
+      .on("ajax:success", function(){
       redirect = 'https://www.messenger.com/closeWindow/?image_url=https://drider.io/favicon.ico?&display_text=Це+вікно+можна+закрити';
       if (window.MessengerExtensions) {
         MessengerExtensions.requestCloseBrowser(function success() {
-
         }, function error(err) {
           window.location = redirect;
         });
@@ -18,4 +19,8 @@ javascript:
         window.location = redirect;
       }
     })
+            .on('ajax:error', function(e, data){
+              var json = $.parseJSON(data.responseText);
+              $('.error').text(json.error);
+            })
   });
