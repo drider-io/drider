@@ -166,6 +166,7 @@ class SocketController < ApplicationController
       Redis.new.subscribe "user_#{current_user.id}" do |on|
         on.message do |channel, message|
           if "disconnect" == message
+            ReplyGeneric.new(tubesock).disconnect.send
             tubesock.close!
           else
             tubesock.send_data message
