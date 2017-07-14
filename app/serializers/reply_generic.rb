@@ -91,6 +91,11 @@ class ReplyGeneric
     self
   end
 
+  def disconnect
+    @reply[:disconnect] = true
+    self
+  end
+
   def as_json(*arg)
     @reply.as_json(*arg)
   end
