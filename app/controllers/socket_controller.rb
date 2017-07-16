@@ -176,6 +176,7 @@ class SocketController < ApplicationController
             ReplyGeneric.new(tubesock).disconnect.send
             hanlders = tubesock.instance_variable_get(:@close_handlers)
             Rails.logger.debug("Onclose handlers count: #{hanlders.count}")
+            tubesock.instance_variable_get(:socket).shutdown(Socket::SHUT_RDWR)
             tubesock.close
             @redis_client.unsubscribe
           else
@@ -184,8 +185,7 @@ class SocketController < ApplicationController
         end
       end
       @redis_client.quit
-      Rails.logger.debug("Socket shutdown")
-      tubesock.instance_variable_get(:socket).shutdown(Socket::SHUT_RDWR)
+      Rails.logger.debug("Redis thread quit")
     end
   end
 end
