@@ -95,7 +95,7 @@ class SocketController < ApplicationController
         tubesock.onclose do |data|
           Rails.logger.debug('socket close')
           CarLocationsProcessor.perform_in(15.minutes, car_session.id) if car_session
-          @redis_thread.kill if @redis_thread.present?
+          @redis_thread.kill if @redis_thread.present? && @redis_thread != Thread.current
         end
       end
 
@@ -167,7 +167,7 @@ class SocketController < ApplicationController
         on.message do |channel, message|
           if "disconnect" == message
             ReplyGeneric.new(tubesock).disconnect.send
-            tubesock.close!
+            tubesock.close
           else
             tubesock.send_data message
           end
