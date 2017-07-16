@@ -170,6 +170,7 @@ class SocketController < ApplicationController
           if "disconnect" == message
             ReplyGeneric.new(tubesock).disconnect.send
             tubesock.close
+            Rails.logger.debug("Redis thread kill")
             @redis_thread.kill
           else
             tubesock.send_data message
