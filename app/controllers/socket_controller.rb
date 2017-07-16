@@ -176,7 +176,7 @@ class SocketController < ApplicationController
             ReplyGeneric.new(tubesock).disconnect.send
             hanlders = tubesock.instance_variable_get(:@close_handlers)
             Rails.logger.debug("Onclose handlers count: #{hanlders.count}")
-            tubesock.instance_variable_get(:socket).shutdown(Socket::SHUT_RDWR)
+            tubesock.instance_variable_get(:@socket).shutdown(Socket::SHUT_RDWR)
             tubesock.close
             @redis_client.unsubscribe
           else
