@@ -184,7 +184,8 @@ class SocketController < ApplicationController
         end
       end
       @redis_client.quit
-      Rails.logger.debug("Redis thread quit")
+      Rails.logger.debug("Socket shutdown")
+      tubesock.instance_variable_get(:socket).shutdown(Socket::SHUT_RDWR)
     end
   end
 end
