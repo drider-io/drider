@@ -99,6 +99,10 @@ class SocketController < ApplicationController
           CarLocationsProcessor.perform_in(15.minutes, car_session.id) if car_session
           @redis_thread.kill if @redis_thread.present? && @redis_thread != Thread.current
         end
+
+        tubesock.onerror do |data|
+          Rails.logger.debug("onErorr: #{data}")
+        end
       end
 
   end

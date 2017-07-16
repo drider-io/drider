@@ -1,6 +1,8 @@
 trap(29) {
+  list = Thread.list
   puts '-' * 90
-  Thread.list.each do |t|
+  puts "Count: #{list.count}"
+  list.each do |t|
     p t
     puts t.backtrace
     puts "#" * 90
