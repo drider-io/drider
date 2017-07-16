@@ -169,20 +169,22 @@ class SocketController < ApplicationController
     @redis_thread = Thread.new do
       # Needs its own redis connection to pub
       # and sub at the same time
-      Redis.new.subscribe "user_#{current_user.id}" do |on|
+      @redis_client = Redis.new
+      @redis_client.subscribe "user_#{current_user.id}" do |on|
         on.message do |channel, message|
           if "disconnect" == message
             ReplyGeneric.new(tubesock).disconnect.send
             hanlders = tubesock.instance_variable_get(:@close_handlers)
             Rails.logger.debug("Onclose handlers count: #{hanlders.count}")
             tubesock.close
-            Rails.logger.debug("Redis thread kill")
-            @redis_thread.kill
+            @redis_client.unsubscribe
           else
             tubesock.send_data message
           end
         end
       end
+      @redis_client.quit
+      Rails.logger.debug("Redis thread quit")
     end
   end
 end
