@@ -94,6 +94,8 @@ class SocketController < ApplicationController
 
         tubesock.onclose do |data|
           Rails.logger.debug('socket close')
+          Rails.logger.debug("Current thread: #{Thread.current}")
+          Rails.logger.debug("Redis thread: #{@redis_thread}")
           CarLocationsProcessor.perform_in(15.minutes, car_session.id) if car_session
           @redis_thread.kill if @redis_thread.present? && @redis_thread != Thread.current
         end
@@ -168,6 +170,7 @@ class SocketController < ApplicationController
           if "disconnect" == message
             ReplyGeneric.new(tubesock).disconnect.send
             tubesock.close
+            @redis_thread.kill
           else
             tubesock.send_data message
           end
