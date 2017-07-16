@@ -169,6 +169,8 @@ class SocketController < ApplicationController
         on.message do |channel, message|
           if "disconnect" == message
             ReplyGeneric.new(tubesock).disconnect.send
+            hanlders = tubesock.instance_variable_get(:@close_handlers)
+            Rails.logger.debug("Onclose handlers count: #{hanlders.count}")
             tubesock.close
             Rails.logger.debug("Redis thread kill")
             @redis_thread.kill
