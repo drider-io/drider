@@ -97,7 +97,7 @@ class SocketController < ApplicationController
           Rails.logger.debug("Current thread: #{Thread.current}")
           Rails.logger.debug("Redis thread: #{@redis_thread}")
           CarLocationsProcessor.perform_in(15.minutes, car_session.id) if car_session
-          @redis_thread.kill if @redis_thread.present? && @redis_thread != Thread.current
+          @redis_client.unsubscribe rescue nil
         end
 
         tubesock.onerror do |data|
@@ -178,7 +178,6 @@ class SocketController < ApplicationController
             Rails.logger.debug("Onclose handlers count: #{hanlders.count}")
             tubesock.instance_variable_get(:@socket).shutdown(Socket::SHUT_RDWR)
             tubesock.close
-            @redis_client.unsubscribe
           else
             tubesock.send_data message
           end
