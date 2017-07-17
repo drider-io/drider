@@ -112,7 +112,7 @@ SQL
         end
       else
         log "session #{session.id} have distance #{distance} less then #{min_route_distance}, skipping, user: #{session.user.name}"
-        notify("Маршрут не записано: відстінь #{distance.to_i} менше мінімальної(#{min_route_distance})")
+        notify("Маршрут не записано: відстань #{distance.to_i} менше мінімальної(#{min_route_distance})")
         session.update!(processed: true)
       end
     else
