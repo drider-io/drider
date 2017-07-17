@@ -36,6 +36,11 @@ module FbApi
         title: 'Android',
         url: 'https://play.google.com/store/apps/details?id=io.drider.car&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'
       },
+      download: {
+          type: 'web_url',
+          title: 'До застосунка',
+          url: 'https://www.facebook.com/drider.io/posts/1643166125727753',#Rails.application.routes.url_helpers.download_url,
+      }
     }
 
     def self.get(*names)

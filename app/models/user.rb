@@ -242,9 +242,7 @@ end
 
   def driver_message
     if ever_drive?
-      #keep driving
-    elsif devices.blank?
-      driver_action.please_install_app
+      driver_action.please_keep_recording
     else
       driver_action.please_record_a_route
     end
