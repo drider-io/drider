@@ -39,7 +39,8 @@ module FbApi
       download: {
           type: 'web_url',
           title: 'До застосунка',
-          url: 'https://www.facebook.com/drider.io/posts/1643166125727753',#Rails.application.routes.url_helpers.download_url,
+          url: 'https://www.facebook.com/drider.io/posts/1643166125727753',
+          # url: 'https://fb.me/1859587257639482',
       }
     }
 
