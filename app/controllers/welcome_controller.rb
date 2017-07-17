@@ -27,7 +27,8 @@ class WelcomeController < ApplicationController
   end
 
   def profile_picture
-    redirect_to "https://graph.facebook.com/#{params[:id]}/picture?height=450"
+    user = User.find params[:id]
+    redirect_to user.image_url
   end
 
   private
