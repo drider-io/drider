@@ -78,6 +78,7 @@ class User < ActiveRecord::Base
 
   def image_url191
     "http://drider.io.rsz.io/profile_picture/#{id}?width=382&height=200&bgcolor=fff"
+    image_url
   end
 
   def linked_to_fb?
