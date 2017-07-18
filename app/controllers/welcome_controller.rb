@@ -28,7 +28,7 @@ class WelcomeController < ApplicationController
 
   def profile_picture
     user = User.find params[:id]
-    redirect_to user.image_url
+    proxy_remote(user.image_url)
   end
 
   private
@@ -36,5 +36,10 @@ class WelcomeController < ApplicationController
   def warning_required?
     'ios' == params[:client] &&
         (params[:location] != 'Authorized' || params[:notifications] == '')
+  end
+
+  def proxy_remote(url)
+    headers['X-Accel-Redirect'] = "/proxy_remote/#{url.sub(/^https?\:\/\//, '')}"
+    render :nothing => true
   end
 end
