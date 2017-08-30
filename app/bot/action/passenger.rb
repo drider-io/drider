@@ -50,6 +50,6 @@ class Action::Passenger
   end
 
   def driver_accepted_request(name)
-    FbMessage.new(@fb_chat_id).text_message("#{name} відправлено ваш телефон, очикуйте на дзвінок").deliver
+    FbMessage.new(@fb_chat_id).text_message("#{name} відправлено ваш телефон, очікуйте на дзвінок").deliver
   end
 end

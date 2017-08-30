@@ -24,7 +24,7 @@ class RiderNotifier
       .deliver
     end
     if sent > 0
-      message.text_message("Очикуємо на відповідь від #{sent} водіїв з #{total} запитів")
+      message.text_message("Очікуємо на відповідь від #{sent} водіїв з #{total} запитів")
     else
       message.text_message("Пошук завершено")
       @car_search.user.finish_search!
