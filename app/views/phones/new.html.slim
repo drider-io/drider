@@ -9,18 +9,10 @@ javascript:
   $(document).ready(function () {
     $("form")
       .on("ajax:success", function(){
-      redirect = 'https://www.messenger.com/closeWindow/?image_url=https://drider.io/favicon.ico?&display_text=Це+вікно+можна+закрити';
-      if (window.MessengerExtensions) {
-        MessengerExtensions.requestCloseBrowser(function success() {
-        }, function error(err) {
-          window.location = redirect;
-        });
-      } else {
-        window.location = redirect;
-      }
-    })
-            .on('ajax:error', function(e, data){
-              var json = $.parseJSON(data.responseText);
-              $('.error').text(json.error);
-            })
+          messengerCloseWindow();
+        })
+      .on('ajax:error', function(e, data){
+        var json = $.parseJSON(data.responseText);
+        $('.error').text(json.error);
+      })
   });
