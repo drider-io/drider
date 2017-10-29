@@ -36,6 +36,7 @@ ActiveAdmin.register CarRoute do
       route.car_sessions.count
     end
     column :locations_count do |route|
+      route.car_sessions.present? &&
       route.car_sessions.first.car_locations.count
     end
     actions

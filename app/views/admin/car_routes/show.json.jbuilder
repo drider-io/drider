@@ -1,6 +1,6 @@
 serialized_route = RGeo::GeoJSON.encode(GeoLocation.new.to_g(@car_route.route))
 session = @car_route.car_sessions.order('id DESC').first
-locations = session.car_locations.order('id DESC')
+session ? locations = session.car_locations.order('id DESC') : []
 
 json.type "FeatureCollection"
 json.features [@car_routes] do |route|
