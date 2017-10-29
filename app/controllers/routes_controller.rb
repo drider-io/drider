@@ -1,4 +1,5 @@
 class RoutesController < ApplicationController
+  before_action :user_required
 
   def new
     @route = CarRoute.new
@@ -22,8 +23,7 @@ SQL
       [nil, {data: data}.to_json]
     ]
     ).first
-    p result
-
+    render json: {}
   end
 
   def show
@@ -48,6 +48,6 @@ SQL
       [nil, {data: data}.to_json]
     ]
     ).first
-    p result
+    render json: {}
   end
 end

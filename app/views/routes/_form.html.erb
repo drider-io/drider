@@ -1,6 +1,6 @@
 <div class="container">
 <div class="form">
-  <%= form_for @route, url: {controller: :routes, action: @route.new_record? ? :create : :update }, html: { id: 'form', class: 'form-inline' } do %>
+  <%= form_for @route, url: {controller: :routes, action: @route.new_record? ? :create : :update }, html: { id: 'form', class: 'form-inline' }, remote: true do %>
     <input type="hidden" name="data" value="<%= @route.try(:payload).try(:[], 'data').try(:to_json) %>">
     <input type="hidden" name="polyline">
       <!--<label for="route">Name</label>-->
@@ -9,7 +9,7 @@
         <select id="route" class="form-control route" name="waypoints"  style="width: 100%" multiple=true autofocus tabindex=1 data-placeholder="Вкажіть маршрут" required></select>
       </div>
       <div class="col-xs-2" style="padding: 0">
-        <button type="submit" class="btn btn-primary" tabindex=2 disabled="disabled">Зберегти</button>
+        <button type="submit" class="btn btn-primary" tabindex=2 disabled="disabled" data-disable-with="Обробка...">Зберегти</button>
       </div>
     </div>
   <% end %>
@@ -203,21 +203,25 @@
     });
 
 
-    form.on('submit', function (e){
-      if (!polyline){
-        alert('Невірний маршрут')
-        e.preventDefault();
-      } else {
-        var data = $.map(routeSelect.select2('data'), function (em) {
-          return {
-            id: em.id,
-            text: em.text
-          }
-        });
-        form.find('input[name="data"]').val(JSON.stringify(data));
-        form.find('input[name="polyline"]').val(polyline);
-      }
-    });
+    form
+      .on('submit', function (e){
+        if (!polyline){
+          alert('Невірний маршрут')
+          e.preventDefault();
+        } else {
+          var data = $.map(routeSelect.select2('data'), function (em) {
+            return {
+              id: em.id,
+              text: em.text
+            }
+          });
+          form.find('input[name="data"]').val(JSON.stringify(data));
+          form.find('input[name="polyline"]').val(polyline);
+        }
+      })
+      .on("ajax:success", function(){
+        messengerCloseWindow();
+      });
     routeSelect.trigger('change');
 
   });
