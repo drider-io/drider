@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   end
 
   resources :car_routes, only: [ :index, :show, :update, :destroy ]
+  resources :routes
   # resources :car_requests, only: [ :index, :create, :update, :show ]
   # resources :car_sessions, only: [ :show ]
   # resources :passenger_search

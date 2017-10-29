@@ -1,0 +1,224 @@
+<div class="container">
+<div class="form">
+  <%= form_for @route, url: {controller: :routes, action: @route.new_record? ? :create : :update }, html: { id: 'form', class: 'form-inline' } do %>
+    <input type="hidden" name="data" value="<%= @route.try(:payload).try(:[], 'data').try(:to_json) %>">
+    <input type="hidden" name="polyline">
+      <!--<label for="route">Name</label>-->
+    <div class="row">
+      <div class="col-xs-10" style="padding: 0">
+        <select id="route" class="form-control route" name="waypoints"  style="width: 100%" multiple=true autofocus tabindex=1 data-placeholder="Вкажіть маршрут" required></select>
+      </div>
+      <div class="col-xs-2" style="padding: 0">
+        <button type="submit" class="btn btn-primary" tabindex=2 disabled="disabled">Зберегти</button>
+      </div>
+    </div>
+  <% end %>
+</div>
+</div>
+<div id="map"></div>
+
+
+<script>
+  $(function(){
+    window.map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 4,
+      center: {lat: -24.345, lng: 134.46}  // Australia.
+    });
+
+
+
+
+
+
+
+
+
+
+    var defaultBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(49.918678, 23.910728),
+            new google.maps.LatLng(49.768662, 24.167058));
+    var circle = new google.maps.Circle({
+      center: google.maps.LatLng(49.8419071, 24.0315675),
+      radius: 12
+    });
+    var service = new google.maps.places.AutocompleteService({
+    });
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+    var placesService = new google.maps.places.PlacesService(map);
+
+    var markers = [];
+    var polyline = false;
+    var form = $('#form');
+    var button = form.find('button');
+    var routeSelect = $('.route');
+
+
+    var initialData = form.find('input[name="data"]').val();
+    if (initialData){
+      initialData = $.map(JSON.parse(initialData), function(em){
+        em.selected = true;
+        return em;
+      });
+    } else initialData = [];
+
+
+    routeSelect.select2({
+      ajax: {
+        transport: function (params, success, failure) {
+          service.getPlacePredictions({
+            input: params.data.term,
+            componentRestrictions: {country: 'ua'}
+          }, function (predictions, status) { //,  types: ['(cities)']
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+              var list = $.map(predictions, function (prediction) {
+                var match = prediction.description.match(/^(.+)(, Львівська область, Україна|, Lviv Oblast, Ukraine)$/);
+                if (match) {
+                  return {
+                    id: prediction.place_id,
+                    text: match[1]
+                  }
+                }
+              });
+              success({ results: list })
+            } else {
+              console.log(status);
+              console.log(params.data.term);
+              failure()
+            }
+            //if (status == google.maps.places.PlacesServiceStatus.OK) {
+            //  var list = $.map(predictions, function (prediction) {
+            //    var match = prediction.description.match(/^(.+)(, Львів, Львівська область, Україна|, Lviv, Lviv Oblast, Ukraine)$/);
+            //    if (match) return match[1];
+            //  });
+            //  console.log(list);
+            //  response(list);
+            //} else {
+            //  response([]);
+            //}
+          });
+          //var request = new AjaxRequest(params.url, params);
+          //request.on('success', success);
+          //request.on('failure', failure);
+        }
+      },
+      data: initialData,
+      tags: true,
+      tokenSeparators: [','],
+      placeholder: "Add your tags here",
+      minimumInputLength: 3
+
+
+
+
+    }).on('change', function (e) {
+      function setMapTo(placeId){
+        placesService.getDetails({
+          placeId: placeId
+        }, function(place, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            var marker = new google.maps.Marker({
+              map: map,
+              position: place.geometry.location
+            });
+            markers.push(marker);
+            map.setCenter(place.geometry.location);
+            map.setZoom(15);
+//          google.maps.event.addListener(marker, 'click', function() {
+//            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+//                'Place ID: ' + place.place_id + '<br>' +
+//                place.formatted_address + '</div>');
+//            infowindow.open(map, this);
+//          });
+          }
+        });
+      }
+      function cleanMap(){
+        while(markers.length > 0){
+          var marker = markers.pop();
+          marker.setMap(null);
+        }
+        directionsDisplay.setMap(null);
+      }
+
+
+      cleanMap();
+      var options = $(this).select2('data');
+
+//      console.log(options);
+      if (1 == options.length){
+        setMapTo(options[0].id)
+      }
+      else if (1 < options.length){
+        var start = options.shift();
+        var end = options.pop();
+
+        var waypoints = $.map(options, function (option) {
+          return {
+            location: {'placeId': option.id },
+            stopover: true
+          };
+        });
+
+        var directionsService = new google.maps.DirectionsService;
+
+        directionsDisplay.setMap(map);
+//        console.log(waypoints);
+        directionsService.route({
+          origin: {'placeId': start.id},
+          destination: {'placeId': end.id },
+          waypoints: waypoints,
+          optimizeWaypoints: true,
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+            polyline = response.routes[0].overview_polyline;
+            button.prop('disabled', false);
+//            var route = response.routes[0];
+//            var summaryPanel = document.getElementById('directions-panel');
+//            summaryPanel.innerHTML = '';
+//            // For each route, display summary information.
+//            for (var i = 0; i < route.legs.length; i++) {
+//              var routeSegment = i + 1;
+//              summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+//                  '</b><br>';
+//              summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+//              summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+//              summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+//            }
+          } else {
+            button.prop('disabled', true);
+            polyline = false;
+            console.log(status);
+            console.log(response);
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+    }).on('select2:select', function(e){
+      var id = e.params.data.id;
+      var option = $(e.target).children("[value="+id+"]");
+      option.detach();
+      $(e.target).append(option).change();
+    });
+
+
+    form.on('submit', function (e){
+      if (!polyline){
+        alert('Невірний маршрут')
+        e.preventDefault();
+      } else {
+        var data = $.map(routeSelect.select2('data'), function (em) {
+          return {
+            id: em.id,
+            text: em.text
+          }
+        });
+        form.find('input[name="data"]').val(JSON.stringify(data));
+        form.find('input[name="polyline"]').val(polyline);
+      }
+    });
+    routeSelect.trigger('change');
+
+  });
+</script>

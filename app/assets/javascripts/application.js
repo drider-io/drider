@@ -15,4 +15,5 @@
 //= require jquery-ui/autocomplete
 //= require twitter/bootstrap
 //= require turbolinks
+//= require select2
 //= require_tree ./application

@@ -14,5 +14,7 @@
  *= require jquery-ui/autocomplete
  *= require_tree ./shared
  *= require_tree ./spirit8
+ *= require select2
+ *= require_tree ./pages
  *= require_self
  */
