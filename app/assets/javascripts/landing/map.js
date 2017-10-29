@@ -1,6 +1,4 @@
 $( document ).ready(function() {
-  var map = $('#map-canvas');
-
   var mapOptions = {
     scrollwheel: false,
     navigationControl: false,

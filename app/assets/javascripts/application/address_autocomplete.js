@@ -15,7 +15,7 @@ $(document).ready(function () {
   $('.address').autocomplete({
     source: function (request, response) {
       var term = request.term;
-      service.getPlacePredictions({
+      service.getQueryPredictions({
         input: term,
         types: ['address'],
         bounds: circle.getBounds(),
