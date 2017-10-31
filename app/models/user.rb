@@ -237,11 +237,7 @@ end
   end
 
   def driver_message
-    if ever_drive?
-      driver_action.please_keep_recording
-    else
-      driver_action.please_record_a_route
-    end
+    driver_action.driver_default(self)
   end
 
   private
