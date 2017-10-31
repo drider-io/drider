@@ -1,7 +1,7 @@
 class CarRoute < ActiveRecord::Base
   belongs_to :user
   has_many :car_route_stats
-  has_many :car_sessions, dependent: :destroy
+  has_many :car_sessions, dependent: :nullify
   has_many :details_logs, as: :parent, dependent: :destroy
 
   scope :without_user, ->(user) do
