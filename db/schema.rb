@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 20171026174926) do
     t.string   "from_address"
     t.string   "to_address"
     t.datetime "driven_at"
-    t.jsonb    "payload"
+    t.json     "payload"
   end
 
   add_index "car_routes", ["is_actual"], name: "index_car_routes_on_is_actual", using: :btree
