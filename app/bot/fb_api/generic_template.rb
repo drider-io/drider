@@ -1,6 +1,6 @@
 module FbApi
   module GenericTemplate
-    def generic_template(title:, url: nil, image_url: nil, subtitle: nil, buttons: nil)
+    def generic_template(title:, url: nil, image_url: nil, subtitle: nil, buttons: nil, default_action: nil)
       @message.deep_merge!(
         message:{
           attachment:{
@@ -17,6 +17,7 @@ module FbApi
       em[:url] = url if url
       em[:image_url] = image_url if image_url
       em[:subtitle] = subtitle if subtitle
+      em[:default_action] = default_action if default_action
       em[:buttons] = FbApi::Buttons.get(buttons) if buttons
       @message[:message][:attachment][:payload][:elements] << em
 
