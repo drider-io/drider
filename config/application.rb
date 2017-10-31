@@ -32,5 +32,9 @@ module Car
         :user_name => ENV['mailgun_login'],
         :password => ENV['mailgun_password']
       }
+
+    config.action_dispatch.default_headers = {
+      'AMP-Access-Control-Allow-Source-Origin' => 'https://drider.io'
+    }
   end
 end
