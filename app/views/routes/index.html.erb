@@ -1,0 +1,24 @@
+<% content_for :title, 'Маршрути водія' %>
+
+<main class="content" role="main">
+
+  <header class="blog-header">
+    <h2>Маршрути водія</h2>
+  </header>
+
+  <div class="cf frame">
+    <% @routes.each do |route| %>
+        <form class="delete" method="POST" action-xhr="<%= route_path(route) %>" target="_top">
+      <article class="route">
+          <%= link_to "#{route.from_address} -> #{route.to_address}", route_path(route) %>
+          <input name="_method" value="delete" type="hidden">
+          <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+          <button class="btn" type="submit">Видалити</button>
+      </article>
+        </form>
+    <% end %>
+  </div>
+  <div class="site-footer">
+    <%= link_to 'Додати Маршрут', new_route_path, class: 'btn' %>
+  </div>
+</main>

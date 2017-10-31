@@ -1,6 +1,11 @@
 class RoutesController < ApplicationController
   before_action :user_required
 
+  def index
+    @routes = current_user.car_routes
+    render 'index', layout: 'amp'
+  end
+
   def new
     @route = CarRoute.new
     render '_form'
@@ -48,6 +53,11 @@ SQL
       [nil, {data: data}.to_json]
     ]
     ).first
+    render json: {}
+  end
+
+  def destroy
+    current_user.car_routes.find(params[:id]).destroy
     render json: {}
   end
 end
