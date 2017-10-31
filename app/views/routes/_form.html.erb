@@ -21,8 +21,8 @@
 <script>
   $(function(){
     window.map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 4,
-      center: {lat: -24.345, lng: 134.46}  // Australia.
+      zoom: 12,
+      center: {lat: 49.8419071, lng: 24.0315675}
     });
 
 
@@ -105,7 +105,10 @@
       tags: true,
       tokenSeparators: [','],
       placeholder: "Add your tags here",
-      minimumInputLength: 3
+      minimumInputLength: 3,
+      createTag: function (params) {
+        return null;
+      }
 
 
 
@@ -191,7 +194,6 @@
             polyline = false;
             console.log(status);
             console.log(response);
-            window.alert('Directions request failed due to ' + status);
           }
         });
       }
