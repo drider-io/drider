@@ -12,7 +12,7 @@ class CarRouteSearcher
 #
 #     select =
 
-    routes = CarRoute.select('*, ST_LineSubstring(route, pickup_float, drop_float) as sub_route')
+    routes = CarRoute.actual.select('*, ST_LineSubstring(route, pickup_float, drop_float) as sub_route')
         .from(inner_query(car_search))
         .where('drop_float > pickup_float')
         #TODO .where('updated_at >= ?', Time.now - 10.days)
@@ -32,20 +32,20 @@ class CarRouteSearcher
   end
 
   def drivers(car_search)
-    ids = CarRoute.select('DISTINCT user_id')
+    ids = CarRoute.actual.select('DISTINCT user_id')
       .from(inner_query(car_search))
       .where('drop_float > pickup_float')
     User.fb_chat_authed.where(id: ids.map(&:user_id))
   end
 
   def pass_by(m)
-    CarRoute.where('ST_DWithin(route, ?, 500 )', m).first
+    CarRoute.actual.where('ST_DWithin(route, ?, 500 )', m).first
   end
 
   private
 
   def inner_query(car_search)
-    CarRoute
+    CarRoute.actual
       .without_user(car_search.user)
     .select_with_args('
 *,

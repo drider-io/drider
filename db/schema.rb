@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171026174926) do
+ActiveRecord::Schema.define(version: 20171101094410) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20171026174926) do
     t.string   "to_address"
     t.datetime "driven_at"
     t.json     "payload"
+    t.datetime "deleted_at"
   end
 
   add_index "car_routes", ["is_actual"], name: "index_car_routes_on_is_actual", using: :btree
