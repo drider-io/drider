@@ -9,7 +9,7 @@ class CarRoute < ActiveRecord::Base
   end
 
   scope :actual , -> do
-    where.not(deleted_at: nil)
+    where(deleted_at: nil)
   end
 
   def self.select_with_args(sql, args)

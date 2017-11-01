@@ -23,9 +23,9 @@ class Action::Driver
   end
 
   def driver_default(user)
-    if user.car_routes.count > 0
+    if user.car_routes.actual.count > 0
       FbMessage.new(@fb_chat_id)
-        .button_template(text: "Маршрутів: #{user.car_routes.count}",
+        .button_template(text: "Маршрутів: #{user.car_routes.actual.count}",
                          buttons: [add_route_button(user), show_routes_button(user)]).deliver
     else
       FbMessage.new(@fb_chat_id)

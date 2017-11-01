@@ -2,7 +2,7 @@ class RoutesController < ApplicationController
   before_action :user_required
 
   def index
-    @routes = current_user.car_routes
+    @routes = current_user.car_routes.actual
     render 'index', layout: 'amp'
   end
 
@@ -57,7 +57,7 @@ SQL
   end
 
   def destroy
-    current_user.car_routes.find(params[:id]).destroy
+    current_user.car_routes.find(params[:id]).update(deleted_at: Time.now)
     render json: {}
   end
 end
