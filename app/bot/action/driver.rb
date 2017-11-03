@@ -48,7 +48,7 @@ class Action::Driver
     {
       type: 'web_url',
       title: 'Переглянути маршрути',
-      url: Rails.application.routes.url_helpers.routes_url + "?auth_token=#{user.authentication_token}",
+      url: 'http://drider.dev:4000/routes' + "?auth_token=#{user.authentication_token}",
     }
   end
 end

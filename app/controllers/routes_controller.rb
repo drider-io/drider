@@ -3,7 +3,7 @@ class RoutesController < ApplicationController
 
   def index
     @routes = current_user.car_routes.actual
-    render 'index', layout: 'amp'
+    render 'text', layout: nil
   end
 
   def new
