@@ -1,5 +1,10 @@
 html { height: 100% }
 body[data-controller="routes"] {
+  .container-fluid {
+    height: 100%;
+    padding: 0;
+  }
+
   #map {
     height: 100%;
     float: left;
@@ -9,7 +14,9 @@ body[data-controller="routes"] {
     height: 100%;
     margin: 0;
     padding: 0;
+
   .form{
+    left: 25px;
     position: absolute;
     top: 10px;
     z-index: 5;

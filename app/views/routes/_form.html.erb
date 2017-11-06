@@ -1,21 +1,21 @@
-<div class="container">
-<div class="form">
-  <%= form_for @route, url: {controller: :routes, action: @route.new_record? ? :create : :update }, html: { id: 'form', class: 'form-inline' }, remote: true do %>
-    <input type="hidden" name="data" value="<%= @route.try(:payload).try(:[], 'data').try(:to_json) %>">
-    <input type="hidden" name="polyline">
-      <!--<label for="route">Name</label>-->
-    <div class="row">
-      <div class="col-xs-10" style="padding: 0">
-        <select id="route" class="form-control route" name="waypoints"  style="width: 100%" multiple=true autofocus tabindex=1 data-placeholder="Вкажіть маршрут" required></select>
+<div class="container-fluid">
+  <div class="form">
+    <%= form_for @route, url: {controller: :routes, action: @route.new_record? ? :create : :update }, html: { id: 'form', class: 'form-inline' }, remote: true do %>
+      <input type="hidden" name="data" value="<%= @route.try(:payload).try(:[], 'data').try(:to_json) %>">
+      <input type="hidden" name="polyline">
+        <!--<label for="route">Name</label>-->
+      <div class="row">
+        <div class="col-xs-10" style="padding: 0">
+          <select id="route" class="form-control route" name="waypoints"  style="width: 100%" multiple=true autofocus tabindex=1 data-placeholder="Вкажіть маршрут" required></select>
+        </div>
+        <div class="col-xs-2" style="padding: 0">
+          <button type="submit" class="btn btn-primary" tabindex=2 disabled="disabled" data-disable-with="Обробка...">Зберегти</button>
+        </div>
       </div>
-      <div class="col-xs-2" style="padding: 0">
-        <button type="submit" class="btn btn-primary" tabindex=2 disabled="disabled" data-disable-with="Обробка...">Зберегти</button>
-      </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
+  <div id="map"></div>
 </div>
-</div>
-<div id="map"></div>
 
 
 <script>
@@ -226,5 +226,7 @@
       });
     routeSelect.trigger('change');
 
+    var containerHeight = $('.container-fluid').css('height');
+    $('.container-fluid').css('height', containerHeight);
   });
 </script>
