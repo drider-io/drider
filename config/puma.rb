@@ -14,7 +14,16 @@ rails_env = ENV['RAILS_ENV'] || "production"
 environment rails_env
 
 # Set up socket location
-bind "unix://#{app_dir}/tmp/puma/sock"
+
+if 'development' == ENV['RAILS_ENV']
+  bind 'tcp://0.0.0.0:4001'
+  ssl_bind '0.0.0.0', '4000', {
+    key: 'drider.dev.key',
+    cert: 'drider.dev.crt'
+  }
+else
+  bind "unix://#{app_dir}/tmp/puma/sock"
+end
 
 # Logging
 # stdout_redirect "#{app_dir}/log/puma.stdout.log", "#{app_dir}/log/puma.stderr.log", true
