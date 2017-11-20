@@ -32,7 +32,7 @@ class CarRouteSearcher
   end
 
   def drivers(car_search)
-    ids = CarRoute.actual.select('DISTINCT user_id')
+    ids = CarRoute.select('DISTINCT user_id')
       .from(inner_query(car_search))
       .where('drop_float > pickup_float')
     User.fb_chat_authed.where(id: ids.map(&:user_id))
