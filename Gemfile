@@ -84,3 +84,4 @@ gem 'facebook-messenger', "~> 1.0.0"
 gem 'activeadmin', github: 'activeadmin'
 gem 'phonelib', "~> 0.6.12"
 gem 'select2-rails', '~> 4.0.3'
+gem 'mustache', '~> 1.0.5'
