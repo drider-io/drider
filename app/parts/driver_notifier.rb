@@ -26,7 +26,7 @@ class DriverNotifier
                                          {
                                            type: 'web_url',
                                            title: 'Повідомлення',
-                                           url: Rails.application.routes.url_helpers.message_url(request.driver.id) + "?auth_token=#{request.driver.authentication_token}",
+                                           url: Rails.application.routes.url_helpers.message_url(request.passenger.id) + "?auth_token=#{request.driver.authentication_token}",
                                          }
                                ])
     end
