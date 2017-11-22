@@ -39,7 +39,7 @@ class CarRouteSearcher
   end
 
   def pass_by(m)
-    CarRoute.actual.where('ST_DWithin(route, ?, 500 )', m).first
+    CarRoute.actual.where('ST_DWithin(route, ?, 1500 )', m).first
   end
 
   private
@@ -55,8 +55,8 @@ ST_LineLocatePoint(route, ?) as pickup_float,
 ST_LineLocatePoint(route, ?) as drop_float
 ', [car_search.from_m, car_search.to_m, car_search.from_m, car_search.to_m])
       .where('
-ST_DWithin(route, ?, 500 ) AND
-ST_DWithin(route, ?, 500 )
+ST_DWithin(route, ?, 1500 ) AND
+ST_DWithin(route, ?, 1500 )
 ', car_search.from_m, car_search.to_m )
   end
 end
