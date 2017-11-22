@@ -22,7 +22,13 @@ class DriverNotifier
                                            type: 'postback',
                                            title: 'Ні',
                                            payload: "d_decline?req=#{request.id}"
-                                         },                               ])
+                                         },
+                                         {
+                                           type: 'web_url',
+                                           title: 'Повідомлення',
+                                           url: Rails.application.routes.url_helpers.message_url(request.driver.id) + "?auth_token=#{request.driver.authentication_token}",
+                                         }
+                               ])
     end
     message.deliver
   end
