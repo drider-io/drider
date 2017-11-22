@@ -4,6 +4,7 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
   <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+  <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.1.js"></script>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -129,6 +130,9 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 
 
 form.delete.amp-form-submit-success > .route { display: none }
+form.amp-form-submit-success .hide-on-success {
+  display: none;
+}
 .btn {
   padding: 10px;
   text-decoration: none;
@@ -137,6 +141,23 @@ form.delete.amp-form-submit-success > .route { display: none }
   color: #333;
 }
 .content .route button {  margin-left: 32px }
+.text-muted {
+  font-size: 50%;
+  color: #AAA;
+}
+.messages-container { margin-top: 10px;}
+.messages-container .date { clear: both; text-align: center; padding: 12px; color: #AAA }
+.message-body {
+  width: 80%;
+  background-color: #d6eaef;
+  clear: both;
+  padding: 4px;
+  margin: 0 0 4px;
+}
+.mymessage{
+  float: right;
+  background-color: #efe6d6;
+}
 
   </style>
 

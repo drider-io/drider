@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  layout 'account'
+  layout 'amp'
   # before_action :set_message, only: [:show, :edit, :update, :destroy]
   before_action :user_required
   before_action { menu_set_active('messages') }
@@ -15,11 +15,12 @@ class MessagesController < ApplicationController
   # GET /messages/1.json
   def show
     @correspondent = User.find(params[:id])
-    @messages = Message.conversation(@correspondent, current_user).order('id DESC').limit(30).reverse
-    redirect_to messages_url and return if @messages.empty? #protection from information disclosure
-    @messages_by_date = @messages.group_by {|m| m.created_at.to_date}
+    @structed_messages = structed_messages
     respond_to do |format|
-      format.html { mark_messages_as_read }
+      format.html {
+        mark_messages_as_read
+        @template = render_to_string partial: 'messages.html.mustache'
+      }
       format.json do
         result= {}
         if params[:cmt_id].to_i == @correspondent.id
@@ -37,11 +38,12 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    correspondent = User.find(params[:to_id])
-    redirect_to messages_url and return if Message.conversation(correspondent, current_user).first.blank?
-    redirect_to message_url(correspondent.id) and return if params[:body].blank?
-    msg = Message.create!(from: current_user, to: correspondent, body: params[:body])
-    redirect_to message_url(correspondent.id)
+    @correspondent = User.find(params[:to_id])
+    if params[:body].present?
+      msg = Message.create!(from: current_user, to: @correspondent, body: params[:body])
+      MessageNotifier.new(@correspondent).perform
+    end
+    render json: { messages: structed_messages }
   end
 
 
@@ -51,6 +53,36 @@ class MessagesController < ApplicationController
   end
 
   private
+
+  def messages_for_correspondent
+    Message.conversation(@correspondent, current_user).order('id DESC').limit(30).reverse
+  end
+
+
+  def structed_messages
+    messages = Message.conversation(@correspondent, current_user).order('id DESC').limit(30).reverse
+    grouped = messages.group_by {|m| m.created_at.to_date}
+    grouped.keys.sort.reverse.each_with_index.map do |date, i|
+      messages = grouped[date].sort_by(&:created_at).reverse.map {|m|
+        r = {
+          body: m.body,
+          created_at: m.created_at.to_formatted_s(:time)
+        }
+        r[:className] = ' mymessage' if m.from_id == current_user.id
+        r
+      }
+      if i>0
+        {
+          date: date,
+          messages: messages
+        }
+      else
+        {
+          messages: messages
+        }
+      end
+    end
+  end
     # Use callbacks to share common setup or constraints between actions.
     # def set_message
     #   @message = Message.find(params[:id])

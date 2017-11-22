@@ -1,0 +1,9 @@
+<div class="messages-container">
+  {{#messages}}
+    <div class="date">{{date}}</div>
+    {{#messages}}
+      <div class="message-body{{className}}">{{body}} <span
+          class="text-muted">{{created_at}}</span></div>
+    {{/messages}}
+  {{/messages}}
+</div>

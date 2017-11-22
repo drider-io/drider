@@ -42,7 +42,7 @@ Rails.application.routes.draw do
   # resources :car_requests, only: [ :index, :create, :update, :show ]
   # resources :car_sessions, only: [ :show ]
   # resources :passenger_search
-  # resources :messages, only: [ :index, :show, :create ]
+  resources :messages, only: [ :show, :create ]
 
   authenticate :user, lambda { |u| u.is_admin? } do
     mount Sidekiq::Web => '/sidekiq'

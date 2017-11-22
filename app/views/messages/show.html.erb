@@ -1,0 +1,29 @@
+<% content_for :title, "Повідомлення від #{@correspondent.name}" %>
+
+<main class="content" role="main">
+  <header class="blog-header">
+    <h2>Повідомлення від <%= @correspondent.name %></h2>
+    <amp-img src="<%= @correspondent.image_url %>" width="50" height="50"/>
+  </header>
+  <div class="cf frame">
+    <div class="messages">
+      <form method="POST" action-xhr="<%= messages_path %>" target="_top">
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <%= hidden_field_tag :to_id, @correspondent.id %>
+        <%= text_field_tag :body, '', class: 'hide-on-success', placeholder: 'Повідомлення', autofocus:1, tabindex:1 %>
+        <%= button_tag 'Надіслати', class: 'btn hide-on-success' %>
+        <div submit-error>
+        </div>
+        <div submit-success>
+          <template type="amp-mustache">
+            <%= @template.html_safe %>
+          </template>
+        </div>
+        <div class="hide-on-success">
+          <%= Mustache.render(@template, messages: @structed_messages).html_safe %>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
