@@ -9,6 +9,7 @@ class DriverNotifier
     CarRequest
       .where(driver: @driver, status: ['sent'])
       .includes(:car_search, :passenger)
+      .first(10)
       .each do |request|
         message.generic_template(title: "Запит від #{request.passenger.name}",
                                subtitle: "підвезти від #{request.from_title} до #{request.to_title}",

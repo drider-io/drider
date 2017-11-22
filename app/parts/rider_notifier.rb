@@ -11,7 +11,7 @@ class RiderNotifier
     accepted = @car_search.car_requests
       .where( status: ['accepted'])
       .includes(:driver).to_a
-    accepted.each do |request|
+    accepted.first(10).each do |request|
         message.generic_template(title: "#{request.driver.name} може підвезти",
                                  subtitle: "від #{request.from_title} до #{request.to_title}",
                                  image_url: request.driver.image_url191,

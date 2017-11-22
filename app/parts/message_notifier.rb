@@ -8,7 +8,7 @@ class MessageNotifier
 
     corespondent_ids = Message.unread(@user).distinct.group('from_id').pluck(:from_id,'max(created_at)').sort_by(&:last).reverse
 
-    corespondent_ids.each do |ar|
+    corespondent_ids.first(10).each do |ar|
       origin = User.find(ar.first)
       message.generic_template(title: "Повідомлення від #{origin.name}",
                                subtitle: Message.where(from_id: origin.id, to_id: @user.id).order('created_at DESC').first.body,
